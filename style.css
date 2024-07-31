@@ -10,7 +10,7 @@ body {
 }
 
 .main-card {
-    margin: 2rem 0rem 0 5rem;
+    margin: 2rem 0 0 5rem;
 }
 
 .nav-bar {
@@ -75,12 +75,25 @@ table .td1 {
 .section3 {
     margin-top: 1rem;
     column-count: 3;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.row p {
+    display: inline-flex;
 }
 
 .sec3-btn {
     border-radius: 1rem;
     color: rgb(106, 60, 166);
     background-color: rgb(179, 179, 179);
+    margin-left: 1rem;
 }
 
 .sec3-btn:hover {
@@ -91,15 +104,4 @@ table .td1 {
 
 .sec3-btn img {
     padding: 0.5rem 1rem;
-}
-
-.row span {
-    margin-left: 1rem;
-}
-
-.row p {
-    display: inline-flex;
-    justify-content: center;
-    border-radius: 1rem;
-    align-items: center;
 }
