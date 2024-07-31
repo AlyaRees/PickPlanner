@@ -9,6 +9,10 @@ body {
     font-family: "Mukta", sans-serif;
 }
 
+.main-card {
+    margin: 2rem 0rem 0 5rem;
+}
+
 .nav-bar {
     background-color: black;
     height: 70px;
@@ -50,56 +54,18 @@ h1 {
     border-radius: 0 0 1rem 1rem;
 }
 
-.section-1 {
-    margin: 2rem 5rem 0;
+.section1 {
     display: flex;
+    align-content: space-evenly;
     align-items: center;
-    justify-content: space-around;
+    gap: 10%;
 }
 
-.subheading-up, .subheading-ti {
+.table1 .td1 {
     display: flex;
-    align-items: center;
+    margin-right: 5rem;
 }
 
-.subheading-up p, .subheading-ti p {
-    margin: 0 0 0 10rem;
-    white-space: nowrap;
-}
-
-.subheading-up span {
-    padding-left: 3rem;
-}
-
-.subheading-ti span {
-    padding-left: 4rem;
-}
-
-.section-2 {
-    margin: 2rem 20rem 0 4.5rem;
-    display: flex;
-    justify-content: space-around;
-    text-align: left;
-}
-
-.info-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.info-container2 {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.subheading2 {
-    display: flex;
-    align-items: center;
-}
-
-.subheading2 p, .subheading2 span {
-    margin: 0 0.5rem;
+.table2 {
+    background-color: blueviolet;
 }
