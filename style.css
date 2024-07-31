@@ -42,7 +42,7 @@ button:hover {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 50px;
     white-space: nowrap;
 }
 
@@ -55,17 +55,51 @@ h1 {
 }
 
 .section1 {
+    margin-top: 3rem;
     display: flex;
     align-content: space-evenly;
     align-items: center;
     gap: 10%;
 }
 
-.table1 .td1 {
+table .td1 {
     display: flex;
     margin-right: 5rem;
 }
 
-.table2 {
-    background-color: blueviolet;
+.section2 {
+    margin-top: 2rem;
+    column-count: 3;
+}
+
+.section3 {
+    margin-top: 1rem;
+    column-count: 3;
+}
+
+.sec3-btn {
+    border-radius: 1rem;
+    color: rgb(106, 60, 166);
+    background-color: rgb(179, 179, 179);
+}
+
+.sec3-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: rgb(117, 71, 177);
+}
+
+.sec3-btn img {
+    padding: 0.5rem 1rem;
+}
+
+.row span {
+    margin-left: 1rem;
+}
+
+.row p {
+    display: inline-flex;
+    justify-content: center;
+    border-radius: 1rem;
+    align-items: center;
 }
