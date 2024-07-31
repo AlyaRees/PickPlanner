@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Mukta", sans-serif;
+}
+
+.nav-bar {
+    background-color: black;
+    height: 70px;
+    align-items: center;
+    display: flex;
+    box-shadow: 0 0.5px 6px black;
+}
+
+button {
+    background-color: black;
+    border-style: none;
+}
+
+img {
+    align-content: center;
+    padding: 1rem;
+}
+
+img:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsla(0, 0%, 23%, 0.666);
+}
+
+h1 {
+    font-size: 3rem;
+    white-space: nowrap;
+}
+
+.home-label {
+    background-color: black;
+    color: white;
+    width: 2.5rem;
+    padding: 0.3rem 1rem 0.5rem 1rem;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.section-1 {
+    margin: 2rem 5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.subheading-up, .subheading-ti {
+    display: flex;
+    align-items: center;
+}
+
+.subheading-up p, .subheading-ti p {
+    margin: 0 0 0 10rem;
+    white-space: nowrap;
+}
+
+.subheading-up span {
+    padding-left: 3rem;
+}
+
+.subheading-ti span {
+    padding-left: 4rem;
+}
+
+.section-2 {
+    margin: 2rem 20rem 0 4.5rem;
+    display: flex;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.info-container2 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.subheading2 {
+    display: flex;
+    align-items: center;
+}
+
+.subheading2 p, .subheading2 span {
+    margin: 0 0.5rem;
+}
