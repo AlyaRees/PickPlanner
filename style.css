@@ -80,6 +80,7 @@ h1 {
 .table1 .td1 {
     display: flex;
     margin-right: 5rem;
+    white-space: nowrap;
 }
 
 .section2 {
