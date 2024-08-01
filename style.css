@@ -90,6 +90,12 @@ h1 {
 .table2 {
     width: 100%;
     background-color: blueviolet;
+    border-collapse: collapse;
+}
+
+.table2 td {
+    padding: 10px;
+    vertical-align: middle;
 }
 
 .table2 tr:nth-child(2) {
