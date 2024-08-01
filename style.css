@@ -18,16 +18,17 @@ body {
     background-color: black;
     height: 4.5rem;
     align-items: center;
-    justify-content: space-between;
     display: flex;
     box-shadow: 0 0.5px 6px black;
+    position: relative;
 }
 
-.nav-bar .heading {
-    justify-content: center;
+.heading {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     white-space: nowrap;
     color: white;
-    background-color: aqua;
 }
 
 .nav-bar button {
