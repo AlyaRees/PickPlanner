@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -15,20 +16,31 @@ body {
 
 .nav-bar {
     background-color: black;
-    height: 70px;
+    height: 4.5rem;
     align-items: center;
+    justify-content: space-between;
     display: flex;
     box-shadow: 0 0.5px 6px black;
 }
 
-button {
-    background-color: black;
-    border-style: none;
+.nav-bar .heading {
+    justify-content: center;
+    white-space: nowrap;
+    color: white;
+    background-color: aqua;
 }
 
-img {
+.nav-bar button {
+    background-color: black;
+    border-style: none;
+    height: 4.5rem;
+    width: 4.5rem;
+}
+
+.nav-bar img {
     align-content: center;
-    padding: 1rem;
+    padding: 0.5rem;
+    width: 60px;
 }
 
 img:hover {
@@ -39,6 +51,8 @@ img:hover {
 
 button:hover {
     background-color: hsla(0, 0%, 23%, 0.666);
+    transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
 h1 {
@@ -49,7 +63,7 @@ h1 {
 .home-label {
     background-color: black;
     color: white;
-    width: 2.5rem;
+    width: 4.5rem;
     padding: 0.3rem 1rem 0.5rem 1rem;
     border-radius: 0 0 1rem 1rem;
 }
@@ -82,17 +96,18 @@ h1 {
 
 .table2-btn {
     border-radius: 1rem;
-    color: rgb(106, 60, 166);
     background-color: rgb(179, 179, 179);
     margin-left: 1rem;
+    border-style: none;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.table2 img {
+    width: 2rem;
 }
 
 .table2-btn:hover {
     cursor: pointer;
     color: white;
     background-color: rgb(117, 71, 177);
-}
-
-.table2-btn img {
-    padding: 0.5rem 1rem;
 }
