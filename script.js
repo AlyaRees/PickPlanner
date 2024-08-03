@@ -6,8 +6,10 @@ function updateTime() {
     const currentTime = `${hours}:${minutes}:${seconds}`;
     
     document.getElementById('current-time').textContent = currentTime;
-    document.getElementById('last-updated').textContent = currentTime;
+    // document.getElementById('last-updated').textContent = currentTime;
 }
 
 setInterval(updateTime, 1000);
 updateTime();
+
+document.addEventListener('DOMContentLoaded', updateTime);
