@@ -283,53 +283,12 @@ h1 {
 @media screen and (min-width: 1024px) {
 
 .main-card {
-    margin: auto
-}
-
-.heading {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    color: white;
-}
-
-.nav-bar button {
-    background-color: black;
-    border-style: none;
-    height: 4.5rem;
-    width: 4.5rem;
-}
-
-.nav-bar img {
-    align-content: center;
-    padding: 0.5rem;
-    width: 60px;
-}
-
-img:hover {
-    transform: scale(1.2);
-    transition: transform 0.2s ease;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: hsla(0, 0%, 23%, 0.666);
-    transition: transform 0.2s ease;
-    cursor: pointer;
+    margin: 0rem 5rem 0 5rem;
 }
 
 h1 {
     font-size: 4.5rem;
     white-space: nowrap;
-}
-
-.home-label {
-    background-color: black;
-    color: white;
-    width: 4.5rem;
-    padding: 0.3rem 1rem 0.5rem 1rem;
-    border-radius: 0 0 1rem 1rem;
 }
 
 .section1 {
@@ -340,18 +299,8 @@ h1 {
     font-size: 1.5rem;
 }
 
-.table1 .td1 {
-    display: flex;
-    margin-right: 5rem;
-    white-space: nowrap;
-}
-
 .section2 {
     margin-top: 2rem;
-}
-
-.table2 {
-    width: 100%;
 }
 
 .table2 td {
@@ -361,20 +310,7 @@ h1 {
     font-size: 1.5rem;
 }
 
-.table2 tr:nth-child(1) {
-    background-color: hsla(274, 100%, 77%, 0.307);
-}
-
-.table2 tr:nth-child(2) {
-    background-color: hsla(274, 100%, 77%, 0.145);
-    white-space: nowrap;
-}
-
-.table2-btn {
-    border-radius: 1rem;
-    background-color: rgb(117, 71, 177);
-    margin-left: 1rem;
-    border-style: none;
+.table2-btn { 
     padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
@@ -391,5 +327,6 @@ h1 {
         color: black;
         border-radius: 0;
         font-weight: 600;
+        font-size: 3rem;
     }
 }
