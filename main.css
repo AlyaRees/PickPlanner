@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Mukta", sans-serif;
+}
+
+.main-card {
+    margin: 1rem 1rem 0rem 1rem;
+}
+
+.nav-bar {
+    background-color: black;
+    height: 4.5rem;
+    align-items: center;
+    display: flex;
+    box-shadow: 0 0.5px 6px black;
+    position: relative;
+}
+
+.heading {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    color: white;
+}
+
+.nav-bar button {
+    background-color: black;
+    border-style: none;
+    height: 4.5rem;
+    width: 4.5rem;
+}
+
+.nav-bar img {
+    align-content: center;
+    padding: 0.5rem;
+    width: 60px;
+}
+
+img:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsla(0, 0%, 23%, 0.666);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 2.5rem;
+    white-space: wrap;
+}
+
+.home-label {
+    background-color: black;
+    color: white;
+    width: 4.5rem;
+    padding: 0.3rem 1rem 0.5rem 1rem;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.section1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background-color: hsla(274, 100%, 77%, 0.145);
+    width: 100%;
+    padding: 1.5rem 0rem 1.5rem 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    border-radius: 1rem;
+}
+
+/* Mobile design */
+
+/* @media screen and (min-width: 320px) {
+
+    h1 {
+        font-size: 2.5rem;
+        white-space: wrap;
+    }
+
+    .section1 {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 5%;
+        font-size: 1rem;
+    }
+
+    .table1 .td1 {
+        display: flex;
+        margin-right: 1rem;
+        white-space: nowrap;
+    }
+
+    .section2 {
+        margin-top: 1.5rem;
+    }
+
+    .table2 td {
+        padding: 0.3rem;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .table2-btn {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.table2 img {
+    width: 1.5rem;
+}
+
+.table2 tr:nth-child(2) td {
+    font-size: 1.5rem;
+    white-space: nowrap;
+}
+
+.section3 {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    background-color: white;
+}
+
+.section3 p {
+    text-align: center;
+}
+
+.section3 p:nth-child(2) {
+    font-size: 2rem;
+    background-color: rgb(117, 71, 177);
+    color: white;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+} */
+/* 
+} */
+
+@media screen and (min-width: 480px) {
+
+    .main-card {
+        margin: auto;
+        padding: 1rem 1rem 1rem 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        white-space: wrap;
+    }
+
+    .section1 {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 5%;
+        font-size: 1rem;
+    }
+
+    .table1 .td1 {
+        display: flex;
+        margin-right: 1rem;
+        white-space: nowrap;
+    }
+
+    .section2 {
+        margin-top: 1.5rem;
+    }
+
+    .table2 td {
+        padding: 0.3rem;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .table2-btn {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.table2 img {
+    width: 1.5rem;
+}
+
+.table2 tr:nth-child(2) td {
+    font-size: 1.5rem;
+    white-space: nowrap;
+}
+
+.section3 {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    background-color: white;
+}
+
+.section3 p {
+    text-align: center;
+}
+
+.section3 p:nth-child(2) {
+    font-size: 2rem;
+    background-color: rgb(117, 71, 177);
+    color: white;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+}
+}
+
+/* Desktop design */
+
+@media screen and (min-width: 1024px) {
+
+.main-card {
+    margin: 0rem 5rem 0 5rem;
+}
+
+h1 {
+    font-size: 4.5rem;
+    white-space: nowrap;
+}
+
+.section1 {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 10%;
+    font-size: 1.5rem;
+}
+
+.section2 {
+    margin-top: 2rem;
+}
+
+.table2 td {
+    padding: 0.5rem;
+    vertical-align: bottom;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.table2-btn { 
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+    .section3 {
+        margin-top: 3rem;
+        font-size: 3rem;
+        background-color:hsla(274, 100%, 77%, 0.145);
+        white-space: nowrap;
+        text-align: center;
+    }
+    
+    .section3 p:nth-child(2) {
+        background-color: hsla(274, 100%, 77%, 0.145);
+        color: black;
+        border-radius: 0;
+        font-weight: 600;
+        font-size: 3rem;
+    }
+}
