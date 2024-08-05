@@ -78,6 +78,7 @@ h1 {
 }
 
 .card {
+    color: black;
     background-color: hsla(274, 91%, 72%, 0.145);
     padding: 1.5rem 0rem 1.5rem 2rem;
     margin-bottom: 1rem;
