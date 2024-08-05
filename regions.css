@@ -137,147 +137,6 @@ h1 {
     font-weight: 600;
 }
 
-/* Mobile design */
-
-@media screen and (min-width: 320px) {
-
-    .main-card {
-        margin: auto;
-        padding: 1rem 1rem 1rem 1rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-        white-space: wrap;
-    }
-
-    .section1 {
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 5%;
-        font-size: 1rem;
-    }
-
-    .table1 .td1 {
-        display: flex;
-        margin-right: 1rem;
-        white-space: nowrap;
-    }
-
-    .section2 {
-        margin-top: 1.5rem;
-    }
-
-    .table2 td {
-        padding: 0.3rem;
-        vertical-align: middle;
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .table2-btn {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-}
-
-.table2 img {
-    width: 1.5rem;
-}
-
-.table2 tr:nth-child(2) td {
-    font-size: 1.5rem;
-    white-space: nowrap;
-}
-
-.section3 {
-    margin-top: 1.5rem;
-    font-size: 1.5rem;
-    background-color: white;
-}
-
-.section3 p {
-    text-align: center;
-}
-
-.section3 p:nth-child(2) {
-    font-size: 2rem;
-    background-color: rgb(117, 71, 177);
-    color: white;
-    border-radius: 1rem;
-    margin-top: 1.5rem;
-}
-
-}
-
-@media screen and (min-width: 480px) {
-
-    .main-card {
-        margin: auto;
-        padding: 1rem 1rem 1rem 1rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-        white-space: wrap;
-    }
-
-    .section1 {
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 5%;
-        font-size: 1rem;
-    }
-
-    .table1 .td1 {
-        display: flex;
-        margin-right: 1rem;
-        white-space: nowrap;
-    }
-
-    .section2 {
-        margin-top: 1.5rem;
-    }
-
-    .table2 td {
-        padding: 0.3rem;
-        vertical-align: middle;
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .table2-btn {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-}
-
-.table2 img {
-    width: 1.5rem;
-}
-
-.table2 tr:nth-child(2) td {
-    font-size: 1.5rem;
-    white-space: nowrap;
-}
-
-.section3 {
-    margin-top: 1.5rem;
-    font-size: 1.5rem;
-    background-color: white;
-}
-
-.section3 p {
-    text-align: center;
-}
-
-.section3 p:nth-child(2) {
-    font-size: 2rem;
-    background-color: rgb(117, 71, 177);
-    color: white;
-    border-radius: 1rem;
-    margin-top: 1.5rem;
-}
-}
-
 /* Desktop design */
 
 @media screen and (min-width: 1024px) {
@@ -292,7 +151,7 @@ h1 {
 }
 
 .section1 {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
     display: flex;
     align-items: center;
     gap: 10%;
@@ -317,13 +176,15 @@ h1 {
     .section3 {
         margin-top: 3rem;
         font-size: 3rem;
-        background-color:hsla(274, 100%, 77%, 0.145);
         white-space: nowrap;
         text-align: center;
     }
+
+    .section3 p:nth-child(1) {
+        background-color: hsla(274, 100%, 77%, 0.145);;
+    }
     
     .section3 p:nth-child(2) {
-        background-color: hsla(274, 100%, 77%, 0.145);
         color: black;
         border-radius: 0;
         font-weight: 600;
