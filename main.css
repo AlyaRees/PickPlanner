@@ -12,6 +12,7 @@ body {
 
 .main-card {
     margin: 1rem 1rem 1rem 1rem;
+    color: black;
 }
 
 .nav-bar {
@@ -84,6 +85,7 @@ h1 {
     text-align: left;
     border-style: double;
     transition: transform 0.2s ease;
+    width: 100%;
 }
 
 .card:hover {

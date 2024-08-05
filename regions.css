@@ -11,12 +11,12 @@ body {
 }
 
 .main-card {
-    margin: 2rem 5rem 0 5rem;
+    margin: 1rem 1rem 1rem 1rem;
 }
 
 .nav-bar {
     background-color: black;
-    height: 4.5rem;
+    height: 4rem;
     align-items: center;
     display: flex;
     box-shadow: 0 0.5px 6px black;
