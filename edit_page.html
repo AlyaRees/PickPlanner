@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./edit.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
         <script defer src="script.js"></script>
         <title>PickPlanner</title>
     </head>
@@ -38,10 +39,10 @@
         </div>
             <div class="section2">
                 <div class="card">
-                <p>Pick Target:<img src="./assets/help_icon.svg"></p><span><input></span>
+                <p>Pick Target:<img src="./assets/help_icon.svg"></p><span><textarea id="excelTextArea" rows="3" cols="30" placeholder="Paste number here..."></textarea></span>
             </div>
             <div class="card">
-                <p>Pick Performance Report Data:<img src="./assets/help_icon.svg"></p><span><input></span>
+                <p>Pick Performance Report Data:<img src="./assets/help_icon.svg"></p><span><textarea id="excelTextArea" rows="3" cols="30" placeholder="Paste Excel data here..."></textarea></span>
                 </div>
             </div>
             <div class="section3">
