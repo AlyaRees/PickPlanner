@@ -11,7 +11,7 @@ body {
 }
 
 .main-card {
-    margin: 1rem 1rem 1rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
 }
 
 .nav-bar {
@@ -57,7 +57,7 @@ button:hover {
 }
 
 h1 {
-    font-size: 4.5rem;
+    font-size: 2.5rem;
     white-space: nowrap;
 }
 
@@ -70,71 +70,74 @@ h1 {
 }
 
 .section1 {
-    margin-top: 3rem;
-    display: flex;
+    display: flexbox;
     align-items: center;
-    gap: 10%;
-    font-size: 1.5rem;
 }
 
 .table1 .td1 {
-    display: flex;
-    margin-right: 5rem;
+    padding-right: 2rem;
     white-space: nowrap;
 }
 
 .section2 {
-    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 0.5rem;
 }
 
-.table2 {
-    width: 100%;
-}
-
-.table2 td {
+.card {
+    flex: 0 0 calc(50% - 0.5rem);
+    margin-bottom: 1rem;
     padding: 0.5rem;
-    vertical-align: bottom;
+    vertical-align: top;
     text-align: center;
+    border-radius: 1rem;
+}
+
+.card span {
+    font-weight: 600;
     font-size: 1.5rem;
 }
 
-.table2 tr:nth-child(1) {
+.card:nth-child(1) {
     background-color: hsla(274, 100%, 77%, 0.307);
 }
 
-.table2 tr:nth-child(2) {
+.card:nth-child(2) {
     background-color: hsla(274, 100%, 77%, 0.145);
-    white-space: nowrap;
 }
 
-.table2-btn {
-    border-radius: 1rem;
-    background-color: rgb(117, 71, 177);
-    margin-left: 1rem;
-    border-style: none;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+.card:nth-child(3) {
+    background-color: hsla(274, 100%, 77%, 0.307);
 }
 
-.table2 img {
-    width: 2rem;
-}
-
-.table2-btn:hover {
-    cursor: pointer;
-    color: white;
-    background-color: rgb(152, 113, 204);
+.card:nth-child(4) {
+    background-color: hsla(274, 100%, 77%, 0.145);
 }
 
 .section3 {
-    margin-top: 3rem;
-    font-size: 3rem;
-    background-color:hsla(274, 100%, 77%, 0.145);
-    white-space: nowrap;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
-.section3 p:nth-child(2) {
-    font-weight: 600;
+.sec3-btn {
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+    background-color: rgb(117, 71, 177);
+    border-style: none;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.7rem;
+    font-size: 1.5rem;
+}
+
+.sec3-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: rgb(152, 113, 204);
 }
 
 /* Desktop design */
