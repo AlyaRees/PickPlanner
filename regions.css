@@ -143,6 +143,10 @@ h1 {
     background-color: var(--lighter-solid-purple)
 }
 
+.section3 a {
+    text-decoration: none;
+}
+
 /* Desktop design */
 
 @media screen and (min-width: 1024px) {
