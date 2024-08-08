@@ -96,6 +96,11 @@ h1 {
     font-weight: 600;
 }
 
+.card img {
+    margin-left: 1rem;
+    width: 2rem;
+}
+
 /* Desktop design */
 
 @media screen and (min-width: 1024px) {
