@@ -24,6 +24,7 @@ function updateTime() {
 setInterval(updateTime, 60000);
 updateTime();
 
+// Handles the form submission on edit page
 
 const pickTarget = localStorage.getItem('pickTarget');
 if (pickTarget) {
@@ -34,7 +35,14 @@ if (pickTarget) {
 document.getElementById('inputForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const pickTarget = document.getElementById('employeeData').value.trim();
+    const pickTargetInput = document.getElementById('employeeData');
+    const pickTarget = pickTargetInput.value.trim();
+
+    if (!/^\d+(,\d+)*$/.test(pickTarget)) {
+        alert('Please enter a valid number.');
+        pickTargetInput.focus();
+        return;
+    }
 
     localStorage.setItem('pickTarget', pickTarget);
 
