@@ -33,8 +33,16 @@ if (pickTarget) {
 }
 });
 
+// Allows cursor to be actively blinking in input field on edit_page.html
+
+// Adds an event listener that waits for html content to be loaded
+// before running specified function
 document.addEventListener('DOMContentLoaded', function() {
+
+// Targets the input field on html and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
+
+// Adds a focus to the element (the blinking cursor inside the input field)
     employeeDataInput.focus();
 });
 
