@@ -25,9 +25,12 @@ function updateTime() {
 setInterval(updateTime, 60000);
 updateTime();
 
-// Handles the form submission on edit page
+// Renders the content for pick target on the page (chill.html)
 
+// Fetches content assigned to pick-target id (in html) which is currently null
 const pickTarget = localStorage.getItem('pickTarget');
+
+// If content matches, render it on the page as text
 if (pickTarget) {
     document.getElementById('pick-target').textContent = pickTarget;
 }
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     employeeDataInput.focus();
 });
 
+// Handles the submission for pick target input field on edit_page.html 
 document.getElementById('inputForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
