@@ -38,6 +38,18 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
     const pickTargetInput = document.getElementById('employeeData');
     const pickTarget = pickTargetInput.value.trim();
 
+// if the input is not in the format of following regular expression
+
+// The entire regular expression explain in depth:
+
+// '!' = not, '/' = start of regular expression, '^' caret is the start of the string,
+// '\d' denotes a digit and '\d+' = one or more digits,
+// '()' parentheses for treating the sequence as two separate groups
+// ',\d+' a comma followed by one or more digits
+// '*' zero or more of the preceding element in this case, ',\d+'
+// '$' denotes that the string must end after the last specified element (in this case, a digit)
+// '/' at the end denotes the end of the regular expression
+
     if (!/^\d+(,\d+)*$/.test(pickTarget)) {
         alert('Please enter a valid number.');
         pickTargetInput.focus();
