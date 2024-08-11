@@ -1,4 +1,5 @@
 // Waits for the entire html document to be loaded and parsed before running
+
 document.addEventListener('DOMContentLoaded', function() {
 
 // Updates current time on the page
@@ -32,6 +33,11 @@ if (pickTarget) {
 }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const employeeDataInput = document.getElementById('employeeData');
+    employeeDataInput.focus();
+});
+
 document.getElementById('inputForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -50,9 +56,12 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
 // '$' denotes that the string must end after the last specified element (in this case, a digit)
 // '/' at the end denotes the end of the regular expression
 
+// .test is used with regular expression to check whether a string matches its given pattern
     if (!/^\d+(,\d+)*$/.test(pickTarget)) {
+
+// Displays a popup message to the user upon entering a string 
+// that does not match the specified pattern
         alert('Please enter a valid number.');
-        pickTargetInput.focus();
         return;
     }
 
