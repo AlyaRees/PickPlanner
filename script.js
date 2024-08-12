@@ -50,7 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Handles the submission for pick target input field on edit_page.html 
+
+// Fetches 'inputForm' element from html and puts an event listener on it
+// that waits for user to click 'submit' button
+// upon submit it executes the following nameless function
 document.getElementById('inputForm').addEventListener('submit', function(event) {
+    // 
     event.preventDefault();
 
     const pickTargetInput = document.getElementById('employeeData');
