@@ -1,115 +1,78 @@
-// Waits for the entire html document to be loaded and parsed before running
+// Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
+    // Targets the input field on the edit page and assigns it to employeeDataInput
+    const employeeDataInput = document.getElementById('employeeData');
 
-// Updates current time on the page
-function updateTime() {
-// Uses built-in function to fetch latest date and time
-    const now = new Date();
-// Gets hours from 'now', converts this to a string
-// and (padStart) adds '2' zeros ('0') before displayed time
-// and assigns this to 'hours'
-    const hours = String(now.getHours()).padStart(2, '0');
-// Does the same as hours above but with minutes
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-// Structures the output and assigns it to 'currentTime'
-    const currentTime = `${hours}:${minutes}`;
-    
-// Gets current-time id from html element
-    // and replaces the element with 'textContent' of 'currentTime'
-    document.getElementById('current-time').textContent = currentTime;
-}
-
-// This calls the updateTime function every minute (1 sec = 1000 , 60 * 1000 = 60000 (1 min)
-setInterval(updateTime, 60000);
-updateTime();
-
-// Targets the input field on html and assigns it to employeeDataInput
-const employeeDataInput = document.getElementById('employeeData');
-
-// Adds a focus to the element (the blinking cursor inside the input field)
-    employeeDataInput.focus();
-
-});
-
-// Adds an event listener that waits for html content to be loaded
-// before running specified function
-document.addEventListener('DOMContentLoaded', function() {
-
-// Renders the content for pick target on the page (chill.html)
-
-// Fetches content assigned to pick-target id (in html)
-// (This data would be the last thing inputted in local storage, which could be null or a integer)
-const pickTarget = localStorage.getItem('pickTarget');
-
-const lastUpdated = localStorage.getItem('chillLastUpdated');
-if (lastUpdated) {
-    document.getElementById('last-updated').textContent = lastUpdated
-}
-
-// If content matches, render it on the page as text
-if (pickTarget) {
-    document.getElementById('pick-target').textContent = pickTarget;
-}
-});
-
-// Handles the submission for pick target input field on edit_page.html 
-
-// Fetches 'inputForm' element from html and puts an event listener on it
-// that waits for user to click 'submit' button
-// upon submit it executes the following nameless function
-document.getElementById('inputForm').addEventListener('submit', function(event) {
-
-// Prevent the form from performing its default action (submitting)
-// This allows the custom logic (in this case, validation) to run before 
-// deciding whether to submit the form or not
-    event.preventDefault();
-
-// Retrieves inputted 'value' from 'employeeData' from <textarea> in <span> on html
-// uses 'trim' to remove any whitespace 
-// and assigns it to 'pickTarget'
-    const pickTarget = document.getElementById('employeeData').value.trim();
-
-    localStorage.setItem('chillPickTarget', pickTarget);
-
-    const now = new Date();
-
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const formattedTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} ${hours}:${minutes}`;
-
-    localStorage.setItem('chillLastUpdated', formattedTime);
-// if the input is not in the format of following regular expression
-
-// The entire regular expression explain in depth:
-
-// '!' = not, '/' = start of regular expression, '^' caret is the start of the string,
-// '\d' denotes a digit and '\d+' = one or more digits,
-// '()' parentheses for treating the sequence as two separate groups
-// ',\d+' a comma followed by one or more digits
-// '*' zero or more of the preceding element in this case, ',\d+' (a comma followed by one or more digits)
-// '$' denotes that the string must end after the last specified element (in this case, a digit)
-// '/' at the end denotes the end of the regular expression
-
-// .test is used with regular expression to check whether a string matches its given pattern
-    if (!/^\d+(,\d+)*$/.test(pickTarget)) {
-
-// Displays a popup message to the user upon entering a string 
-// that does not match the specified pattern
-        alert('Please enter a valid number.');
-        return;
+    // Adds active blinking cursor to input field on the edit page if it exists
+    if (employeeDataInput) {
+        employeeDataInput.focus();
     }
 
-// References the above function further up (its a loop!)
+    // Handles the submission for pick target input field on the edit_page.html
 
-// If the input data matches the regular expression sequence 
-// then fetch data in local storage ('pick-target' assigned to 'pickTarget)
-// set the item 'pickTarget' to the newly input data pickTarget
-    localStorage.setItem('pickTarget', pickTarget);
+    const inputForm = document.getElementById('inputForm');
 
-    const Time = new Date().toLocaleString();
-    localStorage.setItem('chillLastUpdated', Time);
+    // If it exists, add event listener that waits for user to press submit
+    if (inputForm) {
+        inputForm.addEventListener('submit', function(event) {
 
-// Redirect to the next page (chill.html)
-    window.location.href = 'chill.html';
+            // Prevents default submission, allows logic to be executed beforehand
+            event.preventDefault();
+
+            // Retrieves inputted 'value' from 'employeeData', trims any whitespace
+            const pickTarget = employeeDataInput.value.trim();
+
+            // Validate the input using a regular expression to allow only comma-separated integers
+
+            // '!' not
+            // '/' start of regular expression
+            // '^' caret is the start of the string
+            // '\d' shorthand for digit
+            // '\d+' one or more digits
+            // '()' parentheses denote new grouping
+            // '*' zero or more of the preceding (in this case, a comma followed by one or more digits)
+            // '$' the string must end with the same of the last element (here, this is a digit)
+            // '/' closing regular expression
+            // .test is used with regular expression to check for a match
+            if (!/^\d+(,\d+)*$/.test(pickTarget)) {
+                alert('Please enter a valid number.');
+                return;
+            }
+
+            // Store the pick target in localStorage
+            localStorage.setItem('pickTarget', pickTarget);
+
+            // Get the current time and format it as "HH:MM"
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formattedTime = `${hours}:${minutes}`;
+
+            // Store the formatted time as the last updated time
+            localStorage.setItem('chillLastUpdated', formattedTime);
+
+            // Redirect to the chill page
+            window.location.href = 'chill.html';
+        });
+    }
+
+    // Renders the content for pick target and last updated time on the chill.html page
+    const pickTarget = localStorage.getItem('pickTarget');
+    const lastUpdated = localStorage.getItem('chillLastUpdated');
+
+    // If last updated time exists, render it on the page
+    if (lastUpdated) {
+        const lastUpdatedElement = document.getElementById('last-updated');
+        if (lastUpdatedElement) {
+            lastUpdatedElement.textContent = lastUpdated;
+        }
+    }
+
+    // If pick target exists, render it on the page
+    if (pickTarget) {
+        const pickTargetElement = document.getElementById('pick-target');
+        if (pickTargetElement) {
+            pickTargetElement.textContent = pickTarget;
+        }
+    }
 });
