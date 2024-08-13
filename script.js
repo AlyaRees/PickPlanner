@@ -1,5 +1,4 @@
 // Waits for the entire html document to be loaded and parsed before running
-
 document.addEventListener('DOMContentLoaded', function() {
 
 // Updates current time on the page
@@ -25,9 +24,22 @@ function updateTime() {
 setInterval(updateTime, 60000);
 updateTime();
 
+// Targets the input field on html and assigns it to employeeDataInput
+const employeeDataInput = document.getElementById('employeeData');
+
+// Adds a focus to the element (the blinking cursor inside the input field)
+    employeeDataInput.focus();
+
+});
+
+// Adds an event listener that waits for html content to be loaded
+// before running specified function
+document.addEventListener('DOMContentLoaded', function() {
+
 // Renders the content for pick target on the page (chill.html)
 
-// Fetches content assigned to pick-target id (in html) which is currently null
+// Fetches content assigned to pick-target id (in html)
+// (This data would be the last thing inputted in local storage, which could be null or a integer)
 const pickTarget = localStorage.getItem('pickTarget');
 
 // If content matches, render it on the page as text
@@ -36,30 +48,22 @@ if (pickTarget) {
 }
 });
 
-// Allows cursor to be actively blinking in input field on edit_page.html
-
-// Adds an event listener that waits for html content to be loaded
-// before running specified function
-document.addEventListener('DOMContentLoaded', function() {
-
-// Targets the input field on html and assigns it to employeeDataInput
-    const employeeDataInput = document.getElementById('employeeData');
-
-// Adds a focus to the element (the blinking cursor inside the input field)
-    employeeDataInput.focus();
-});
-
 // Handles the submission for pick target input field on edit_page.html 
 
 // Fetches 'inputForm' element from html and puts an event listener on it
 // that waits for user to click 'submit' button
 // upon submit it executes the following nameless function
 document.getElementById('inputForm').addEventListener('submit', function(event) {
-    // 
+
+// Prevent the form from performing its default action (submitting)
+// This allows the custom logic (in this case, validation) to run before 
+// deciding whether to submit the form or not
     event.preventDefault();
 
-    const pickTargetInput = document.getElementById('employeeData');
-    const pickTarget = pickTargetInput.value.trim();
+// Retrieves inputted 'value' from 'employeeData' from <textarea> in <span> on html
+// uses 'trim' to remove any whitespace 
+// and assigns it to 'pickTarget'
+    const pickTarget = document.getElementById('employeeData').value.trim();
 
 // if the input is not in the format of following regular expression
 
@@ -69,7 +73,7 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
 // '\d' denotes a digit and '\d+' = one or more digits,
 // '()' parentheses for treating the sequence as two separate groups
 // ',\d+' a comma followed by one or more digits
-// '*' zero or more of the preceding element in this case, ',\d+'
+// '*' zero or more of the preceding element in this case, ',\d+' (a comma followed by one or more digits)
 // '$' denotes that the string must end after the last specified element (in this case, a digit)
 // '/' at the end denotes the end of the regular expression
 
@@ -82,7 +86,13 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
         return;
     }
 
+// References the above function further up (its a loop!)
+
+// If the input data matches the regular expression sequence 
+// then fetch data in local storage ('pick-target' assigned to 'pickTarget)
+// set the item 'pickTarget' to the newly input data pickTarget
     localStorage.setItem('pickTarget', pickTarget);
 
+// Redirect to the next page (chill.html)
     window.location.href = 'chill.html';
 });
