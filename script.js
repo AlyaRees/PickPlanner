@@ -3,21 +3,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Updates current time on the page
 function updateTime() {
-    // Uses built-in function to fetch latest date and time
+// Uses built-in function to fetch latest date and time
     const now = new Date();
-    // Gets hours from 'now', converts this to a string
-    // and (padStart) adds '2' zeros ('0') before displayed time
-    // and assigns this to 'hours'
+// Gets hours from 'now', converts this to a string
+// and (padStart) adds '2' zeros ('0') before displayed time
+// and assigns this to 'hours'
     const hours = String(now.getHours()).padStart(2, '0');
-    // Does the same as hours above but with minutes
+// Does the same as hours above but with minutes
     const minutes = String(now.getMinutes()).padStart(2, '0');
-    // Structures the output and assigns it to 'currentTime'
+// Structures the output and assigns it to 'currentTime'
     const currentTime = `${hours}:${minutes}`;
     
-    // Gets current-time id from html element
+// Gets current-time id from html element
     // and replaces the element with 'textContent' of 'currentTime'
     document.getElementById('current-time').textContent = currentTime;
-    // document.getElementById('last-updated').textContent = currentTime;
 }
 
 // This calls the updateTime function every minute (1 sec = 1000 , 60 * 1000 = 60000 (1 min)
@@ -42,6 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // (This data would be the last thing inputted in local storage, which could be null or a integer)
 const pickTarget = localStorage.getItem('pickTarget');
 
+const lastUpdated = localStorage.getItem('chillLastUpdated');
+if (lastUpdated) {
+    document.getElementById('last-updated').textContent = lastUpdated
+}
+
 // If content matches, render it on the page as text
 if (pickTarget) {
     document.getElementById('pick-target').textContent = pickTarget;
@@ -65,6 +69,16 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
 // and assigns it to 'pickTarget'
     const pickTarget = document.getElementById('employeeData').value.trim();
 
+    localStorage.setItem('chillPickTarget', pickTarget);
+
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    const formattedTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} ${hours}:${minutes}`;
+
+    localStorage.setItem('chillLastUpdated', formattedTime);
 // if the input is not in the format of following regular expression
 
 // The entire regular expression explain in depth:
@@ -92,6 +106,9 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
 // then fetch data in local storage ('pick-target' assigned to 'pickTarget)
 // set the item 'pickTarget' to the newly input data pickTarget
     localStorage.setItem('pickTarget', pickTarget);
+
+    const Time = new Date().toLocaleString();
+    localStorage.setItem('chillLastUpdated', Time);
 
 // Redirect to the next page (chill.html)
     window.location.href = 'chill.html';
