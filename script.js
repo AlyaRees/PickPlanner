@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // '/' closing regular expression
             // .test is used with regular expression to check for a match
             if (!/^\d+(,\d+)*$/.test(pickTarget)) {
+
+                // Displays pop-up to user with following message
                 alert('Please enter a valid number.');
                 return;
             }
@@ -57,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Renders the content for pick target and last updated time on the chill.html page
+
+    // Fetches data for both variables from local storage
     const pickTarget = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
 
@@ -64,14 +68,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
         if (lastUpdatedElement) {
+
+            // Specifies the data (time) in lastUpdated to be displayed 
+            // as text content on html (where the 'id' is named 'last-updated')
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
 
     // If pick target exists, render it on the page
     if (pickTarget) {
+
+        // Fetches element by 'id' named 'pick-target' on html
+        // Assigns it it const variable named 'pickTargetElement'
         const pickTargetElement = document.getElementById('pick-target');
+
+        // Checks it exists
         if (pickTargetElement) {
+            
+            // If it does, retrieve data under 'pickTarget' from localStorage
+            // And display it under the element tag on html (<span id='pick-target'>)
+            // stored in the variable (pickTargetElement) as text content
             pickTargetElement.textContent = pickTarget;
         }
     }
