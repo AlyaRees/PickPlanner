@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes}`;
+            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
 
             // Store the formatted time as the last updated time
             localStorage.setItem('chillLastUpdated', formattedTime);
