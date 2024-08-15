@@ -32,7 +32,7 @@
             <div class="section2">
             <form id="inputForm">
                     <div class="card">
-                        <p>Pick Target:<img src="./assets/help_icon.svg"></p>
+                        <p>Pick Target:<img src="./assets/help_icon.svg" alt="Help" id="help-icon"></p>
                         <span><textarea id="employeeData" rows="3" cols="30" placeholder="Paste number here..."></textarea></span>
                     </div>
                     <div class="card">
@@ -45,5 +45,16 @@
         </div>
         </div>
     </main>
+
+    <div id="pick-target-instruction-box" class="pick-target-instruction-box">
+            <ol>
+                <li>Navigate to 'Manhattan Active SCI Reports List'</li>
+                <li>Click Wave Check Report</li>
+                <li>Copy the number in column 'Remaining Qty To be Picked', row 'Overall Total' </li>
+                <li>Return to 'PickPlanner' and paste it the 'Pick Target' input field below</li>
+                <li>Finally, click 'Submit' to update the pick target</li>
+            </ol>
+            <button id="close-pick-target-instruction-box" class="pick-target-instruction-box-btn">Close</button>
+    </div>
     </body>
 </html>

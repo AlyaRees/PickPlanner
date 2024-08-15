@@ -118,6 +118,7 @@ h1 {
 .card img {
     margin-left: 0.5rem;
     vertical-align: middle;
+    position: relative;
 }
 
 .card:nth-child(1),
@@ -152,6 +153,42 @@ h1 {
     cursor: pointer;
     color: white;
     background-color: var(--lighter-solid-purple)
+}
+
+.pick-target-instruction-box {
+    /* display: none; */
+    position: absolute;
+    top: 2.5rem;
+    left: calc(10%);
+    right: calc(10%);
+    padding: 2.5rem;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#close-instruction {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#close-instruction:hover {
+    background: #0056b3;
+}
+
+.pick-target-instruction-box-btn {
+    display: inline-flex;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border-style: none;
 }
 
 /* Desktop design */
