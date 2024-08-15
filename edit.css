@@ -156,7 +156,7 @@ h1 {
 }
 
 .pick-target-instruction-box {
-    /* display: none; */
+    display: none;
     position: absolute;
     top: 2.5rem;
     left: calc(10%);
@@ -184,7 +184,6 @@ h1 {
 }
 
 .pick-target-instruction-box-btn {
-    display: inline-flex;
     margin-top: 1.5rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 0.5rem;

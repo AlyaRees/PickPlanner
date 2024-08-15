@@ -1,11 +1,43 @@
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
+    
     // Targets the input field on the edit page and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
 
     // Adds active blinking cursor to input field on the edit page if it exists
     if (employeeDataInput) {
         employeeDataInput.focus();
+    }
+
+    // Handles function for clicking pick target help icon
+    const helpIcon = document.getElementById('help-icon');
+    const instructionBox = document.getElementById('pick-target-instruction-box');
+    const closeInstructionButton = document.getElementById('close-pick-target-instruction-box');
+
+    // Show or hide the instruction box when the help icon is clicked
+    if (helpIcon) {
+        helpIcon.addEventListener('click', function() {
+
+            // Checks if display style property of 'instructionBox' is set to block
+            // Meaning that the instruction box is currently visible
+            if (instructionBox.style.display === 'block') {
+                instructionBox.style.display = 'none';
+
+                // Else if the property in css is not set to 'block'
+                // then set it to 'block'
+            } else {
+                instructionBox.style.display = 'block';
+            }
+        });
+    }
+
+    // Hide the instruction box when the close button is clicked
+    if (closeInstructionButton) {
+        closeInstructionButton.addEventListener('click', function() {
+
+            // When button is clicked, set the display property to 'none'
+            instructionBox.style.display = 'none';
+        });
     }
 
     // Handles the submission for pick target input field on the edit_page.html
