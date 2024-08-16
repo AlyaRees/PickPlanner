@@ -1,5 +1,5 @@
 // Waits for the entire HTML document to be loaded and parsed before running
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     
     // Targets the input field on the edit page and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!/^\d+(,\d+)*$/.test(pickTarget)) {
 
                 // Displays pop-up to user with following message
-                alert('Please enter a valid input.');
+                alert('Please enter valid input.');
                 return;
             }
 
@@ -123,5 +123,54 @@ document.addEventListener('DOMContentLoaded', function() {
             // stored in the variable (pickTargetElement) as text content
             pickTargetElement.textContent = pickTarget;
         }
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+    const output = document.getElementById('output');
+
+    // Highlight the drop zone when dragging over it
+    dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.classList.add('hover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('hover');
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('hover');
+        const file = event.dataTransfer.files[0];
+        if (file) {
+            handleFile(file);
+        }
+    });
+
+    function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            // Assuming we are working with the first sheet
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+
+            // Extract number of employees from a specific row
+            const numberOfEmployees = worksheet['A2'] ? worksheet['A2'].v : 'Not found';
+            // Extract average pick rate per hour from a specific cell
+            const averagePickRatePerHour = worksheet['B10'] ? worksheet['B10'].v : 'Not found';
+
+            // Update the output with extracted data
+            output.innerHTML = `
+                <p>Number of Employees: ${numberOfEmployees}</p>
+                <p>Average Pick Rate per Hour: ${averagePickRatePerHour}</p>
+            `;
+
+            // Optionally, you can also update the textarea with new data
+            // document.getElementById('performance-data').value = `Employees: ${numberOfEmployees}\nPick Rate: ${averagePickRatePerHour}`;
+        };
+        reader.readAsArrayBuffer(file);
     }
 });
