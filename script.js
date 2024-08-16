@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                window.location.href = 'chill.html';
            });
        }
-       
+
        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
        if (numberOfEmployees) {
            const employeesOutputElement = document.getElementById('employees-output');
