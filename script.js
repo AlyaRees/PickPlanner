@@ -42,50 +42,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
        // Drag-and-drop functionality for pick performance report data
-   const dropZone = document.getElementById('drop-zone');
+       const dropZone = document.getElementById('drop-zone');
 
-   if (dropZone) {
-       dropZone.addEventListener('dragover', function(event) {
-           event.preventDefault();
-           dropZone.classList.add('hover');
-       });
-
-       dropZone.addEventListener('dragleave', function() {
-           dropZone.classList.remove('hover');
-       });
-
-       dropZone.addEventListener('drop', function(event) {
-           event.preventDefault();
-           dropZone.classList.remove('hover');
-
-           const file = event.dataTransfer.files[0];
-           if (file && file.name.endsWith('.xlsx')) {
-               const reader = new FileReader();
-               reader.onload = function(e) {
-                   const data = new Uint8Array(e.target.result);
-                   const workbook = XLSX.read(data, { type: 'array' });
-                   const firstSheetName = workbook.SheetNames[0];
-                   const worksheet = workbook.Sheets[firstSheetName];
-
-                   const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                   const numberOfRows = jsonData.length;
-                   const casesPerHourColumn = jsonData.map(row => row[1]).slice(1); // Assuming cases/hour is in column 2
-                   const averageCasesPerHour = casesPerHourColumn.reduce((a, b) => a + b, 0) / casesPerHourColumn.length;
-
-                   localStorage.setItem('numberOfRows', numberOfRows);
-                   localStorage.setItem('averageCasesPerHour', averageCasesPerHour.toFixed(2));
-
-                   alert(`File processed successfully! Number of employees in chill: ${numberOfRows} To continue click 'Close'.`);
-               };
-               reader.readAsArrayBuffer(file);
-           } else {
-               alert('Please drop a valid Excel (.xlsx) file.');
+       if (dropZone) {
+           dropZone.addEventListener('dragover', function(event) {
+               event.preventDefault();
+               dropZone.classList.add('hover');
+           });
+   
+           dropZone.addEventListener('dragleave', function() {
+               dropZone.classList.remove('hover');
+           });
+   
+           dropZone.addEventListener('drop', function(event) {
+               event.preventDefault();
+               dropZone.classList.remove('hover');
+   
+               const file = event.dataTransfer.files[0];
+               if (file && file.name.endsWith('.xlsx')) {
+                   const reader = new FileReader();
+                   reader.onload = function(e) {
+                       const data = new Uint8Array(e.target.result);
+                       const workbook = XLSX.read(data, { type: 'array' });
+                       const sheetName = workbook.SheetNames[0];
+                       const worksheet = workbook.Sheets[sheetName];
+   
+                       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+   
+                       // Filter rows to identify employee IDs
+                       const employeeRows = jsonData.filter(row => {
+                           const firstCell = row[0];
+                           return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
+                       });
+   
+                       const numberOfEmployees = employeeRows.length;
+   
+                       // Store the calculated number of employees
+                       localStorage.setItem('numberOfEmployees', numberOfEmployees);
+   
+                       alert(`File processed successfully! Number of Employees: ${numberOfEmployees}`);
+                   };
+                   reader.readAsArrayBuffer(file);
+               } else {
+                   alert('Please drop a valid Excel (.xlsx) file.');
+               }
+               window.location.href = 'chill.html';
+           });
+       }
+   
+       // Rendering the stored data in chill.html
+       const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+       if (numberOfEmployees) {
+           const employeesOutputElement = document.getElementById('employees-output');
+           if (employeesOutputElement) {
+               employeesOutputElement.textContent = numberOfEmployees;
            }
-
-           window.location.href = 'chill.html';
-
-       });
-    }
+       }
 
     // Handles the submission for pick target input field on the edit_page.html
 
@@ -170,20 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // And display it under the element tag on html (<span id='pick-target'>)
             // stored in the variable (pickTargetElement) as text content
             pickTargetElement.textContent = pickTarget;
-        }
-    }
-
-    if (numberOfRows) {
-        const numberOfRowsElement = document.getElementById('employees-output');
-        if (numberOfRowsElement) {
-            numberOfRowsElement.textContent = numberOfRows;
-        }
-    }
-
-    if (averageCasesPerHour) {
-        const averageCasesElement = document.getElementById('average-cases-per-hour');
-        if (averageCasesElement) {
-            averageCasesElement.textContent = averageCasesPerHour;
         }
     }
 });
