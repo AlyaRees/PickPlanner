@@ -225,5 +225,9 @@ h1 {
     .section3 {
         margin-top: 1.5rem;
     }
+
+    .drop-zone {
+        font-size: 1.5rem;
+    }
     
 }
