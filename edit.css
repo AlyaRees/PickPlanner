@@ -121,14 +121,19 @@ h1 {
     position: relative;
 }
 
-.card:nth-child(1),
-.card:nth-child(3) {
+.card:nth-child(1) {
     background-color: var(--darker-trans-purple);
 }
 
-.card:nth-child(2),
-.card:nth-child(4) {
+.card:nth-child(2) {
     background-color: var(--lighter-trans-purple);
+}
+
+.drop-zone {
+    padding: 4.5rem;
+    border: 1px dashed grey;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
 }
 
 .section3 {
@@ -183,7 +188,7 @@ h1 {
     background: #0056b3;
 }
 
-.pick-target-instruction-box-btn {
+.instruction-box-btn {
     margin-top: 1.5rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 0.5rem;

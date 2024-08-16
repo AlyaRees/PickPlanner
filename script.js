@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handles function for clicking pick target help icon
     const helpIcon = document.getElementById('help-icon');
     const instructionBox = document.getElementById('pick-target-instruction-box');
-    const closeInstructionButton = document.getElementById('close-pick-target-instruction-box');
+    const closeInstructionButton = document.getElementById('close-instruction-box');
 
     // Show or hide the instruction box when the help icon is clicked
     if (helpIcon) {

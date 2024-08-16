@@ -36,9 +36,10 @@
                         <span><textarea id="employeeData" rows="3" cols="30" placeholder="Paste number here..."></textarea></span>
                     </div>
                     <div class="card">
-                        <p>Pick Performance Report Data:<img src="./assets/help_icon.svg"></p><span><textarea rows="3" cols="30" placeholder="Paste Excel data here..."></textarea></span>
-                    </div>
+                        <p>Pick Performance Report Data:<img src="./assets/help_icon.svg"></p><span>
+                            <div id="drop-zone" class="drop-zone">Drag and drop here</div></div>
                 <div class="section3">
+                    <p id="output"></p>
                     <button type="submit" class="sec3-btn">Submit</button>
                 </div>
             </form>
@@ -54,7 +55,17 @@
                 <li>Return to 'PickPlanner' and paste it the 'Pick Target' input field below</li>
                 <li>Finally, click 'Submit' to update the pick target</li>
             </ol>
-            <button id="close-pick-target-instruction-box" class="pick-target-instruction-box-btn">Close</button>
+            <button id="close-instruction-box" class="instruction-box-btn">Close</button>
     </div>
+    <!-- <div id="pick-perf-instruction-box" class="pick-perf-instruction-box">
+        <ol>
+            <li>Navigate to 'Manhattan Active SCI Reports List'</li>
+            <li>Click 'Pick Performance"</li>
+            <li>Copy the number in column 'Remaining Qty To be Picked', row 'Overall Total' </li>
+            <li>Return to 'PickPlanner' and paste it the 'Pick Target' input field below</li>
+            <li>Finally, click 'Submit' to update the pick target</li>
+        </ol>
+        <button id="close-instruction-box" class="instruction-box-btn">Close</button>
+</div> -->
     </body>
 </html>
