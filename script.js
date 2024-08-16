@@ -1,5 +1,5 @@
 // Waits for the entire HTML document to be loaded and parsed before running
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     
     // Targets the input field on the edit page and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
@@ -41,6 +41,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+       // Drag-and-drop functionality for pick performance report data
+   const dropZone = document.getElementById('drop-zone');
+
+   if (dropZone) {
+       dropZone.addEventListener('dragover', function(event) {
+           event.preventDefault();
+           dropZone.classList.add('hover');
+       });
+
+       dropZone.addEventListener('dragleave', function() {
+           dropZone.classList.remove('hover');
+       });
+
+       dropZone.addEventListener('drop', function(event) {
+           event.preventDefault();
+           dropZone.classList.remove('hover');
+
+           const file = event.dataTransfer.files[0];
+           if (file && file.name.endsWith('.xlsx')) {
+               const reader = new FileReader();
+               reader.onload = function(e) {
+                   const data = new Uint8Array(e.target.result);
+                   const workbook = XLSX.read(data, { type: 'array' });
+                   const firstSheetName = workbook.SheetNames[0];
+                   const worksheet = workbook.Sheets[firstSheetName];
+
+                   const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                   const numberOfRows = jsonData.length;
+                   const casesPerHourColumn = jsonData.map(row => row[1]).slice(1); // Assuming cases/hour is in column 2
+                   const averageCasesPerHour = casesPerHourColumn.reduce((a, b) => a + b, 0) / casesPerHourColumn.length;
+
+                   localStorage.setItem('numberOfRows', numberOfRows);
+                   localStorage.setItem('averageCasesPerHour', averageCasesPerHour.toFixed(2));
+
+                   alert(`File processed successfully! Number of employees in chill: ${numberOfRows} To continue click 'Close'.`);
+               };
+               reader.readAsArrayBuffer(file);
+           } else {
+               alert('Please drop a valid Excel (.xlsx) file.');
+           }
+
+           window.location.href = 'chill.html';
+
+       });
+    }
+
     // Handles the submission for pick target input field on the edit_page.html
 
     const inputForm = document.getElementById('inputForm');
@@ -70,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!/^\d+(,\d+)*$/.test(pickTarget)) {
 
                 // Displays pop-up to user with following message
-                alert('Please enter valid input.');
+                alert('Please enter a valid input.');
                 return;
             }
 
@@ -96,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetches data for both variables from local storage
     const pickTarget = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
+    const numberOfRows = localStorage.getItem('numberOfRows');
+    const averageCasesPerHour = localStorage.getItem('averageCasesPerHour');
 
     // If last updated time exists, render it on the page
     if (lastUpdated) {
@@ -125,52 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const dropZone = document.getElementById('drop-zone');
-    const output = document.getElementById('output');
-
-    // Highlight the drop zone when dragging over it
-    dropZone.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropZone.classList.add('hover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('hover');
-    });
-
-    dropZone.addEventListener('drop', (event) => {
-        event.preventDefault();
-        dropZone.classList.remove('hover');
-        const file = event.dataTransfer.files[0];
-        if (file) {
-            handleFile(file);
+    if (numberOfRows) {
+        const numberOfRowsElement = document.getElementById('employees-output');
+        if (numberOfRowsElement) {
+            numberOfRowsElement.textContent = numberOfRows;
         }
-    });
+    }
 
-    function handleFile(file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const data = new Uint8Array(event.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-
-            // Assuming we are working with the first sheet
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-
-            // Extract number of employees from a specific row
-            const numberOfEmployees = worksheet['A2'] ? worksheet['A2'].v : 'Not found';
-            // Extract average pick rate per hour from a specific cell
-            const averagePickRatePerHour = worksheet['B10'] ? worksheet['B10'].v : 'Not found';
-
-            // Update the output with extracted data
-            output.innerHTML = `
-                <p>Number of Employees: ${numberOfEmployees}</p>
-                <p>Average Pick Rate per Hour: ${averagePickRatePerHour}</p>
-            `;
-
-            // Optionally, you can also update the textarea with new data
-            // document.getElementById('performance-data').value = `Employees: ${numberOfEmployees}\nPick Rate: ${averagePickRatePerHour}`;
-        };
-        reader.readAsArrayBuffer(file);
+    if (averageCasesPerHour) {
+        const averageCasesElement = document.getElementById('average-cases-per-hour');
+        if (averageCasesElement) {
+            averageCasesElement.textContent = averageCasesPerHour;
+        }
     }
 });
