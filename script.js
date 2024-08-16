@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                        const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                        localStorage.setItem('chillLastUpdated', formattedTime);
    
-                       alert(`File processed successfully! Number of Employees: ${numberOfEmployees}`);
+                       alert(`File processed successfully!`);
                    };
                    reader.readAsArrayBuffer(file);
                } else {
