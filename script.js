@@ -1,8 +1,6 @@
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
     
-
-
     // Targets the input field on the edit page and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
 
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!/^\d+(,\d+)*$/.test(pickTarget)) {
 
                 // Displays pop-up to user with following message
-                alert('Please enter valid input.');
+                alert('Please enter a valid input.');
                 return;
             }
 
