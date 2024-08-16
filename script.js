@@ -1,6 +1,8 @@
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
     
+
+
     // Targets the input field on the edit page and assigns it to employeeDataInput
     const employeeDataInput = document.getElementById('employeeData');
 
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handles function for clicking pick target help icon
+
     const helpIcon = document.getElementById('help-icon');
     const instructionBox = document.getElementById('pick-target-instruction-box');
     const closeInstructionButton = document.getElementById('close-instruction-box');
@@ -69,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!/^\d+(,\d+)*$/.test(pickTarget)) {
 
                 // Displays pop-up to user with following message
-                alert('Please enter a valid number.');
+                alert('Please enter valid input.');
                 return;
             }
 
