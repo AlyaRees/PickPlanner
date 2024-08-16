@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
        // Drag-and-drop functionality for pick performance report data
+
        const dropZone = document.getElementById('drop-zone');
 
        if (dropZone) {
@@ -79,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
    
                        // Store the calculated number of employees
                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
+
+                       // Capture and store the current time as the "Last Updated" time
+                       const now = new Date();
+                       const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+                       localStorage.setItem('chillLastUpdated', formattedTime);
    
                        alert(`File processed successfully! Number of Employees: ${numberOfEmployees}`);
                    };
@@ -89,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                window.location.href = 'chill.html';
            });
        }
-   
-       // Rendering the stored data in chill.html
+       
        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
        if (numberOfEmployees) {
            const employeesOutputElement = document.getElementById('employees-output');
@@ -154,8 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetches data for both variables from local storage
     const pickTarget = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const numberOfRows = localStorage.getItem('numberOfRows');
-    const averageCasesPerHour = localStorage.getItem('averageCasesPerHour');
 
     // If last updated time exists, render it on the page
     if (lastUpdated) {
