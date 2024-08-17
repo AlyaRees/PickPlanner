@@ -1,3 +1,6 @@
+// Imports function named instructionBox from another file
+import { instructionBox } from "./main.js";
+
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -11,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handles function for clicking pick target help icon
 
+    // Assigns all html element ids to a const variable to be used in the following functions
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
     const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
@@ -19,24 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box')
 
     // Show or hide the instruction box when the help icon is clicked
-
-    function instructionBox(helpIcon, instructionBox, closeInstructionBoxButton) {
-        if (helpIcon) {
-            helpIcon.addEventListener('click', function() {
-                if (instructionBox.style.display == 'block') {
-                    instructionBox.style.display = 'none';
-                } else {
-                    instructionBox.style.display = 'block';
-                }
-            });
-        }
-
-        if (closeInstructionBoxButton) {
-            closeInstructionBoxButton.addEventListener('click', function() {
-                instructionBox.style.display = 'none';
-            });
-        }
-    }
 
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
@@ -105,12 +91,17 @@ document.addEventListener('DOMContentLoaded', function() {
                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
    
                        // Filter rows to identify employee IDs
-                    // 
+                    // row[0] accesses first cell in each row
+                    // Checks if the first cell is a string and matches a specific pattern
+                    // six digits from 0-9 followed by '@coop.co.uk' (indicating an employee ID)
+                    // '===' means both the value and type of the two variables being compared 
+                    // must be the same for the expression to return 'true'
                        const employeeRows = jsonData.filter(row => {
                            const firstCell = row[0];
                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
                        });
    
+                    // Calculates the number of employee rows found
                        const numberOfEmployees = employeeRows.length;
    
                        // Store the calculated number of employees
@@ -123,6 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
    
                        alert(`File processed successfully!`);
                    };
+
+                // Initiates the reading of the file as an array buffer
+                // This is necessary for processing binary files like excel documents
                    reader.readAsArrayBuffer(file);
                } else {
                    alert('Please drop a valid Excel (.xlsx) file.');
