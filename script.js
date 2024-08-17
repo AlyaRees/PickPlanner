@@ -50,36 +50,62 @@ document.addEventListener('DOMContentLoaded', function() {
         // Adds an event listener on the drop zone element 
         //that listens for the 'dragover' event
         // which occurs when the file is dragged over the 'dropZone'
-
            dropZone.addEventListener('dragover', function(event) {
 
-            // Prevents default browser behavior of not allowing drops in certain areas
+        // Prevents default browser behavior of not allowing drops in certain areas
                event.preventDefault();
 
-               
+            // Adds a CSS class named 'hover' to dropZone element to visually indicate it is active
                dropZone.classList.add('hover');
            });
    
+        // Adds event listener for dragleave which is triggered when the dragged item leaves the dropZone
            dropZone.addEventListener('dragleave', function() {
+
+            // Remove reverts it to default
                dropZone.classList.remove('hover');
            });
-   
+           
+        // Adds an event listener to the dropZone element
+        // This listens for a user dropping a file into the dropZone
            dropZone.addEventListener('drop', function(event) {
                event.preventDefault();
                dropZone.classList.remove('hover');
-   
+
+            // Retrieves the first file from the dataTransfer object (the files dropped)
                const file = event.dataTransfer.files[0];
+               
+               // If a file was dropped and its name ends in '.xlsx'
+            // indicating it is an excel file, then the code inside the block is executed (below)
                if (file && file.name.endsWith('.xlsx')) {
+
+                // new FileReader() creates a new object that can read the contents of the file
                    const reader = new FileReader();
+
+                // Sets up a callback function that runs when the file is successfully read
                    reader.onload = function(e) {
+
+                    // Converts data into a Uint8Array, needed to read the binary content of the excel file
                        const data = new Uint8Array(e.target.result);
+
+                    // Uses the XLSX library to read the file data as an excel workbook
                        const workbook = XLSX.read(data, { type: 'array' });
+
+                    // Retrieves the name of the first sheet in the workbook
                        const sheetName = workbook.SheetNames[0];
+
+                    // Gets the worksheet data from the worksheet
                        const worksheet = workbook.Sheets[sheetName];
    
+                    // Converts the worksheet data into a JSON array 
+                    // using the XLSX.utils.sheet_to_json method
+                    // whereby each row in the worksheet table (ignoring any scattered data) 
+                    // becomes an array element
+                    // { header: 1 } ensures that the first row is ignored and treated as normal data
                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
    
                        // Filter rows to identify employee IDs
+                    // 
                        const employeeRows = jsonData.filter(row => {
                            const firstCell = row[0];
                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
