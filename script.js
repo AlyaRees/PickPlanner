@@ -11,35 +11,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handles function for clicking pick target help icon
 
-    const helpIcon = document.getElementById('help-icon');
-    const instructionBox = document.getElementById('pick-target-instruction-box');
-    const closeInstructionButton = document.getElementById('close-instruction-box');
+    const pickTargetHelpIcon = document.getElementById('pt-help-icon');
+    const pickPerfHelpIcon = document.getElementById('pp-help-icon');
+    const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
+    const pickPerfInstructionBox = document.getElementById('pick-perf-instruction-box');
+    const pickTargetCloseInstructionButton = document.getElementById('pt-close-instruction-box');
+    const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box')
 
     // Show or hide the instruction box when the help icon is clicked
-    if (helpIcon) {
-        helpIcon.addEventListener('click', function() {
+
+    if (pickTargetHelpIcon) {
+        pickTargetHelpIcon.addEventListener('click', function() {
 
             // Checks if display style property of 'instructionBox' is set to block
             // Meaning that the instruction box is currently visible
-            if (instructionBox.style.display === 'block') {
-                instructionBox.style.display = 'none';
+            if (pickTargetInstructionBox.style.display === 'block') {
+                pickTargetInstructionBox.style.display = 'none';
 
                 // Else if the property in css is not set to 'block'
                 // then set it to 'block'
             } else {
-                instructionBox.style.display = 'block';
+                pickTargetInstructionBox.style.display = 'block';
             }
         });
     }
 
-    // Hide the instruction box when the close button is clicked
-    if (closeInstructionButton) {
-        closeInstructionButton.addEventListener('click', function() {
+        // Hide the instruction box when the close button is clicked
+        if (pickTargetCloseInstructionButton) {
+            pickTargetCloseInstructionButton.addEventListener('click', function() {
+    
+                // When button is clicked, set the display property to 'none'
+                pickTargetInstructionBox.style.display = 'none';
+            });
+        }
 
-            // When button is clicked, set the display property to 'none'
-            instructionBox.style.display = 'none';
+    if (pickPerfHelpIcon) {
+        pickPerfHelpIcon.addEventListener('click', function() {
+
+            // Checks if display style property of 'instructionBox' is set to block
+            // Meaning that the instruction box is currently visible
+            if (pickPerfInstructionBox.style.display === 'block') {
+                pickPerfInstructionBox.style.display = 'none';
+            
+                // Else if the property in css is not set to 'block'
+                // then set it to 'block'
+            } else {
+                pickPerfInstructionBox.style.display = 'block';
+            }
         });
     }
+
+        if (pickPerfCloseInstructionButton) {
+            pickPerfCloseInstructionButton.addEventListener('click', function() {
+
+                // When button is clicked, set the display property to 'none'
+                pickPerfInstructionBox.style.display = 'none';
+            });
+        }
 
        // Drag-and-drop functionality for pick performance report data
 

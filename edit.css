@@ -177,7 +177,7 @@ h1 {
 }
 
 .pick-perf-instruction-box {
-    /* display: none; */
+    display: none;
     position: absolute;
     top: 2.5rem;
     left: calc(10%);
