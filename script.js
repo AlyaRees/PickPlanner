@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show or hide the instruction box when the help icon is clicked
 
-    function showInstructionBox(helpIcon, instructionBox) {
+    function instructionBox(helpIcon, instructionBox, closeInstructionBoxButton) {
         if (helpIcon) {
             helpIcon.addEventListener('click', function() {
                 if (instructionBox.style.display == 'block') {
@@ -30,28 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+
+        if (closeInstructionBoxButton) {
+            closeInstructionBoxButton.addEventListener('click', function() {
+                instructionBox.style.display = 'none';
+            });
+        }
     }
 
-    showInstructionBox(pickTargetHelpIcon, pickTargetInstructionBox);
-    showInstructionBox(pickPerfHelpIcon, pickPerfInstructionBox);
-
-
-        // Hide the instruction box when the close button is clicked
-        if (pickTargetCloseInstructionButton) {
-            pickTargetCloseInstructionButton.addEventListener('click', function() {
-    
-                // When button is clicked, set the display property to 'none'
-                pickTargetInstructionBox.style.display = 'none';
-            });
-        }
-
-        if (pickPerfCloseInstructionButton) {
-            pickPerfCloseInstructionButton.addEventListener('click', function() {
-
-                // When button is clicked, set the display property to 'none'
-                pickPerfInstructionBox.style.display = 'none';
-            });
-        }
+    instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
+    instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
 
        // Drag-and-drop functionality for pick performance report data
 
