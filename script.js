@@ -46,8 +46,17 @@ document.addEventListener('DOMContentLoaded', function() {
        const dropZone = document.getElementById('drop-zone');
 
        if (dropZone) {
+
+        // Adds an event listener on the drop zone element 
+        //that listens for the 'dragover' event
+        // which occurs when the file is dragged over the 'dropZone'
+
            dropZone.addEventListener('dragover', function(event) {
+
+            // Prevents default browser behavior of not allowing drops in certain areas
                event.preventDefault();
+
+               
                dropZone.classList.add('hover');
            });
    
