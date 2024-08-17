@@ -90,6 +90,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     // { header: 1 } ensures that the first row is ignored and treated as normal data
                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
    
+                    // Get the last row
+                       const lastRow = jsonData[jsonData.length - 1];
+
+                       if (lastRow && lastRow.length >= 6) {
+                        const totalCasesColumn = lastRow[5];
+
+                        // Get content of 6th column in last row ('Total Cases' picked)
+                        localStorage.setItem('amount-picked-output', totalCasesColumn);
+
                        // Filter rows to identify employee IDs
                     // row[0] accesses first cell in each row
                     // Checks if the first cell is a string and matches a specific pattern
@@ -113,17 +122,23 @@ document.addEventListener('DOMContentLoaded', function() {
                        localStorage.setItem('chillLastUpdated', formattedTime);
    
                        alert(`File processed successfully!`);
-                   };
+
+                       setTimeout(() => {
+                        window.location.href = 'chill.html';
+                       }, 100);
+                   } else {
+                    alert('The Excel file does not have the expected format.');
+                }
+            };
 
                 // Initiates the reading of the file as an array buffer
                 // This is necessary for processing binary files like excel documents
-                   reader.readAsArrayBuffer(file);
-               } else {
-                   alert('Please drop a valid Excel (.xlsx) file.');
-               }
-               window.location.href = 'chill.html';
+            reader.readAsArrayBuffer(file);
+        } else {
+            alert('Please drop a valid Excel (.xlsx) file.');
+        }
            });
-       }
+        }
 
        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
        if (numberOfEmployees) {
@@ -188,7 +203,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetches data for both variables from local storage
     const pickTarget = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
+    const totalCases = localStorage.getItem('amount-picked-output');
 
+    if (totalCases) {
+        const totalCasesElement = document.getElementById('total-cases-output');
+        if (totalCasesElement) {
+            totalCasesElement.textContent = totalCases;
+        }
+    }
+    
     // If last updated time exists, render it on the page
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
@@ -216,4 +239,5 @@ document.addEventListener('DOMContentLoaded', function() {
             pickTargetElement.textContent = pickTarget;
         }
     }
+
 });
