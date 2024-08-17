@@ -20,21 +20,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show or hide the instruction box when the help icon is clicked
 
-    if (pickTargetHelpIcon) {
-        pickTargetHelpIcon.addEventListener('click', function() {
-
-            // Checks if display style property of 'instructionBox' is set to block
-            // Meaning that the instruction box is currently visible
-            if (pickTargetInstructionBox.style.display === 'block') {
-                pickTargetInstructionBox.style.display = 'none';
-
-                // Else if the property in css is not set to 'block'
-                // then set it to 'block'
-            } else {
-                pickTargetInstructionBox.style.display = 'block';
-            }
-        });
+    function showInstructionBox(helpIcon, instructionBox) {
+        if (helpIcon) {
+            helpIcon.addEventListener('click', function() {
+                if (instructionBox.style.display == 'block') {
+                    instructionBox.style.display = 'none';
+                } else {
+                    instructionBox.style.display = 'block';
+                }
+            });
+        }
     }
+
+    showInstructionBox(pickTargetHelpIcon, pickTargetInstructionBox);
+
+    // if (pickTargetHelpIcon) {
+    //     pickTargetHelpIcon.addEventListener('click', function() {
+
+    //         // Checks if display style property of 'instructionBox' is set to block
+    //         // Meaning that the instruction box is currently visible
+    //         if (pickTargetInstructionBox.style.display === 'block') {
+    //             pickTargetInstructionBox.style.display = 'none';
+
+    //             // Else if the property in css is not set to 'block'
+    //             // then set it to 'block'
+    //         } else {
+    //             pickTargetInstructionBox.style.display = 'block';
+    //         }
+    //     });
+    // }
 
         // Hide the instruction box when the close button is clicked
         if (pickTargetCloseInstructionButton) {
