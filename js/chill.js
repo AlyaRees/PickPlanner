@@ -1,5 +1,6 @@
 // Imports function named instructionBox from another file
 import { instructionBox } from "./main.js";
+import { formatNumberWithCommas } from "./main.js";
 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
@@ -93,11 +94,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Get the last row
                        const lastRow = jsonData[jsonData.length - 1];
 
-                       if (lastRow && lastRow.length >= 6) {
+                    // Checks that lastRow exists and whether lastRow has at least 6 columns
+                    // lastRow.length gets the number of columns
+                    if (lastRow && lastRow.length >= 6) {
                         const totalCasesColumn = lastRow[5];
 
-                        // Get content of 6th column in last row ('Total Cases' picked)
-                        localStorage.setItem('amount-picked-output', totalCasesColumn);
+                        const totalCases = formatNumberWithCommas(totalCasesColumn);
+
+                        const amountPicked = `${totalCases}`;
+
+                        // Check if the output matches the required pattern
+                        if (/^\d+(,\d+)*$/.test(amountPicked)) {
+
+                            // Get content of 6th column in last row ('Total Cases' picked)
+                            localStorage.setItem('amount-picked-output', amountPicked);
+                        } else {
+                            alert(`Unable to format output`);
+                        }
 
                        // Filter rows to identify employee IDs
                     // row[0] accesses first cell in each row
@@ -203,14 +216,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetches data for both variables from local storage
     const pickTarget = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const totalCases = localStorage.getItem('amount-picked-output');
+    const amountPicked = localStorage.getItem('amount-picked-output');
 
-    if (totalCases) {
-        const totalCasesElement = document.getElementById('total-cases-output');
-        if (totalCasesElement) {
-            totalCasesElement.textContent = totalCases;
+    if (amountPicked) {
+        const amountPickedElement = document.getElementById('total-cases-output');
+        if (amountPickedElement) {
+            amountPickedElement.textContent = amountPicked;
         }
     }
+    
     
     // If last updated time exists, render it on the page
     if (lastUpdated) {

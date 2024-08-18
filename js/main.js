@@ -17,3 +17,9 @@
             });
         }
     }
+    
+    // Function to format a number with commas
+    
+    export function formatNumberWithCommas(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
