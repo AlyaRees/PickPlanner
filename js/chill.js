@@ -150,8 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert('Please drop a valid Excel (.xlsx) file.');
         }
-           });
-        }
+    });
+}
 
        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
        if (numberOfEmployees) {
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
            if (employeesOutputElement) {
                employeesOutputElement.textContent = numberOfEmployees;
            }
-       }
+        }
 
     // Handles the submission for pick target input field on the edit_page.html
 
@@ -175,6 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Retrieves inputted 'value' from 'employeeData', trims any whitespace
             const pickTarget = employeeDataInput.value.trim();
 
+            const numericValue = pickTarget.replace(/,/g, '');
+
             // Validate the input using a regular expression to allow only comma-separated integers
 
             // '!' not
@@ -187,15 +189,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // '$' the string must end with the same of the last element (here, this is a digit)
             // '/' closing regular expression
             // .test is used with regular expression to check for a match
-            if (!/^\d+(,\d+)*$/.test(pickTarget)) {
+            if (!/^\d+$/.test(numericValue)) {
 
                 // Displays pop-up to user with following message
                 alert('Please enter a valid input.');
                 return;
             }
 
+            const pickTargetOutput = formatNumberWithCommas(numericValue);
+
             // Store the pick target in localStorage
-            localStorage.setItem('pickTarget', pickTarget);
+            localStorage.setItem('pickTarget', pickTargetOutput);
 
             // Get the current time and format it as "HH:MM"
             const now = new Date();
@@ -214,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Renders the content for pick target and last updated time on the chill.html page
 
     // Fetches data for both variables from local storage
-    const pickTarget = localStorage.getItem('pickTarget');
+    const pickTargetOutput = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const amountPicked = localStorage.getItem('amount-picked-output');
 
@@ -238,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // If pick target exists, render it on the page
-    if (pickTarget) {
+    if (pickTargetOutput) {
 
         // Fetches element by 'id' named 'pick-target' on html
         // Assigns it it const variable named 'pickTargetElement'
@@ -250,8 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // If it does, retrieve data under 'pickTarget' from localStorage
             // And display it under the element tag on html (<span id='pick-target'>)
             // stored in the variable (pickTargetElement) as text content
-            pickTargetElement.textContent = pickTarget;
+            pickTargetElement.textContent = pickTargetOutput;
         }
     }
-
 });
