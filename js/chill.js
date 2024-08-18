@@ -1,4 +1,4 @@
-// Imports function named instructionBox from another file
+// Imports functions from another file
 import { instructionBox } from "./main.js";
 import { formatNumberWithCommas } from "./main.js";
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickTargetCloseInstructionButton = document.getElementById('pt-close-instruction-box');
     const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box')
 
-    // Show or hide the instruction box when the help icon is clicked
+    // Uses function that shows or hides the instruction box when the help icon is clicked
 
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
@@ -99,20 +99,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (lastRow && lastRow.length >= 6) {
                         const totalCasesColumn = lastRow[5];
 
+                        // Uses a function to format the data from totalCasesColumn
+                        // and assigns it to totalCases
                         const totalCases = formatNumberWithCommas(totalCasesColumn);
 
+                        // Formats 'totalCases' as a string and assigns it to 'amountPicked'
                         const amountPicked = `${totalCases}`;
 
                         // Check if the output matches the required pattern
                         if (/^\d+(,\d+)*$/.test(amountPicked)) {
 
-                            // Get content of 6th column in last row ('Total Cases' picked)
+                            // Get data of amountPicked and set it as localStorage under 'amount-picked-output'
                             localStorage.setItem('amount-picked-output', amountPicked);
+
+                            // Otherwise, send this message to the user on the screen
                         } else {
                             alert(`Unable to format output`);
                         }
 
-                       // Filter rows to identify employee IDs
+                    // Filter rows to identify employee IDs
                     // row[0] accesses first cell in each row
                     // Checks if the first cell is a string and matches a specific pattern
                     // six digits from 0-9 followed by '@coop.co.uk' (indicating an employee ID)
@@ -136,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
    
                        alert(`File processed successfully!`);
 
+                    // Redirect the user to region page after a 1 second delay
                        setTimeout(() => {
                         window.location.href = 'chill.html';
                        }, 100);
@@ -153,10 +159,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 }
 
+    // Retrieve data stored in numberOfEmployees
        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+
+    // If it exists, get access element id employees-output, assign it to employeesOutputElement
        if (numberOfEmployees) {
            const employeesOutputElement = document.getElementById('employees-output');
            if (employeesOutputElement) {
+
+            // Set the elements data to be the newly updated data from numberOfEmployees
                employeesOutputElement.textContent = numberOfEmployees;
            }
         }
@@ -172,9 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Prevents default submission, allows logic to be executed beforehand
             event.preventDefault();
 
-            // Retrieves inputted 'value' from 'employeeData', trims any whitespace
+            // Retrieves inputted 'value' from 'employeeDataInput', trims any whitespace
             const pickTarget = employeeDataInput.value.trim();
 
+            // Removes all commas from the string and assigns it to numericValue
+            // /, represents a comma and /g searches all commas present in the string
+            // '' an empty string, what all commas are replaced with
             const numericValue = pickTarget.replace(/,/g, '');
 
             // Validate the input using a regular expression to allow only comma-separated integers
@@ -196,9 +210,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Use the function to format the data in numericValue as a comma separated number
             const pickTargetOutput = formatNumberWithCommas(numericValue);
 
-            // Store the pick target in localStorage
+            // Store the pick target output in localStorage under 'pickTarget'
             localStorage.setItem('pickTarget', pickTargetOutput);
 
             // Get the current time and format it as "HH:MM"
@@ -229,19 +244,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    
-    // If last updated time exists, render it on the page
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
         if (lastUpdatedElement) {
 
-            // Specifies the data (time) in lastUpdated to be displayed 
-            // as text content on html (where the 'id' is named 'last-updated')
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
 
-    // If pick target exists, render it on the page
+    // If pick target output exists run the function
     if (pickTargetOutput) {
 
         // Fetches element by 'id' named 'pick-target' on html
@@ -251,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Checks it exists
         if (pickTargetElement) {
             
-            // If it does, retrieve data under 'pickTarget' from localStorage
+            // If it does, retrieve data under 'pickTargetOutput' from localStorage
             // And display it under the element tag on html (<span id='pick-target'>)
             // stored in the variable (pickTargetElement) as text content
             pickTargetElement.textContent = pickTargetOutput;
