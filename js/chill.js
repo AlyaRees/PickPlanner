@@ -1,6 +1,5 @@
 // Imports functions from another file
-import { instructionBox } from "./main.js";
-import { formatNumberWithCommas } from "./main.js";
+import { instructionBox, formatNumberWithCommas } from "./main.js";
 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
@@ -13,229 +12,137 @@ document.addEventListener('DOMContentLoaded', function() {
         employeeDataInput.focus();
     }
 
-    // Handles function for clicking pick target help icon
-
     // Assigns all html element ids to a const variable to be used in the following functions
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
     const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
     const pickPerfInstructionBox = document.getElementById('pick-perf-instruction-box');
     const pickTargetCloseInstructionButton = document.getElementById('pt-close-instruction-box');
-    const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box')
+    const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box');
 
     // Uses function that shows or hides the instruction box when the help icon is clicked
-
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
 
-       // Drag-and-drop functionality for pick performance report data
+    // Drag-and-drop functionality for pick performance report data
+    const dropZone = document.getElementById('drop-zone');
 
-       const dropZone = document.getElementById('drop-zone');
+    if (dropZone) {
+        // Adds an event listener on the drop zone element that listens for the 'dragover' event
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            dropZone.classList.add('hover');
+        });
 
-       if (dropZone) {
+        // Adds event listener for dragleave
+        dropZone.addEventListener('dragleave', function() {
+            dropZone.classList.remove('hover');
+        });
 
-        // Adds an event listener on the drop zone element 
-        //that listens for the 'dragover' event
-        // which occurs when the file is dragged over the 'dropZone'
-           dropZone.addEventListener('dragover', function(event) {
+        // Adds an event listener to the dropZone element for the 'drop' event
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            dropZone.classList.remove('hover');
 
-        // Prevents default browser behavior of not allowing drops in certain areas
-               event.preventDefault();
+            const file = event.dataTransfer.files[0];
 
-            // Adds a CSS class named 'hover' to dropZone element to visually indicate it is active
-               dropZone.classList.add('hover');
-           });
-   
-        // Adds event listener for dragleave which is triggered when the dragged item leaves the dropZone
-           dropZone.addEventListener('dragleave', function() {
+            if (file && file.name.endsWith('.xlsx')) {
+                const reader = new FileReader();
 
-            // Remove reverts it to default
-               dropZone.classList.remove('hover');
-           });
-           
-        // Adds an event listener to the dropZone element
-        // This listens for a user dropping a file into the dropZone
-           dropZone.addEventListener('drop', function(event) {
-               event.preventDefault();
-               dropZone.classList.remove('hover');
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            // Retrieves the first file from the dataTransfer object (the files dropped)
-               const file = event.dataTransfer.files[0];
-               
-               // If a file was dropped and its name ends in '.xlsx'
-            // indicating it is an excel file, then the code inside the block is executed (below)
-               if (file && file.name.endsWith('.xlsx')) {
+                    const lastRow = jsonData[jsonData.length - 1];
 
-                // new FileReader() creates a new object that can read the contents of the file
-                   const reader = new FileReader();
-
-                // Sets up a callback function that runs when the file is successfully read
-                   reader.onload = function(e) {
-
-                    // Converts data into a Uint8Array, needed to read the binary content of the excel file
-                       const data = new Uint8Array(e.target.result);
-
-                    // Uses the XLSX library to read the file data as an excel workbook
-                       const workbook = XLSX.read(data, { type: 'array' });
-
-                    // Retrieves the name of the first sheet in the workbook
-                       const sheetName = workbook.SheetNames[0];
-
-                    // Gets the worksheet data from the worksheet
-                       const worksheet = workbook.Sheets[sheetName];
-   
-                    // Converts the worksheet data into a JSON array 
-                    // using the XLSX.utils.sheet_to_json method
-                    // whereby each row in the worksheet table (ignoring any scattered data) 
-                    // becomes an array element
-                    // { header: 1 } ensures that the first row is ignored and treated as normal data
-                       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-   
-                    // Get the last row
-                       const lastRow = jsonData[jsonData.length - 1];
-
-                    // Checks that lastRow exists and whether lastRow has at least 6 columns
-                    // lastRow.length gets the number of columns
-                    if (lastRow && lastRow.length >= 6) {
+                    if (lastRow && lastRow.length >= 9) {
                         const totalCasesColumn = lastRow[5];
-
-                        // Uses a function to format the data from totalCasesColumn
-                        // and assigns it to totalCases
+                        const averagePickRatePerHour = parseFloat(lastRow[8]);
                         const totalCases = formatNumberWithCommas(totalCasesColumn);
-
-                        // Formats 'totalCases' as a string and assigns it to 'amountPicked'
                         const amountPicked = `${totalCases}`;
 
-                        // Check if the output matches the required pattern
                         if (/^\d+(,\d+)*$/.test(amountPicked)) {
-
-                            // Get data of amountPicked and set it as localStorage under 'amount-picked-output'
                             localStorage.setItem('amount-picked-output', amountPicked);
 
-                            // Otherwise, send this message to the user on the screen
+                            const pickTarget = parseInt(localStorage.getItem('pickTarget').replace(/,/g, ''), 10);
+                            const numOfEmployees = parseInt(localStorage.getItem('numberOfEmployees'), 10);
+                            const hoursToPick = 7.5;
+
+                            const estimatedFinishTime = calculateEstimatedFinishTime(
+                                pickTarget,
+                                numOfEmployees,
+                                averagePickRatePerHour,
+                                hoursToPick
+                            );
+
+                            localStorage.setItem('estimatedFinishTime', estimatedFinishTime);
+
+                            setTimeout(() => {
+                                window.location.href = 'chill.html';
+                            }, 100);
                         } else {
                             alert(`Unable to format output`);
                         }
 
-                    // Filter rows to identify employee IDs
-                    // row[0] accesses first cell in each row
-                    // Checks if the first cell is a string and matches a specific pattern
-                    // six digits from 0-9 followed by '@coop.co.uk' (indicating an employee ID)
-                    // '===' means both the value and type of the two variables being compared 
-                    // must be the same for the expression to return 'true'
-                       const employeeRows = jsonData.filter(row => {
-                           const firstCell = row[0];
-                           return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
-                       });
-   
-                    // Calculates the number of employee rows found
-                       const numberOfEmployees = employeeRows.length;
-   
-                       // Store the calculated number of employees
-                       localStorage.setItem('numberOfEmployees', numberOfEmployees);
+                        // Additional processing
+                        const employeeRows = jsonData.filter(row => {
+                            const firstCell = row[0];
+                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
+                        });
 
-                       // Capture and store the current time as the "Last Updated" time
-                       const now = new Date();
-                       const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-                       localStorage.setItem('chillLastUpdated', formattedTime);
-   
-                       alert(`File processed successfully!`);
+                        const numberOfEmployees = employeeRows.length;
+                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
 
-                    // Redirect the user to region page after a 1 second delay
-                       setTimeout(() => {
-                        window.location.href = 'chill.html';
-                       }, 100);
-                   } else {
-                    alert('The Excel file does not have the expected format.');
-                }
-            };
+                        const now = new Date();
+                        const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+                        localStorage.setItem('chillLastUpdated', formattedTime);
 
-                // Initiates the reading of the file as an array buffer
-                // This is necessary for processing binary files like excel documents
-            reader.readAsArrayBuffer(file);
-        } else {
-            alert('Please drop a valid Excel (.xlsx) file.');
-        }
-    });
-}
+                        alert(`File processed successfully!`);
+                    } else {
+                        alert('The Excel file does not have the expected format.');
+                    }
+                };
 
-    // Retrieve data stored in numberOfEmployees
-       const numberOfEmployees = localStorage.getItem('numberOfEmployees');
-
-    // If it exists, get access element id employees-output, assign it to employeesOutputElement
-       if (numberOfEmployees) {
-           const employeesOutputElement = document.getElementById('employees-output');
-           if (employeesOutputElement) {
-
-            // Set the elements data to be the newly updated data from numberOfEmployees
-               employeesOutputElement.textContent = numberOfEmployees;
-           }
-        }
-
-    // Handles the submission for pick target input field on the edit_page.html
-
-    const inputForm = document.getElementById('inputForm');
-
-    // If it exists, add event listener that waits for user to press submit
-    if (inputForm) {
-        inputForm.addEventListener('submit', function(event) {
-
-            // Prevents default submission, allows logic to be executed beforehand
-            event.preventDefault();
-
-            // Retrieves inputted 'value' from 'employeeDataInput', trims any whitespace
-            const pickTarget = employeeDataInput.value.trim();
-
-            // Removes all commas from the string and assigns it to numericValue
-            // /, represents a comma and /g searches all commas present in the string
-            // '' an empty string, what all commas are replaced with
-            const numericValue = pickTarget.replace(/,/g, '');
-
-            // Validate the input using a regular expression to allow only comma-separated integers
-
-            // '!' not
-            // '/' start of regular expression
-            // '^' caret is the start of the string
-            // '\d' shorthand for digit
-            // '\d+' one or more digits
-            // '()' parentheses denote new grouping
-            // '*' zero or more of the preceding (in this case, a comma followed by one or more digits)
-            // '$' the string must end with the same of the last element (here, this is a digit)
-            // '/' closing regular expression
-            // .test is used with regular expression to check for a match
-            if (!/^\d+$/.test(numericValue)) {
-
-                // Displays pop-up to user with following message
-                alert('Please enter a valid input.');
-                return;
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert('Please drop a valid Excel (.xlsx) file.');
             }
-
-            // Use the function to format the data in numericValue as a comma separated number
-            const pickTargetOutput = formatNumberWithCommas(numericValue);
-
-            // Store the pick target output in localStorage under 'pickTarget'
-            localStorage.setItem('pickTarget', pickTargetOutput);
-
-            // Get the current time and format it as "HH:MM"
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-
-            // Store the formatted time as the last updated time
-            localStorage.setItem('chillLastUpdated', formattedTime);
-
-            // Redirect to the chill page
-            window.location.href = 'chill.html';
         });
     }
 
-    // Renders the content for pick target and last updated time on the chill.html page
+    function calculateEstimatedFinishTime(pickTarget, numEmployees, avgPickRatePerHour, hoursToPick) {
+        const totalCasesPerHour = numEmployees * avgPickRatePerHour;
+        const requiredHours = pickTarget / totalCasesPerHour;
+        const pickingHours = Math.min(requiredHours, hoursToPick);
+        const now = new Date();
+        const finishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
 
-    // Fetches data for both variables from local storage
+        // Extract hours and minutes
+        const hours = String(finishTime.getHours()).padStart(2, '0');
+        const minutes = String(finishTime.getMinutes()).padStart(2, '0');
+        
+        // Format time as HH:MM
+        return `${hours}:${minutes}`;
+    }
+    
+    // Retrieve and display the number of employees
+    const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+    
+    if (numberOfEmployees) {
+        const employeesOutputElement = document.getElementById('employees-output');
+        if (employeesOutputElement) {
+            employeesOutputElement.textContent = numberOfEmployees;
+        }
+    }
+
+    // Display stored data for pick target and last updated time
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const amountPicked = localStorage.getItem('amount-picked-output');
+    const estimatedFinishTime = localStorage.getItem('estimatedFinishTime');
 
     if (amountPicked) {
         const amountPickedElement = document.getElementById('total-cases-output');
@@ -243,29 +150,51 @@ document.addEventListener('DOMContentLoaded', function() {
             amountPickedElement.textContent = amountPicked;
         }
     }
-    
+
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
         if (lastUpdatedElement) {
-
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
 
-    // If pick target output exists run the function
     if (pickTargetOutput) {
-
-        // Fetches element by 'id' named 'pick-target' on html
-        // Assigns it it const variable named 'pickTargetElement'
         const pickTargetElement = document.getElementById('pick-target');
-
-        // Checks it exists
         if (pickTargetElement) {
-            
-            // If it does, retrieve data under 'pickTargetOutput' from localStorage
-            // And display it under the element tag on html (<span id='pick-target'>)
-            // stored in the variable (pickTargetElement) as text content
             pickTargetElement.textContent = pickTargetOutput;
         }
+    }
+
+    if (estimatedFinishTime) {
+        const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+        if (estimatedFinishTimeElement) {
+            estimatedFinishTimeElement.textContent = estimatedFinishTime;
+        }
+    }
+
+    // Handles the submission for pick target input field on the edit_page.html
+    const inputForm = document.getElementById('inputForm');
+    if (inputForm) {
+        inputForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const pickTarget = employeeDataInput.value.trim();
+            const numericValue = pickTarget.replace(/,/g, '');
+
+            if (!/^\d+$/.test(numericValue)) {
+                alert('Please enter a valid input.');
+                return;
+            }
+
+            const pickTargetOutput = formatNumberWithCommas(numericValue);
+            localStorage.setItem('pickTarget', pickTargetOutput);
+
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+            localStorage.setItem('chillLastUpdated', formattedTime);
+
+            window.location.href = 'chill.html';
+        });
     }
 });
