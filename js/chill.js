@@ -16,6 +16,67 @@ document.addEventListener('DOMContentLoaded', function() {
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
 
+        // Drag-and-drop functionality for Wave Check Report data
+        const waveCheckDropZone = document.getElementById('pt-drop-zone');
+
+        if (waveCheckDropZone) {
+            // Adds an event listener on the drop zone element that listens for the 'dragover' event
+            waveCheckDropZone.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                waveCheckDropZone.classList.add('hover');
+            });
+    
+            // Adds event listener for dragleave
+            waveCheckDropZone.addEventListener('dragleave', function() {
+                waveCheckDropZone.classList.remove('hover');
+            });
+    
+            // Adds an event listener to the waveCheckDropZone element for the 'drop' event
+            waveCheckDropZone.addEventListener('drop', function(event) {
+                event.preventDefault();
+                waveCheckDropZone.classList.remove('hover');
+    
+                const file = event.dataTransfer.files[0];
+    
+                if (file && file.name.endsWith('.xlsx')) {
+                    const reader = new FileReader();
+    
+                    reader.onload = function(e) {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+                        // Extracting Task Allocated Total Quantity and Task Picked Quantity
+                        const lastRow = jsonData[jsonData.length - 1];
+    
+                        if (lastRow && lastRow.length >= 8) {
+                            const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[7]);
+                            const taskPickedQuantity = formatNumberWithCommas(lastRow[8]);
+    
+                            if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
+                                localStorage.setItem('pickTarget', taskAllocatedTotalQuantity);
+                                localStorage.setItem('amount-picked-output', taskPickedQuantity);
+    
+                                setTimeout(() => {
+                                    window.location.href = 'chill.html';
+                                }, 100);
+                            } else {
+                                alert('Invalid data format.');
+                            }
+                        } else {
+                            alert('The Excel file does not have the expected format.');
+                        }
+                    };
+    
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    alert('Please drop a valid Excel (.xlsx) file.');
+                }
+            });
+        }
+
     // Drag-and-drop functionality for pick performance report data
     const pickPerfDropZone = document.getElementById('pp-drop-zone');
 
@@ -90,21 +151,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Retrieve and display the number of employees
+    const pickTargetOutput = localStorage.getItem('pickTarget');
+    const amountPicked = localStorage.getItem('amount-picked-output');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
-    
-    if (numberOfEmployees) {
-        const employeesOutputElement = document.getElementById('employees-output');
-        if (employeesOutputElement) {
-            employeesOutputElement.textContent = numberOfEmployees;
+    const lastUpdated = localStorage.getItem('chillLastUpdated');
+
+    if (pickTargetOutput) {
+        const pickTargetElement = document.getElementById('pick-target');
+        if (pickTargetElement) {
+            pickTargetElement.textContent = pickTargetOutput;
         }
     }
-
-    // Display stored data for pick target and last updated time
-    const pickTargetOutput = localStorage.getItem('pickTarget');
-    const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const amountPicked = localStorage.getItem('amount-picked-output');
 
     if (amountPicked) {
         const amountPickedElement = document.getElementById('total-cases-output');
@@ -113,17 +172,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    if (numberOfEmployees) {
+        const employeesOutputElement = document.getElementById('employees-output');
+        if (employeesOutputElement) {
+            employeesOutputElement.textContent = numberOfEmployees;
+        }
+    }
+
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
         if (lastUpdatedElement) {
             lastUpdatedElement.textContent = lastUpdated;
-        }
-    }
-
-    if (pickTargetOutput) {
-        const pickTargetElement = document.getElementById('pick-target');
-        if (pickTargetElement) {
-            pickTargetElement.textContent = pickTargetOutput;
         }
     }
 });
