@@ -3,14 +3,6 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Targets the input field on the edit page and assigns it to employeeDataInput
-    const employeeDataInput = document.getElementById('employeeData');
-
-    // Adds active blinking cursor to input field on the edit page if it exists
-    if (employeeDataInput) {
-        employeeDataInput.focus();
-    }
 
     // Assigns all html element ids to a const variable to be used in the following functions
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
@@ -60,25 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (lastRow && lastRow.length >= 9) {
                         const totalCasesColumn = lastRow[5];
-                        const averagePickRatePerHour = parseFloat(lastRow[8]);
                         const totalCases = formatNumberWithCommas(totalCasesColumn);
                         const amountPicked = `${totalCases}`;
 
                         if (/^\d+(,\d+)*$/.test(amountPicked)) {
                             localStorage.setItem('amount-picked-output', amountPicked);
-
-                            const pickTarget = parseInt(localStorage.getItem('pickTarget').replace(/,/g, ''), 10);
-                            const numOfEmployees = parseInt(localStorage.getItem('numberOfEmployees'), 10);
-                            const hoursToPick = 7.5;
-
-                            const estimatedFinishTime = calculateEstimatedFinishTime(
-                                pickTarget,
-                                numOfEmployees,
-                                averagePickRatePerHour,
-                                hoursToPick
-                            );
-
-                            localStorage.setItem('estimatedFinishTime', estimatedFinishTime);
 
                             setTimeout(() => {
                                 window.location.href = 'chill.html';
@@ -112,21 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    function calculateEstimatedFinishTime(pickTarget, numEmployees, avgPickRatePerHour, hoursToPick) {
-        const totalCasesPerHour = numEmployees * avgPickRatePerHour;
-        const requiredHours = pickTarget / totalCasesPerHour;
-        const pickingHours = Math.min(requiredHours, hoursToPick);
-        const now = new Date();
-        const finishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
-
-        // Extract hours and minutes
-        const hours = String(finishTime.getHours()).padStart(2, '0');
-        const minutes = String(finishTime.getMinutes()).padStart(2, '0');
-        
-        // Format time as HH:MM
-        return `${hours}:${minutes}`;
-    }
     
     // Retrieve and display the number of employees
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
@@ -142,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const amountPicked = localStorage.getItem('amount-picked-output');
-    const estimatedFinishTime = localStorage.getItem('estimatedFinishTime');
 
     if (amountPicked) {
         const amountPickedElement = document.getElementById('total-cases-output');
@@ -163,38 +125,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pickTargetElement) {
             pickTargetElement.textContent = pickTargetOutput;
         }
-    }
-
-    if (estimatedFinishTime) {
-        const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-        if (estimatedFinishTimeElement) {
-            estimatedFinishTimeElement.textContent = estimatedFinishTime;
-        }
-    }
-
-    // Handles the submission for pick target input field on the edit_page.html
-    const inputForm = document.getElementById('inputForm');
-    if (inputForm) {
-        inputForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const pickTarget = employeeDataInput.value.trim();
-            const numericValue = pickTarget.replace(/,/g, '');
-
-            if (!/^\d+$/.test(numericValue)) {
-                alert('Please enter a valid input.');
-                return;
-            }
-
-            const pickTargetOutput = formatNumberWithCommas(numericValue);
-            localStorage.setItem('pickTarget', pickTargetOutput);
-
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-            localStorage.setItem('chillLastUpdated', formattedTime);
-
-            window.location.href = 'chill.html';
-        });
     }
 });
