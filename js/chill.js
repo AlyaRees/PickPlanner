@@ -58,10 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
                                 localStorage.setItem('pickTarget', taskAllocatedTotalQuantity);
                                 localStorage.setItem('amount-picked-output', taskPickedQuantity);
-    
-                                setTimeout(() => {
-                                    window.location.href = 'chill.html';
-                                }, 100);
+                                
+                                alert(`File processed successfully!`);
+
                             } else {
                                 alert('Invalid data format.');
                             }
@@ -112,21 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const lastRow = jsonData[jsonData.length - 1];
 
                     if (lastRow && lastRow.length >= 9) {
-                        const totalCasesColumn = lastRow[5];
-                        const totalCases = formatNumberWithCommas(totalCasesColumn);
-                        const amountPicked = `${totalCases}`;
 
-                        if (/^\d+(,\d+)*$/.test(amountPicked)) {
-                            localStorage.setItem('amount-picked-output', amountPicked);
-
-                            setTimeout(() => {
-                                window.location.href = 'chill.html';
-                            }, 100);
-                        } else {
-                            alert(`Unable to format output`);
-                        }
-
-                        // Additional processing
                         const employeeRows = jsonData.filter(row => {
                             const firstCell = row[0];
                             return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
@@ -140,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         localStorage.setItem('chillLastUpdated', formattedTime);
 
                         alert(`File processed successfully!`);
+
+                        setTimeout(() => {
+                            window.location.href = 'chill.html';
+                        }, 100);
+
                     } else {
                         alert('The Excel file does not have the expected format.');
                     }
