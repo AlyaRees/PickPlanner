@@ -77,16 +77,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         localStorage.setItem('chillLastUpdated', formattedTime);
 
                         alert(`File processed successfully!`);
+
+                        setTimeout(() => {
+                            window.location.href = 'chill.html';
+                        }, 100);
+                        
                     } else {
                         alert('The Excel file does not have the expected format.');
                     }
                 };
 
                 reader.readAsArrayBuffer(file);
-
-                setTimeout(() => {
-                    window.location.href = 'chill.html';
-                }, 100);
 
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
@@ -227,31 +228,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (estimatedFinishTimeElement) {
             estimatedFinishTimeElement.textContent = estimatedFinishTime;
         }
-    }
-
-    // Handles the submission for pick target input field on the edit_page.html
-    const inputForm = document.getElementById('inputForm');
-    if (inputForm) {
-        inputForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const pickTarget = employeeDataInput.value.trim();
-            const numericValue = pickTarget.replace(/,/g, '');
-
-            if (!/^\d+$/.test(numericValue)) {
-                alert('Please enter a valid input.');
-                return;
-            }
-
-            const pickTargetOutput = formatNumberWithCommas(numericValue);
-            localStorage.setItem('pickTarget', pickTargetOutput);
-
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-            localStorage.setItem('chillLastUpdated', formattedTime);
-
-            window.location.href = 'chill.html';
-        });
     }
 });
