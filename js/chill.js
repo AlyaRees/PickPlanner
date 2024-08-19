@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const lastRow = jsonData[jsonData.length - 1];
 
-                    if (lastRow && lastRow.length >= 9) {
+                    if (lastRow && lastRow.length <= 11) {
 
                         const employeeRows = jsonData.filter(row => {
                             const firstCell = row[0];
