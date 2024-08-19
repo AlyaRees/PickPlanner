@@ -5,12 +5,12 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 document.addEventListener('DOMContentLoaded', function() {
     
     // Targets the input field on the edit page and assigns it to employeeDataInput
-    const employeeDataInput = document.getElementById('employeeData');
+    // const employeeDataInput = document.getElementById('employeeData');
 
-    // Adds active blinking cursor to input field on the edit page if it exists
-    if (employeeDataInput) {
-        employeeDataInput.focus();
-    }
+    // // Adds active blinking cursor to input field on the edit page if it exists
+    // if (employeeDataInput) {
+    //     employeeDataInput.focus();
+    // }
 
     // Assigns all html element ids to a const variable to be used in the following functions
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
@@ -25,24 +25,25 @@ document.addEventListener('DOMContentLoaded', function() {
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
 
     // Drag-and-drop functionality for pick performance report data
-    const dropZone = document.getElementById('drop-zone');
+    const pickPerfDropZone = document.getElementById('pp-drop-zone');
+    const pickTargetDropZone = document.getElementById('pt-drop-zone');
 
-    if (dropZone) {
+    if (pickPerfDropZone) {
         // Adds an event listener on the drop zone element that listens for the 'dragover' event
-        dropZone.addEventListener('dragover', function(event) {
+        pickPerfDropZone.addEventListener('dragover', function(event) {
             event.preventDefault();
-            dropZone.classList.add('hover');
+            pickPerfDropZone.classList.add('hover');
         });
 
         // Adds event listener for dragleave
-        dropZone.addEventListener('dragleave', function() {
-            dropZone.classList.remove('hover');
+        pickPerfDropZone.addEventListener('dragleave', function() {
+            pickPerfDropZone.classList.remove('hover');
         });
 
-        // Adds an event listener to the dropZone element for the 'drop' event
-        dropZone.addEventListener('drop', function(event) {
+        // Adds an event listener to the pickPerfDropZone element for the 'drop' event
+        pickPerfDropZone.addEventListener('drop', function(event) {
             event.preventDefault();
-            dropZone.classList.remove('hover');
+            pickPerfDropZone.classList.remove('hover');
 
             const file = event.dataTransfer.files[0];
 
@@ -58,16 +59,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const lastRow = jsonData[jsonData.length - 1];
 
-                    if (lastRow && lastRow.length >= 9) {
-                        const totalCasesColumn = lastRow[5];
+                    if (lastRow && lastRow.length >= 10) {
+
                         const averagePickRatePerHour = parseFloat(lastRow[8]);
-                        const totalCases = formatNumberWithCommas(totalCasesColumn);
-                        const amountPicked = `${totalCases}`;
 
-                        if (/^\d+(,\d+)*$/.test(amountPicked)) {
-                            localStorage.setItem('amount-picked-output', amountPicked);
+                        // Additional processing
+                        const employeeRows = jsonData.filter(row => {
+                            const firstCell = row[0];
+                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
+                        });
 
-                            const pickTarget = parseInt(localStorage.getItem('pickTarget').replace(/,/g, ''), 10);
+                        const numberOfEmployees = employeeRows.length;
+                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
+
+                        const now = new Date();
+                        const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+                        localStorage.setItem('chillLastUpdated', formattedTime);
+
+                        alert(`File processed successfully!`);
+                    } else {
+                        alert('The Excel file does not have the expected format.');
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+
+                setTimeout(() => {
+                    window.location.href = 'chill.html';
+                }, 100);
+
+            } else {
+                alert('Please drop a valid Excel (.xlsx) file.');
+            }
+        });
+    }
+
+    if (pickTargetDropZone) {
+        // Adds an event listener on the drop zone element that listens for the 'dragover' event
+        pickTargetDropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            pickTargetDropZone.classList.add('hover');
+        });
+
+        // Adds event listener for dragleave
+        pickTargetDropZone.addEventListener('dragleave', function() {
+            pickTargetDropZone.classList.remove('hover');
+        });
+
+        // Adds an event listener to the dropZone element for the 'drop' event
+        pickTargetDropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            pickTargetDropZone.classList.remove('hover');
+
+            const file = event.dataTransfer.files[0];
+
+            if (file && file.name.endsWith('.xlsx')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    const lastRow = jsonData[jsonData.length - 1];
+
+                    if (lastRow && lastRow.length <= 7) {
+                        const taskAllocQtyColumn = lastRow[7];
+                        const taskAllocQty = formatNumberWithCommas(taskAllocQtyColumn);
+                        const pickTargetQty = `${taskAllocQty}`;
+
+                        if (/^\d+(,\d+)*$/.test(pickTargetQty)) {
+                            localStorage.setItem('pick-target-output', pickTargetQty);
+
+                            const pickTarget = parseInt(localStorage.getItem('pick-target-output').replace(/,/g, ''), 10);
                             const numOfEmployees = parseInt(localStorage.getItem('numberOfEmployees'), 10);
                             const hoursToPick = 7.5;
 
@@ -86,15 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else {
                             alert(`Unable to format output`);
                         }
-
-                        // Additional processing
-                        const employeeRows = jsonData.filter(row => {
-                            const firstCell = row[0];
-                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
-                        });
-
-                        const numberOfEmployees = employeeRows.length;
-                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
 
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
