@@ -5,12 +5,12 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 document.addEventListener('DOMContentLoaded', function() {
     
     // Targets the input field on the edit page and assigns it to employeeDataInput
-    // const employeeDataInput = document.getElementById('employeeData');
+    const employeeDataInput = document.getElementById('employeeData');
 
-    // // Adds active blinking cursor to input field on the edit page if it exists
-    // if (employeeDataInput) {
-    //     employeeDataInput.focus();
-    // }
+    // Adds active blinking cursor to input field on the edit page if it exists
+    if (employeeDataInput) {
+        employeeDataInput.focus();
+    }
 
     // Assigns all html element ids to a const variable to be used in the following functions
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
@@ -58,9 +58,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const lastRow = jsonData[jsonData.length - 1];
 
-                    if (lastRow && lastRow.length >= 10) {
+                    if (lastRow && lastRow.length >= 9) {
+                        const totalCasesColumn = lastRow[5];
+                        const averagePickRatePerHour = parseFloat(lastRow[8]);
+                        const totalCases = formatNumberWithCommas(totalCasesColumn);
+                        const amountPicked = `${totalCases}`;
 
-                        // const averagePickRatePerHour = parseFloat(lastRow[8]);
+                        if (/^\d+(,\d+)*$/.test(amountPicked)) {
+                            localStorage.setItem('amount-picked-output', amountPicked);
+
+                            const pickTarget = parseInt(localStorage.getItem('pickTarget').replace(/,/g, ''), 10);
+                            const numOfEmployees = parseInt(localStorage.getItem('numberOfEmployees'), 10);
+                            const hoursToPick = 7.5;
+
+                            const estimatedFinishTime = calculateEstimatedFinishTime(
+                                pickTarget,
+                                numOfEmployees,
+                                averagePickRatePerHour,
+                                hoursToPick
+                            );
+
+                            localStorage.setItem('estimatedFinishTime', estimatedFinishTime);
+
+                            setTimeout(() => {
+                                window.location.href = 'chill.html';
+                            }, 100);
+                        } else {
+                            alert(`Unable to format output`);
+                        }
 
                         // Additional processing
                         const employeeRows = jsonData.filter(row => {
@@ -76,94 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         localStorage.setItem('chillLastUpdated', formattedTime);
 
                         alert(`File processed successfully!`);
-
-                        setTimeout(() => {
-                            window.location.href = 'chill.html';
-                        }, 100);
-                        
-                    } else {
-                        alert('The Excel file does not have the expected format.');
-                    }
-                };
-
-                reader.readAsArrayBuffer(file);
-
-            } else {
-                alert('Please drop a valid Excel (.xlsx) file.');
-            }
-        });
-    }
-
-    const pickTargetDropZone = document.getElementById('pt-drop-zone');
-
-    if (pickTargetDropZone) {
-        // Adds an event listener on the drop zone element that listens for the 'dragover' event
-        pickTargetDropZone.addEventListener('dragover', function(event) {
-            event.preventDefault();
-            pickTargetDropZone.classList.add('hover');
-        });
-
-        // Adds event listener for dragleave
-        pickTargetDropZone.addEventListener('dragleave', function() {
-            pickTargetDropZone.classList.remove('hover');
-        });
-
-        // Adds an event listener to the dropZone element for the 'drop' event
-        pickTargetDropZone.addEventListener('drop', function(event) {
-            event.preventDefault();
-            pickTargetDropZone.classList.remove('hover');
-
-            const file = event.dataTransfer.files[0];
-
-            if (file && file.name.endsWith('.xlsx')) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[sheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                    const lastRow = jsonData[jsonData.length - 1];
-
-                    if (lastRow && lastRow.length <= 8) {
-                        const taskAllocQtyColumn = lastRow[7];
-                        const taskAllocQty = formatNumberWithCommas(taskAllocQtyColumn);
-
-                        if (/^\d+(,\d+)*$/.test(taskAllocQty)) {
-                            localStorage.setItem('pick-target-output', taskAllocQty);
-
-                            // const pickTarget = parseInt(taskAllocQty.replace(/,/g, ''), 10);
-                            // const numOfEmployees = parseInt(localStorage.getItem('numberOfEmployees'), 10);
-                            // const hoursToPick = 7.5;
-
-                            // const estimatedFinishTime = calculateEstimatedFinishTime(
-                            //     pickTarget,
-                            //     numOfEmployees,
-                            //     averagePickRatePerHour,
-                            //     hoursToPick
-                            // );
-
-                            // localStorage.setItem('estimatedFinishTime', estimatedFinishTime);
-
-                            setTimeout(() => {
-                                window.location.href = 'chill.html';
-                            }, 100);
-                        } else {
-                            alert(`Unable to format output`);
-                        }
-
-                        const now = new Date();
-                        const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-                        localStorage.setItem('chillLastUpdated', formattedTime);
-
-                        alert(`File processed successfully!`);
-
-                        setTimeout(() => {
-                            window.location.href = 'chill.html';
-                        }, 100);
-                        
                     } else {
                         alert('The Excel file does not have the expected format.');
                     }
@@ -176,20 +113,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // function calculateEstimatedFinishTime(pickTarget, numEmployees, avgPickRatePerHour, hoursToPick) {
-    //     const totalCasesPerHour = numEmployees * avgPickRatePerHour;
-    //     const requiredHours = pickTarget / totalCasesPerHour;
-    //     const pickingHours = Math.min(requiredHours, hoursToPick);
-    //     const now = new Date();
-    //     const finishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
+    function calculateEstimatedFinishTime(pickTarget, numEmployees, avgPickRatePerHour, hoursToPick) {
+        const totalCasesPerHour = numEmployees * avgPickRatePerHour;
+        const requiredHours = pickTarget / totalCasesPerHour;
+        const pickingHours = Math.min(requiredHours, hoursToPick);
+        const now = new Date();
+        const finishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
 
-    //     // Extract hours and minutes
-    //     const hours = String(finishTime.getHours()).padStart(2, '0');
-    //     const minutes = String(finishTime.getMinutes()).padStart(2, '0');
+        // Extract hours and minutes
+        const hours = String(finishTime.getHours()).padStart(2, '0');
+        const minutes = String(finishTime.getMinutes()).padStart(2, '0');
         
-    //     // Format time as HH:MM
-    //     return `${hours}:${minutes}`;
-    // }
+        // Format time as HH:MM
+        return `${hours}:${minutes}`;
+    }
     
     // Retrieve and display the number of employees
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
@@ -205,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const amountPicked = localStorage.getItem('amount-picked-output');
-    // const estimatedFinishTime = localStorage.getItem('estimatedFinishTime');
+    const estimatedFinishTime = localStorage.getItem('estimatedFinishTime');
 
     if (amountPicked) {
         const amountPickedElement = document.getElementById('total-cases-output');
@@ -228,10 +165,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // if (estimatedFinishTime) {
-    //     const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-    //     if (estimatedFinishTimeElement) {
-    //         estimatedFinishTimeElement.textContent = estimatedFinishTime;
-    //     }
-    // }
+    if (estimatedFinishTime) {
+        const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+        if (estimatedFinishTimeElement) {
+            estimatedFinishTimeElement.textContent = estimatedFinishTime;
+        }
+    }
+
+    // Handles the submission for pick target input field on the edit_page.html
+    const inputForm = document.getElementById('inputForm');
+    if (inputForm) {
+        inputForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const pickTarget = employeeDataInput.value.trim();
+            const numericValue = pickTarget.replace(/,/g, '');
+
+            if (!/^\d+$/.test(numericValue)) {
+                alert('Please enter a valid input.');
+                return;
+            }
+
+            const pickTargetOutput = formatNumberWithCommas(numericValue);
+            localStorage.setItem('pickTarget', pickTargetOutput);
+
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formattedTime = `${hours}:${minutes} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+            localStorage.setItem('chillLastUpdated', formattedTime);
+
+            window.location.href = 'chill.html';
+        });
+    }
 });
