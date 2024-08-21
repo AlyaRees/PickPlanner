@@ -112,6 +112,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (lastRow && lastRow.length <= 11) {
 
+                        // Extract the average number of cases picked per hour from the 9th column
+                        const averageCasesPerHour = parseFloat(lastRow[8]);
+                        if (!isNaN(averageCasesPerHour)) {
+                            localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
+                        } else {
+                            alert('Invalid data format for average cases per hour.');
+                            return;
+                        }
+
                         const employeeRows = jsonData.filter(row => {
                             const firstCell = row[0];
                             return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
@@ -147,6 +156,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountPicked = localStorage.getItem('amount-picked-output');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
+    const averageCasesPerHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
+
+    if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
+        const estimatedFinishTime = estimateFinishTime(
+            parseInt(numberOfEmployees, 10),
+            averageCasesPerHour,
+            parseInt(amountPicked, 10),
+            parseInt(pickTargetOutput, 10)
+        );
+
+        const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+        if (estimatedFinishTimeElement) {
+            estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+    }
 
     if (pickTargetOutput) {
         const pickTargetElement = document.getElementById('pick-target');
@@ -175,4 +199,16 @@ document.addEventListener('DOMContentLoaded', function() {
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
+    
+    // Function to estimate the finish time
+
+    function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked, pickTarget) {
+
+    const totalHoursRequired = pickTarget / averageCasesPerHour;
+    const pickingHours = Math.min(totalHoursRequired, 7.5);
+    const now = new Date();
+
+    const finishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
+    return finishTime;
+}
 });
