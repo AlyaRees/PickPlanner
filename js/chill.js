@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Amount Picked:', amountPicked);
         console.log('Pick Target Output:', pickTargetInt);
         console.log('Number of Employees:', numberOfEmployees);
+        console.log('Avg cases/hour:', averageCasesPerHour);
         
         const now = new Date();
         console.log('Current Time:', now.toLocaleTimeString());
