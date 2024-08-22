@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finish Time Estimator Test</title>
+</head>
+<body>
+    <h1>Finish Time Estimator Test</h1>
+    <p>Open the console to see the result.</p>
+
+    <script>
+        // Your estimateFinishTime function
+        function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked, pickTarget) {
+            // Calculate the remaining cases to pick
+            const remainingCases = pickTarget - amountPicked;
+
+            // Calculate the total capacity per hour based on the number of employees and their average cases per hour
+            const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
+
+            // Calculate the total hours required to finish picking the remaining cases
+            const totalHoursRequired = remainingCases / totalCapacityPerHour;
+
+            // Get the current time
+            const now = new Date();
+
+            // Calculate the time remaining until 22:00 (10 PM)
+            const endOfDay = new Date(now);
+            endOfDay.setHours(22, 0, 0, 0); // Set time to 22:00:00
+
+            const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000); // Convert milliseconds to hours
+
+            // Calculate picking hours considering the time remaining until the end of the day
+            const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
+
+            // Calculate the estimated finish time by adding the picking hours to the current time
+            const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
+
+            return estimatedFinishTime;
+        }
+
+        // Test the function with your provided values
+        const numberOfEmployees = 39;
+        const averageCasesPerHour = 206.37;
+        const amountPicked = 37697;
+        const pickTarget = 42589;
+
+        const estimatedFinishTime = estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked, pickTarget);
+
+        // Log the result to the console
+        console.log("Estimated Finish Time:", estimatedFinishTime);
+    </script>
+</body>
+</html>
