@@ -122,19 +122,22 @@ h1 {
 .section3 {
     display: flex;
     justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    margin-left: 1.6rem;
 }
 
 .sec3-btn {
-    margin-top: 1rem;
     border-radius: 1rem;
     background-color: var(--solid-purple);
     border-style: none;
-    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     color: white;
-    display: flex;
-    justify-content: space-between;
-    gap: 0.7rem;
     font-size: 1.5rem;
+    display: flex;
+    align-items: center; /* Ensures icon and text are aligned */
+    gap: 0.7rem;
 }
 
 .sec3-btn:hover {
