@@ -260,7 +260,7 @@ function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked
         frozenFinishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
         localStorage.setItem('frozenFinishTime', frozenFinishTime); // Store the frozen time in localStorage
         console.log('Frozen Finish Time:', frozenFinishTime.toLocaleTimeString());
-        alert('All items in the Chilled Region will be picked within the next hour.');
+        alert('All items in the Chilled Region have been picked.');
         return frozenFinishTime;
     }
 
