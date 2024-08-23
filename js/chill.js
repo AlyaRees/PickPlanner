@@ -12,6 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickTargetCloseInstructionButton = document.getElementById('pt-close-instruction-box');
     const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box');
 
+    const clearDataBtn = document.getElementById('clear-data');
+    
+    
+    // Function to clear average cases per hour data from local storage
+    function clearData() {
+            
+        // Remove the 'averageCasesPerHourList' and related items from local storage
+            
+            localStorage.removeItem('averageCasesPerHourList');
+            localStorage.removeItem('averageCasesPerHour');
+            
+            // Optionally, reload the page or update the UI to reflect the cleared data
+            alert("Average cases per hour data has been cleared.");
+            window.location.reload();
+        }
+
+        // Attach event listener to the clear data button
+        if (clearDataBtn) {
+        clearDataBtn.addEventListener('click', clearData);
+    }
+
     // Uses function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);

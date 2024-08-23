@@ -125,7 +125,7 @@ h1 {
     gap: 1rem;
     margin-top: 1.5rem;
     text-align: center;
-    margin-left: 1.6rem;
+    margin-left: 0.8rem;
 }
 
 .sec3-btn {
@@ -136,7 +136,7 @@ h1 {
     color: white;
     font-size: 1.5rem;
     display: flex;
-    align-items: center; /* Ensures icon and text are aligned */
+    align-items: center;
     gap: 0.7rem;
 }
 
