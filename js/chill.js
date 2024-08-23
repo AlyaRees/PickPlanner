@@ -116,7 +116,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Extract the average number of cases picked per hour from the 9th column
                         const averageCasesPerHour = parseFloat(lastRow[8]);
                         if (!isNaN(averageCasesPerHour)) {
-                            localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
+                            let averageCasesList = JSON.parse(localStorage.getItem('averageCasesPerHourList')) || [];
+                            averageCasesList.push(averageCasesPerHour);
+                            // Update the list in local storage
+                            localStorage.setItem('averageCasesPerHourList', JSON.stringify(averageCasesList));
+                            
+                            // Calculate the new average of all stored average cases per hour
+                            const totalCases = averageCasesList.reduce((total, num) => total + num, 0);
+                            const averageOfAllCases = totalCases / averageCasesList.length;
+                            // Store the new average in local storage to be used in the calculation
+                            localStorage.setItem('averageCasesPerHour', averageOfAllCases);
                         } else {
                             alert('Invalid data format for average cases per hour.');
                             return;
@@ -201,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked, rawAmountPicked) {
+    function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
         const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
         const remainingCases = pickTargetInt - amountPicked;
         const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
