@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const pickPerfInstructionBox = document.getElementById('pick-perf-instruction-box');
     const pickTargetCloseInstructionButton = document.getElementById('pt-close-instruction-box');
     const pickPerfCloseInstructionButton = document.getElementById('pp-close-instruction-box');
+    const pickTargetInstructionBoxMobile = document.getElementById('pt-instruction-box-mobile');
+    const ptHelpIconMobile = document.getElementById('pt-help-icon-mobile');
+    const ptCloseInstructionButtonMobile = document.getElementById('pt-instruction-box-mobile-btn-close');
+    const ppHelpIconMobile = document.getElementById('pp-help-icon-mobile');
+    const ppInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile');
+    const ppCloseInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile-btn-close');
 
     const clearDataBtn = document.getElementById('clear-data');
     
@@ -36,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Uses function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
+    instructionBox(ptHelpIconMobile, pickTargetInstructionBoxMobile, ptCloseInstructionButtonMobile);
+    instructionBox(ppHelpIconMobile, ppInstructionBoxMobile, ppCloseInstructionBoxMobile);
 
         // Drag-and-drop functionality for Wave Check Report data
         const waveCheckDropZone = document.getElementById('pt-drop-zone');
