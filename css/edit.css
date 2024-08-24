@@ -145,6 +145,22 @@ h1 {
 .section3 {
     display: flex;
     justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    margin-left: 0.8rem;
+}
+
+.sec3-btn {
+    border-radius: 1rem;
+    background-color: var(--solid-purple);
+    border-style: none;
+    padding: 0.5rem 1.5rem;
+    color: white;
+    font-size: 1.5rem;
+    display: block;
+    align-items: center;
+    margin: 1rem auto;
 }
 
 .pick-target-instruction-box {
