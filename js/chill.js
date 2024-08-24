@@ -20,24 +20,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const clearDataBtn = document.getElementById('clear-data');
     
-    
-    // Function to clear average cases per hour data from local storage
-    function clearData() {
-            
-        // Remove the 'averageCasesPerHourList' and related items from local storage
-            
-            localStorage.removeItem('averageCasesPerHourList');
-            localStorage.removeItem('averageCasesPerHour');
-            
-            // Optionally, reload the page or update the UI to reflect the cleared data
-            alert("Average cases per hour data has been cleared.");
-            window.location.reload();
-        }
-
-        // Attach event listener to the clear data button
-        if (clearDataBtn) {
+    // Attach event listener to the clear data button
+    if (clearDataBtn) {
         clearDataBtn.addEventListener('click', clearData);
     }
+
+    // Function to clear average cases per hour data from local storage
+    function clearData() {
+
+        const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&!localStorage.getItem('averageCasesPerHour') &&
+                          !localStorage.getItem('frozenFinishTime') &&
+                          !localStorage.getItem('numberOfEmployees') &&
+                          !localStorage.getItem('amount-picked-output') &&
+                          !localStorage.getItem('pickTarget');
+
+        if (isDataCleared) {
+            alert('Data has already been cleared.');
+        } else { // Remove the relevant items from local storage
+            localStorage.removeItem('averageCasesPerHourList');
+            localStorage.removeItem('averageCasesPerHour');
+            localStorage.removeItem('frozenFinishTime');
+            localStorage.removeItem('numberOfEmployees');
+            localStorage.removeItem('amount-picked-output');
+            localStorage.removeItem('pickTarget');
+
+            alert('All data has been cleared successfully.');
+            window.location.reload();
+        }
+}
 
     // Uses function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
@@ -193,7 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Retrieve and display the number of employees
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const amountPicked = localStorage.getItem('amount-picked-output');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
@@ -256,11 +265,11 @@ function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked
     console.log('Current Time:', now.toLocaleTimeString());
 
     // If totalHoursRequired is less than or equal to 1, freeze the finish time
-    if (totalHoursRequired <= 1) {
+    if (remainingCases <= totalCapacityPerHour) {
         frozenFinishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
         localStorage.setItem('frozenFinishTime', frozenFinishTime); // Store the frozen time in localStorage
         console.log('Frozen Finish Time:', frozenFinishTime.toLocaleTimeString());
-        alert('All items in the Chilled Region have been picked.');
+        alert('All items in the Chilled Region will be picked within the next hour.');
         return frozenFinishTime;
     }
 
