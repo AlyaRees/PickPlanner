@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         const lastRow = jsonData[jsonData.length - 1];
     
                         if (lastRow && lastRow.length >= 8) {
-                            const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[7]);
-                            const rawAmountPicked = lastRow[8];
+                            const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[25]);
+                            const rawAmountPicked = lastRow[26];
                             const taskPickedQuantity = formatNumberWithCommas(rawAmountPicked);
     
                             if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
