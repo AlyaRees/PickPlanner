@@ -4,7 +4,7 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Assigns all html element ids to a const variable to be used in the following instructionBox function
+    // Assigns all HTML element ids to a const variable to be used in the following instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
     const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ppCloseInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile-btn-close');
 
     const clearDataBtn = document.getElementById('clear-data');
-    
+
     // Attach event listener to the clear data button
     if (clearDataBtn) {
         clearDataBtn.addEventListener('click', clearData);
@@ -27,18 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to clear average cases per hour data from local storage
     function clearData() {
+        const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&
+                              !localStorage.getItem('averageCasesPerHour') &&
+                              !localStorage.getItem('estimated-finish-time') &&
+                              !localStorage.getItem('numberOfEmployees') &&
+                              !localStorage.getItem('amount-picked-output') &&
+                              !localStorage.getItem('pickTarget');
 
-        // Instances of the elements with no data in them
-        const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&!localStorage.getItem('averageCasesPerHour') &&
-                          !localStorage.getItem('estimated-finish-time') &&
-                          !localStorage.getItem('numberOfEmployees') &&
-                          !localStorage.getItem('amount-picked-output') &&
-                          !localStorage.getItem('pickTarget');
-
-        // If each element has no data stored in it, then send the following alert to user
         if (isDataCleared) {
             alert('Data has already been cleared.');
-        } else { // Remove the relevant items from local storage
+        } else {
             localStorage.removeItem('averageCasesPerHourList');
             localStorage.removeItem('averageCasesPerHour');
             localStorage.removeItem('estimated-finish-time');
@@ -47,11 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('pickTarget');
 
             alert('All data has been cleared successfully.');
-
-            // Refreshes the page
             window.location.reload();
         }
-}
+    }
 
     // Uses function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
@@ -59,86 +55,80 @@ document.addEventListener('DOMContentLoaded', function() {
     instructionBox(ptHelpIconMobile, pickTargetInstructionBoxMobile, ptCloseInstructionButtonMobile);
     instructionBox(ppHelpIconMobile, ppInstructionBoxMobile, ppCloseInstructionBoxMobile);
 
-        // Drag-and-drop functionality for Wave Check Report data
-        const waveCheckDropZone = document.getElementById('pt-drop-zone');
+    // Drag-and-drop functionality for Wave Check Report data
+    const waveCheckDropZone = document.getElementById('pt-drop-zone');
 
-        if (waveCheckDropZone) {
-            // Adds an event listener on the drop zone element that listens for the 'dragover' event
-            waveCheckDropZone.addEventListener('dragover', function(event) {
-                event.preventDefault();
-                waveCheckDropZone.classList.add('hover');
-            });
-    
-            // Adds event listener for dragleave
-            waveCheckDropZone.addEventListener('dragleave', function() {
-                waveCheckDropZone.classList.remove('hover');
-            });
-    
-            // Adds an event listener to the waveCheckDropZone element for the 'drop' event
-            waveCheckDropZone.addEventListener('drop', function(event) {
-                event.preventDefault();
-                waveCheckDropZone.classList.remove('hover');
-    
-                const file = event.dataTransfer.files[0];
-    
-                if (file && file.name.endsWith('.xlsx')) {
-                    const reader = new FileReader();
-    
-                    reader.onload = function(e) {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const sheetName = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[sheetName];
-                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    
-                        // Extracting Task Allocated Total Quantity and Task Picked Quantity
-                        const lastRow = jsonData[jsonData.length - 1];
-    
-                        if (lastRow && lastRow.length >= 8) {
-                            const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[25]);
-                            const rawAmountPicked = lastRow[26];
-                            const taskPickedQuantity = formatNumberWithCommas(rawAmountPicked);
-    
-                            if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
-                                localStorage.setItem('pickTarget', taskAllocatedTotalQuantity);
-                                localStorage.setItem('amount-picked-output', taskPickedQuantity);
-                                
-                                const now = new Date();
-                                const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-                                localStorage.setItem('chillLastUpdated', formattedTime);
-                                alert(`File processed successfully!`);
+    if (waveCheckDropZone) {
+        waveCheckDropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            waveCheckDropZone.classList.add('hover');
+        });
 
-                            } else {
-                                alert('Invalid data format.');
-                            }
+        waveCheckDropZone.addEventListener('dragleave', function() {
+            waveCheckDropZone.classList.remove('hover');
+        });
+
+        waveCheckDropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            waveCheckDropZone.classList.remove('hover');
+
+            const file = event.dataTransfer.files[0];
+
+            if (file && file.name.endsWith('.xlsx')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    // Extracting Task Allocated Total Quantity and Task Picked Quantity
+                    const lastRow = jsonData[jsonData.length - 1];
+
+                    if (lastRow && lastRow.length >= 8) {
+                        const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[25]);
+                        const rawAmountPicked = lastRow[26];
+                        const taskPickedQuantity = formatNumberWithCommas(rawAmountPicked);
+
+                        if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
+                            localStorage.setItem('pickTarget', taskAllocatedTotalQuantity);
+                            localStorage.setItem('amount-picked-output', taskPickedQuantity);
+
+                            const now = new Date();
+                            const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+                            localStorage.setItem('chillLastUpdated', formattedTime);
+                            alert(`File processed successfully!`);
+
                         } else {
-                            alert('The Excel file does not have the expected format.');
+                            alert('Invalid data format.');
                         }
-                    };
-    
-                    reader.readAsArrayBuffer(file);
-                } else {
-                    alert('Please drop a valid Excel (.xlsx) file.');
-                }
-            });
-        }
+                    } else {
+                        alert('The Excel file does not have the expected format.');
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert('Please drop a valid Excel (.xlsx) file.');
+            }
+        });
+    }
 
     // Drag-and-drop functionality for pick performance report data
     const pickPerfDropZone = document.getElementById('pp-drop-zone');
 
     if (pickPerfDropZone) {
-        // Adds an event listener on the drop zone element that listens for the 'dragover' event
         pickPerfDropZone.addEventListener('dragover', function(event) {
             event.preventDefault();
             pickPerfDropZone.classList.add('hover');
         });
 
-        // Adds event listener for dragleave
         pickPerfDropZone.addEventListener('dragleave', function() {
             pickPerfDropZone.classList.remove('hover');
         });
 
-        // Adds an event listener to the pickPerfDropZone element for the 'drop' event
         pickPerfDropZone.addEventListener('drop', function(event) {
             event.preventDefault();
             pickPerfDropZone.classList.remove('hover');
@@ -158,147 +148,85 @@ document.addEventListener('DOMContentLoaded', function() {
                     const lastRow = jsonData[jsonData.length - 1];
 
                     if (lastRow && lastRow.length <= 11) {
-
-                        // Extract the average number of cases picked per hour from the 9th column
                         const averageCasesPerHour = parseFloat(lastRow[8]);
                         if (!isNaN(averageCasesPerHour)) {
                             let averageCasesList = JSON.parse(localStorage.getItem('averageCasesPerHourList')) || [];
                             averageCasesList.push(averageCasesPerHour);
-                            // Update the list in local storage
                             localStorage.setItem('averageCasesPerHourList', JSON.stringify(averageCasesList));
-                            
-                            // Calculate the new average of all stored average cases per hour
+
                             const totalCases = averageCasesList.reduce((total, num) => total + num, 0);
                             const averageOfAllCases = totalCases / averageCasesList.length;
-                            // Store the new average in local storage to be used in the calculation
                             localStorage.setItem('averageCasesPerHour', averageOfAllCases);
-                        } else {
-                            alert('Invalid data format for average cases per hour.');
-                            return;
                         }
 
-                        const employeeRows = jsonData.filter(row => {
-                            const firstCell = row[0];
-                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
-                        });
-
-                        const numberOfEmployees = employeeRows.length;
-                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
+                        const employeeRows = jsonData.filter(row => /^[0-9]{6}@coop\.co\.uk$/.test(row[0]));
+                        localStorage.setItem('numberOfEmployees', employeeRows.length);
 
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                         localStorage.setItem('chillLastUpdated', formattedTime);
 
-                        alert(`File processed successfully!`);
+                        const pickTargetOutput = localStorage.getItem('pick-target');
+                        const amountPicked = localStorage.getItem('amount-picked-output');
+                        const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+                        const averageCasesPHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
 
-                        setTimeout(() => {
+                        if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPHour > 0) {
+                            const estimatedFinishTime = estimateFinishTime(
+                                parseInt(numberOfEmployees, 10),
+                                averageCasesPHour,
+                                parseInt(amountPicked.replace(/,/g, ''), 10),
+                                parseInt(pickTargetOutput.replace(/,/g, ''), 10)
+                            );
+
+                            localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
                             window.location.href = 'chill.html';
-                        }, 100);
-
+                        }
+                        window.location.href = 'chill.html';
+                        alert(`File processed successfully!`);
                     } else {
                         alert('The Excel file does not have the expected format.');
                     }
                 };
-
                 reader.readAsArrayBuffer(file);
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
-
-            function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
-
-                const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
-                const remainingCases = pickTargetInt - amountPicked;
-                const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
-                const totalHoursRequired = remainingCases / totalCapacityPerHour;
-                
-                console.log('Remaining Cases:', remainingCases);
-                console.log('Total Capacity Per Hour:', totalCapacityPerHour);
-                console.log('Total Hours Required:', totalHoursRequired);
-                console.log('Amount Picked:', amountPicked);
-                console.log('Pick Target Output:', pickTargetInt);
-                console.log('Number of Employees:', numberOfEmployees);
-                console.log('Avg cases/hour:', averageCasesPerHour);
-                
-                const now = new Date();
-                console.log('Current Time:', now.toLocaleTimeString());
-            
-                const endOfDay = new Date(now);
-                endOfDay.setHours(22, 0, 0, 0);
-            
-                const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
-                console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
-            
-                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
-                console.log('Picking Hours:', pickingHours);
-            
-                const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
-                console.log('Estimated Finish Time:', estimatedFinishTime.toLocaleTimeString());
-            
-                localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-                return estimatedFinishTime;
-            }
-
-            if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
-                const estimatedFinishTime = estimateFinishTime(
-                    parseInt(numberOfEmployees, 10),
-                    averageCasesPerHour,
-                    parseInt(amountPicked.replace(/,/g, ''), 10),
-                    parseInt(pickTargetOutput.replace(/,/g, ''), 10)
-                );
-            
-                const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-                if (estimatedFinishTimeElement) {
-                    estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-            }
-
         });
     }
 
-    const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
-    
-    if (editPageSubmitBtnMobile) {
-        editPageSubmitBtnMobile.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const pickTargetMobile = localStorage.getItem('pick-target-ta').value.trim();
-            const amountPickedMobile = localStorage.getItem('amount-picked-ta').value.trim();
-            const pickPerfNumOfEmployeesMobile = localStorage.getItem('pp-num-employees').value.trim();
-            const pickPerfCasesPerHrMobile = localStorage.getItem('pp-cases-per-hr').value.trim();
+    function estimateFinishTime(numberOfEmployees, averageCasesPHour, amountPicked, pickTargetOutput) {
+        const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
+        const remainingCases = pickTargetInt - amountPicked;
+        const totalCapacityPerHour = numberOfEmployees * averageCasesPHour;
+        const totalHoursRequired = remainingCases / totalCapacityPerHour;
 
-            // Store the input values in localStorage
-            if (pickTargetMobile) {
-                localStorage.setItem('pickTarget', pickTargetMobile);
-            }
-            if (amountPickedMobile) {
-                localStorage.setItem('amount-picked-output', amountPickedMobile);
-            }
-            if (pickPerfNumOfEmployeesMobile) {
-                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-            }
-            if (pickPerfCasesPerHrMobile) {
-                localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
-            }
+        const now = new Date();
+        const endOfDay = new Date(now);
+        endOfDay.setHours(22, 0, 0, 0);
 
-            // Optionally redirect to chill.html or another page
-            window.location.href = 'chill.html';
-        });
+        const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
+        const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
+
+        const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
+        return estimatedFinishTime;
     }
+});
 
-    const pickTargetOutput = localStorage.getItem('pickTarget');
-    const amountPicked = localStorage.getItem('amount-picked-output');
-    const numberOfEmployees = localStorage.getItem('numberOfEmployees');
-    const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const averageCasesPerHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
+// On the chill.html page, display the estimated finish time and other stored data
+document.addEventListener('DOMContentLoaded', function() {
     const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
-
     if (estimatedFinishTime) {
         const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
         if (estimatedFinishTimeElement) {
             estimatedFinishTimeElement.textContent = estimatedFinishTime;
         }
     }
+
+    const pickTargetOutput = localStorage.getItem('pickTarget');
+    const amountPicked = localStorage.getItem('amount-picked-output');
+    const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+    const lastUpdated = localStorage.getItem('chillLastUpdated');
 
     if (pickTargetOutput) {
         const pickTargetElement = document.getElementById('pick-target');
