@@ -200,6 +200,56 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
+
+            function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
+
+                const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
+                const remainingCases = pickTargetInt - amountPicked;
+                const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
+                const totalHoursRequired = remainingCases / totalCapacityPerHour;
+                
+                console.log('Remaining Cases:', remainingCases);
+                console.log('Total Capacity Per Hour:', totalCapacityPerHour);
+                console.log('Total Hours Required:', totalHoursRequired);
+                console.log('Amount Picked:', amountPicked);
+                console.log('Pick Target Output:', pickTargetInt);
+                console.log('Number of Employees:', numberOfEmployees);
+                console.log('Avg cases/hour:', averageCasesPerHour);
+                
+                const now = new Date();
+                console.log('Current Time:', now.toLocaleTimeString());
+            
+                const endOfDay = new Date(now);
+                endOfDay.setHours(22, 0, 0, 0);
+            
+                const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
+                console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
+            
+                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
+                console.log('Picking Hours:', pickingHours);
+            
+                const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
+                console.log('Estimated Finish Time:', estimatedFinishTime.toLocaleTimeString());
+            
+                localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+                return estimatedFinishTime;
+            }
+
+            if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
+                const estimatedFinishTime = estimateFinishTime(
+                    parseInt(numberOfEmployees, 10),
+                    averageCasesPerHour,
+                    parseInt(amountPicked.replace(/,/g, ''), 10),
+                    parseInt(pickTargetOutput.replace(/,/g, ''), 10)
+                );
+            
+                const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+                if (estimatedFinishTimeElement) {
+                    estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+            }
+
         });
     }
 
@@ -237,6 +287,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const averageCasesPerHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
+    const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
+
+    if (estimatedFinishTime) {
+        const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+        if (estimatedFinishTimeElement) {
+            estimatedFinishTimeElement.textContent = estimatedFinishTime;
+        }
+    }
 
     if (pickTargetOutput) {
         const pickTargetElement = document.getElementById('pick-target');
@@ -265,69 +323,4 @@ document.addEventListener('DOMContentLoaded', function() {
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
-    
-    // Retrieve the frozen finish time from localStorage
-let frozenFinishTime = localStorage.getItem('frozenFinishTime');
-
-function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
-    // Check if the finish time has already been frozen
-    if (frozenFinishTime) {
-        const frozenTime = new Date(frozenFinishTime);
-        console.log('Frozen Finish Time:', frozenTime.toLocaleTimeString());
-        return frozenTime; // Return the frozen time without further calculations
-    }
-
-    const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
-    const remainingCases = pickTargetInt - amountPicked;
-    const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
-    const totalHoursRequired = remainingCases / totalCapacityPerHour;
-    
-    console.log('Remaining Cases:', remainingCases);
-    console.log('Total Capacity Per Hour:', totalCapacityPerHour);
-    console.log('Total Hours Required:', totalHoursRequired);
-    console.log('Amount Picked:', amountPicked);
-    console.log('Pick Target Output:', pickTargetInt);
-    console.log('Number of Employees:', numberOfEmployees);
-    console.log('Avg cases/hour:', averageCasesPerHour);
-    
-    const now = new Date();
-    console.log('Current Time:', now.toLocaleTimeString());
-
-    // If totalHoursRequired is less than or equal to 1, freeze the finish time
-    if (remainingCases <= totalCapacityPerHour) {
-        frozenFinishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
-        localStorage.setItem('frozenFinishTime', frozenFinishTime); // Store the frozen time in localStorage
-        console.log('Frozen Finish Time:', frozenFinishTime.toLocaleTimeString());
-        alert('All items in the Chilled Region will be picked within the next hour.');
-        return frozenFinishTime;
-    }
-
-    const endOfDay = new Date(now);
-    endOfDay.setHours(22, 0, 0, 0);
-
-    const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
-    console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
-
-    const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
-    console.log('Picking Hours:', pickingHours);
-
-    const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
-    console.log('Estimated Finish Time:', estimatedFinishTime.toLocaleTimeString());
-
-    return estimatedFinishTime;
-}
-
-if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
-    const estimatedFinishTime = estimateFinishTime(
-        parseInt(numberOfEmployees, 10),
-        averageCasesPerHour,
-        parseInt(amountPicked.replace(/,/g, ''), 10),
-        parseInt(pickTargetOutput.replace(/,/g, ''), 10)
-    );
-
-    const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-    if (estimatedFinishTimeElement) {
-        estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-}
 });
