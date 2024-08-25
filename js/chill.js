@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function clearData() {
 
         const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&!localStorage.getItem('averageCasesPerHour') &&
-                          !localStorage.getItem('frozenFinishTime') &&
+                          !localStorage.getItem('estimated-finish-time') &&
                           !localStorage.getItem('numberOfEmployees') &&
                           !localStorage.getItem('amount-picked-output') &&
                           !localStorage.getItem('pickTarget');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else { // Remove the relevant items from local storage
             localStorage.removeItem('averageCasesPerHourList');
             localStorage.removeItem('averageCasesPerHour');
-            localStorage.removeItem('frozenFinishTime');
+            localStorage.removeItem('estimated-finish-time');
             localStorage.removeItem('numberOfEmployees');
             localStorage.removeItem('amount-picked-output');
             localStorage.removeItem('pickTarget');
