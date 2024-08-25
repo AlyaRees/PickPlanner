@@ -4,7 +4,7 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Assigns all html element ids to a const variable to be used in the following functions
+    // Assigns all html element ids to a const variable to be used in the following instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
     const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
@@ -28,12 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to clear average cases per hour data from local storage
     function clearData() {
 
+        // Instances of the elements with no data in them
         const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&!localStorage.getItem('averageCasesPerHour') &&
                           !localStorage.getItem('estimated-finish-time') &&
                           !localStorage.getItem('numberOfEmployees') &&
                           !localStorage.getItem('amount-picked-output') &&
                           !localStorage.getItem('pickTarget');
 
+        // If each element has no data stored in it, then send the following alert to user
         if (isDataCleared) {
             alert('Data has already been cleared.');
         } else { // Remove the relevant items from local storage
@@ -45,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('pickTarget');
 
             alert('All data has been cleared successfully.');
+
+            // Refreshes the page
             window.location.reload();
         }
 }

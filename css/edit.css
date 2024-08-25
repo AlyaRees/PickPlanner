@@ -138,7 +138,7 @@ h1 {
     white-space: nowrap;
 }
 
-.drop-zone:hover {
+.drop-zone.hover {
     background-color: hsla(270, 20%, 2%, 0.145);
 }
 
