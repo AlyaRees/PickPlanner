@@ -188,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         alert('The Excel file does not have the expected format.');
                     }
                 };
-                reader.readAsArrayBuffer(file);
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
