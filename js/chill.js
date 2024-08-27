@@ -28,21 +28,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to clear average cases per hour data from local storage
     function clearData() {
 
-        const isDataCleared = !localStorage.getItem('averageCasesPerHourList') &&!localStorage.getItem('averageCasesPerHour') &&
-                          !localStorage.getItem('frozenFinishTime') &&
+        const isDataCleared = !localStorage.getItem('averageCasesPerHour') &&
                           !localStorage.getItem('numberOfEmployees') &&
                           !localStorage.getItem('amount-picked-output') &&
-                          !localStorage.getItem('pickTarget');
+                          !localStorage.getItem('pickTarget') &&
+                          !localStorage.removeItem('estimated-finish-time');
 
         if (isDataCleared) {
             alert('Data has already been cleared.');
         } else { // Remove the relevant items from local storage
-            localStorage.removeItem('averageCasesPerHourList');
             localStorage.removeItem('averageCasesPerHour');
             localStorage.removeItem('frozenFinishTime');
             localStorage.removeItem('numberOfEmployees');
             localStorage.removeItem('amount-picked-output');
             localStorage.removeItem('pickTarget');
+            localStorage.removeItem('estimated-finish-time');
 
             alert('All data has been cleared successfully.');
             window.location.reload();
@@ -157,21 +157,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         // Extract the average number of cases picked per hour from the 9th column
                         const averageCasesPerHour = parseFloat(lastRow[8]);
-                        if (!isNaN(averageCasesPerHour)) {
-                            let averageCasesList = JSON.parse(localStorage.getItem('averageCasesPerHourList')) || [];
-                            averageCasesList.push(averageCasesPerHour);
-                            // Update the list in local storage
-                            localStorage.setItem('averageCasesPerHourList', JSON.stringify(averageCasesList));
-                            
-                            // Calculate the new average of all stored average cases per hour
-                            const totalCases = averageCasesList.reduce((total, num) => total + num, 0);
-                            const averageOfAllCases = totalCases / averageCasesList.length;
                             // Store the new average in local storage to be used in the calculation
-                            localStorage.setItem('averageCasesPerHour', averageOfAllCases);
-                        } else {
-                            alert('Invalid data format for average cases per hour.');
-                            return;
-                        }
+                            localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
 
                         const employeeRows = jsonData.filter(row => {
                             const firstCell = row[0];
@@ -180,6 +167,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         const numberOfEmployees = employeeRows.length;
                         localStorage.setItem('numberOfEmployees', numberOfEmployees);
+
+                        if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
+                            const estimatedFinishTime = estimateFinishTime(
+                                parseInt(numberOfEmployees, 10),
+                                averageCasesPerHour,
+                                parseInt(amountPicked.replace(/,/g, ''), 10),
+                                parseInt(pickTargetOutput.replace(/,/g, ''), 10)
+                            );
+                        
+                            const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+                            if (estimatedFinishTimeElement) {
+                                estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            }
+                        }
 
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
@@ -234,20 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
                 return estimatedFinishTime;
-            }
-
-            if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
-                const estimatedFinishTime = estimateFinishTime(
-                    parseInt(numberOfEmployees, 10),
-                    averageCasesPerHour,
-                    parseInt(amountPicked.replace(/,/g, ''), 10),
-                    parseInt(pickTargetOutput.replace(/,/g, ''), 10)
-                );
-            
-                const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-                if (estimatedFinishTimeElement) {
-                    estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
             }
 
         });
