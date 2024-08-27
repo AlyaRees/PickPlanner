@@ -168,20 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const numberOfEmployees = employeeRows.length;
                         localStorage.setItem('numberOfEmployees', numberOfEmployees);
 
-                        if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
-                            const estimatedFinishTime = estimateFinishTime(
-                                parseInt(numberOfEmployees, 10),
-                                averageCasesPerHour,
-                                parseInt(amountPicked.replace(/,/g, ''), 10),
-                                parseInt(pickTargetOutput.replace(/,/g, ''), 10)
-                            );
-                        
-                            const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
-                            if (estimatedFinishTimeElement) {
-                                estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                            }
-                        }
-
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                         localStorage.setItem('chillLastUpdated', formattedTime);
@@ -237,37 +223,51 @@ document.addEventListener('DOMContentLoaded', function() {
                 return estimatedFinishTime;
             }
 
+            if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
+                const estimatedFinishTime = estimateFinishTime(
+                    parseInt(numberOfEmployees, 10),
+                    averageCasesPerHour,
+                    parseInt(amountPicked.replace(/,/g, ''), 10),
+                    parseInt(pickTargetOutput.replace(/,/g, ''), 10)
+                );
+            
+                const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
+                if (estimatedFinishTimeElement) {
+                    estimatedFinishTimeElement.textContent = estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+            }
+
         });
     }
 
-    const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
+    // const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
     
-    if (editPageSubmitBtnMobile) {
-        editPageSubmitBtnMobile.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const pickTargetMobile = localStorage.getItem('pick-target-ta').value.trim();
-            const amountPickedMobile = localStorage.getItem('amount-picked-ta').value.trim();
-            const pickPerfNumOfEmployeesMobile = localStorage.getItem('pp-num-employees').value.trim();
-            const pickPerfCasesPerHrMobile = localStorage.getItem('pp-cases-per-hr').value.trim();
+    // if (editPageSubmitBtnMobile) {
+    //     editPageSubmitBtnMobile.addEventListener('submit', function(event) {
+    //         event.preventDefault();
+    //         const pickTargetMobile = localStorage.getItem('pick-target-ta').value.trim();
+    //         const amountPickedMobile = localStorage.getItem('amount-picked-ta').value.trim();
+    //         const pickPerfNumOfEmployeesMobile = localStorage.getItem('pp-num-employees').value.trim();
+    //         const pickPerfCasesPerHrMobile = localStorage.getItem('pp-cases-per-hr').value.trim();
 
-            // Store the input values in localStorage
-            if (pickTargetMobile) {
-                localStorage.setItem('pickTarget', pickTargetMobile);
-            }
-            if (amountPickedMobile) {
-                localStorage.setItem('amount-picked-output', amountPickedMobile);
-            }
-            if (pickPerfNumOfEmployeesMobile) {
-                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-            }
-            if (pickPerfCasesPerHrMobile) {
-                localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
-            }
+    //         // Store the input values in localStorage
+    //         if (pickTargetMobile) {
+    //             localStorage.setItem('pickTarget', pickTargetMobile);
+    //         }
+    //         if (amountPickedMobile) {
+    //             localStorage.setItem('amount-picked-output', amountPickedMobile);
+    //         }
+    //         if (pickPerfNumOfEmployeesMobile) {
+    //             localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
+    //         }
+    //         if (pickPerfCasesPerHrMobile) {
+    //             localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
+    //         }
 
-            // Optionally redirect to chill.html or another page
-            window.location.href = 'chill.html';
-        });
-    }
+    //         // Optionally redirect to chill.html or another page
+    //         window.location.href = 'chill.html';
+    //     });
+    // }
 
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const amountPicked = localStorage.getItem('amount-picked-output');
