@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         alert('The Excel file does not have the expected format.');
                     }
                 };
-
                 reader.readAsArrayBuffer(file);
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
@@ -145,14 +144,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     const worksheet = workbook.Sheets[sheetName];
                     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
+                    console.log('Pick Perf JSON data:', jsonData);
+
                     const lastRow = jsonData[jsonData.length - 1];
+
+                    console.log("lastRow:", lastRow);
 
                     if (lastRow && lastRow.length <= 11) {
                         const averageCasesPerHour = parseFloat(lastRow[8]);
                         if (!isNaN(averageCasesPerHour)) {
                             let averageCasesList = JSON.parse(localStorage.getItem('averageCasesPerHourList')) || [];
+                            console.log("Avg Cases Per Hour List:", averageCasesList);
                             averageCasesList.push(averageCasesPerHour);
                             localStorage.setItem('averageCasesPerHourList', JSON.stringify(averageCasesList));
+                            console.log("Avg Cases Per Hour List:", averageCasesList);
 
                             const totalCases = averageCasesList.reduce((total, num) => total + num, 0);
                             const averageOfAllCases = totalCases / averageCasesList.length;
@@ -169,17 +174,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         const pickTargetOutput = localStorage.getItem('pick-target');
                         const amountPicked = localStorage.getItem('amount-picked-output');
                         const numberOfEmployees = localStorage.getItem('numberOfEmployees');
-                        const averageCasesPHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
+                        const averageOfAllCasesPHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
 
-                        if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPHour > 0) {
+                        if (pickTargetOutput && amountPicked && numberOfEmployees && averageOfAllCasesPHour > 0) {
                             const estimatedFinishTime = estimateFinishTime(
                                 parseInt(numberOfEmployees, 10),
-                                averageCasesPHour,
+                                averageOfAllCasesPHour,
                                 parseInt(amountPicked.replace(/,/g, ''), 10),
                                 parseInt(pickTargetOutput.replace(/,/g, ''), 10)
                             );
 
-                            localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                            localStorage.setItem('finishTime', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
                             window.location.href = 'chill.html';
                         }
                         window.location.href = 'chill.html';
@@ -188,16 +193,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         alert('The Excel file does not have the expected format.');
                     }
                 };
+                reader.readAsArrayBuffer(file);
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
         });
     }
 
-    function estimateFinishTime(numberOfEmployees, averageCasesPHour, amountPicked, pickTargetOutput) {
+    function estimateFinishTime(numberOfEmployees, averageOfAllCasesPHour, amountPicked, pickTargetOutput) {
         const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
         const remainingCases = pickTargetInt - amountPicked;
-        const totalCapacityPerHour = numberOfEmployees * averageCasesPHour;
+        const totalCapacityPerHour = numberOfEmployees * averageOfAllCasesPHour;
         const totalHoursRequired = remainingCases / totalCapacityPerHour;
 
         const now = new Date();
@@ -206,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
         const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
-
         const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
         return estimatedFinishTime;
     }
@@ -214,18 +219,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // On the chill.html page, display the estimated finish time and other stored data
 document.addEventListener('DOMContentLoaded', function() {
-    const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
+
+    const pickTargetOutput = localStorage.getItem('pickTarget');
+    const amountPicked = localStorage.getItem('amount-picked-output');
+    const numberOfEmployees = localStorage.getItem('numberOfEmployees');
+    const lastUpdated = localStorage.getItem('chillLastUpdated');
+    const estimatedFinishTime = localStorage.getItem('finishTime');
+
     if (estimatedFinishTime) {
         const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
         if (estimatedFinishTimeElement) {
             estimatedFinishTimeElement.textContent = estimatedFinishTime;
         }
     }
-
-    const pickTargetOutput = localStorage.getItem('pickTarget');
-    const amountPicked = localStorage.getItem('amount-picked-output');
-    const numberOfEmployees = localStorage.getItem('numberOfEmployees');
-    const lastUpdated = localStorage.getItem('chillLastUpdated');
 
     if (pickTargetOutput) {
         const pickTargetElement = document.getElementById('pick-target');
