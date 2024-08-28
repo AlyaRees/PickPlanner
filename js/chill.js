@@ -253,12 +253,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Current Time:', now.toLocaleTimeString());
             
                 const endOfDay = new Date(now);
+                console.log('endOfDay:', endOfDay);
                 endOfDay.setHours(22, 0, 0, 0);
             
                 const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
                 console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
             
-                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
+                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay) + 0.5;
                 console.log('Picking Hours:', pickingHours);
             
                 const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
