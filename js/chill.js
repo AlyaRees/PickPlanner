@@ -174,9 +174,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         // Extract the average number of cases picked per hour from the 9th column
                         const averageCasesPerHour = parseFloat(lastRow[8]);
+                        const avgCasesPHData = averageCasesPerHour;
+                        localStorage.setItem('avg-cases-ph-calc', avgCasesPHData);
+                        // console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
                         // console.log('Avg cases/hour:', averageCasesPerHour);
-                            // Store the new average in local storage to be used in the calculation
-                            localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
 
                             // Go through each row in the excel file converted to JSON data
                             // return the data from each cell that is a string and matches the regex pattern
@@ -190,12 +191,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         // console.log('Raw Pick Target:', rawPickTarget);
 
                         const numberOfEmployees = employeeRows.length;
+                        const numOfEmployeesCalc = numberOfEmployees;
+                        localStorage.setItem('num-of-employees-calc', numOfEmployeesCalc);
                         localStorage.setItem('numberOfEmployees', numberOfEmployees);
+                        // console.log('Avg cases/hour:', averageCasesPerHour);
+                        // console.log('numberOfEmployees:', numberOfEmployees);
+                        // console.log('num-of-employees-calc:', numOfEmployeesCalc);
 
                         // Functionality for getting last updated time
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                         localStorage.setItem('chillLastUpdated', formattedTime);
+                        localStorage.getItem('averageCasesPerHour', averageCasesPerHour);
+                        localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
+                        // console.log('Avg cases/hour:', averageCasesPerHour);
 
                         alert(`File processed successfully!`);
 
@@ -213,15 +222,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
 
+            const avgCasesPerHourCalc = localStorage.getItem('avg-cases-ph-calc');
+            console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
             const rawPickTarget = localStorage.getItem('raw-pick-target');
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
-            if (isNaN(rawPickTarget)) {
+            const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
+            console.log('numOfEmployeesCalc:', numOfEmployeesCalc);
+            if (isNaN(numOfEmployeesCalc)) {
                 console.log('Its a string!');
             } else {
-                console.log('Raw Pick Target:', rawPickTarget);
+                console.log('Its not a string!:', numOfEmployeesCalc);
             }
-            console.log('numberOfEmployees:', numberOfEmployees);
-            console.log('Avg cases/hour:', averageCasesPerHour);
             console.log('Raw Amount Picked:', rawAmountPicked);
 
             function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
