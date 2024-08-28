@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const remainingCases = rawPickTarget - rawAmountPicked;
                 const totalCapacityPerHour = numOfEmployeesCalc * avgCasesPerHourCalc;
-                const totalHoursRequired = remainingCases / totalCapacityPerHour;
+                const totalHoursRequired = remainingCases / totalCapacityPerHour + 0.5;
                 
                 console.log('Remaining Cases:', remainingCases);
                 console.log('Total Capacity Per Hour:', totalCapacityPerHour);
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
                 console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
             
-                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay) + 0.5;
+                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
                 console.log('Picking Hours:', pickingHours);
             
                 const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
