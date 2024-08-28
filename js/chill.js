@@ -223,32 +223,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const avgCasesPerHourCalc = localStorage.getItem('avg-cases-ph-calc');
-            console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
+            // console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
             const rawPickTarget = localStorage.getItem('raw-pick-target');
+            console.log('raw Pick Target:', rawPickTarget);
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
             const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
-            console.log('numOfEmployeesCalc:', numOfEmployeesCalc);
-            if (isNaN(numOfEmployeesCalc)) {
-                console.log('Its a string!');
-            } else {
-                console.log('Its not a string!:', numOfEmployeesCalc);
-            }
-            console.log('Raw Amount Picked:', rawAmountPicked);
+            // if (isNaN(numOfEmployeesCalc)) {
+            //     console.log('Its a string!');
+            // } else {
+            //     console.log('Its not a string!:', numOfEmployeesCalc);
+            // }
+            // console.log('Raw Amount Picked:', rawAmountPicked);
 
-            function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
+            function estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHourCalc) {
 
-                const pickTargetInt = parseInt(pickTargetOutput.replace(/,/g, ''), 10);
-                const remainingCases = pickTargetInt - amountPicked;
-                const totalCapacityPerHour = numberOfEmployees * averageCasesPerHour;
+                const remainingCases = rawPickTarget - rawAmountPicked;
+                const totalCapacityPerHour = numOfEmployeesCalc * avgCasesPerHourCalc;
                 const totalHoursRequired = remainingCases / totalCapacityPerHour;
                 
                 console.log('Remaining Cases:', remainingCases);
                 console.log('Total Capacity Per Hour:', totalCapacityPerHour);
                 console.log('Total Hours Required:', totalHoursRequired);
-                console.log('Amount Picked:', amountPicked);
-                console.log('Pick Target Output:', pickTargetInt);
-                console.log('Number of Employees:', numberOfEmployees);
-                console.log('Avg cases/hour:', averageCasesPerHour);
+                console.log('Amount Picked:', rawAmountPicked);
+                console.log('Pick Target Output:', rawPickTarget);
+                console.log('Number of Employees:', numOfEmployeesCalc);
+                console.log('Avg cases/hour:', avgCasesPerHourCalc);
                 
                 const now = new Date();
                 console.log('Current Time:', now.toLocaleTimeString());
@@ -270,12 +269,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return estimatedFinishTime;
             }
 
-            if (pickTargetOutput && amountPicked && numberOfEmployees && averageCasesPerHour > 0) {
+            if (rawPickTarget && rawAmountPicked && numOfEmployeesCalc && avgCasesPerHourCalc > 0) {
                 const estimatedFinishTime = estimateFinishTime(
-                    parseInt(numberOfEmployees, 10),
-                    averageCasesPerHour,
-                    parseInt(amountPicked.replace(/,/g, ''), 10),
-                    parseInt(pickTargetOutput.replace(/,/g, ''), 10)
+                    rawPickTarget,
+                    rawAmountPicked,
+                    numOfEmployeesCalc,
+                    avgCasesPerHourCalc
                 );
             
                 const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
@@ -320,7 +319,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountPicked = localStorage.getItem('amount-picked-output');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const averageCasesPerHour = parseFloat(localStorage.getItem('averageCasesPerHour')) || 0;
     const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
 
     if (estimatedFinishTime) {
