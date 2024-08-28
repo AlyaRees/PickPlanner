@@ -4,7 +4,7 @@ import { instructionBox, formatNumberWithCommas } from "./main.js";
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Assigns all html element ids to a const variable to be used in the following functions
+    // Assigns all html element ids to a const variable to be used in the instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
     const pickTargetInstructionBox = document.getElementById('pick-target-instruction-box');
@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const ppInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile');
     const ppCloseInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile-btn-close');
 
+    // Assigns the clear data button to variable 'clearDataBtn' 
     const clearDataBtn = document.getElementById('clear-data');
     
-    // Attach event listener to the clear data button
+    // Attach event listener to the clear data button that listens for a users 'click'
     if (clearDataBtn) {
         clearDataBtn.addEventListener('click', clearData);
     }
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to clear average cases per hour data from local storage
     function clearData() {
 
+        // isDataCleared checks if each elements local storage is empty
         const isDataCleared = !localStorage.getItem('averageCasesPerHour') &&
                           !localStorage.getItem('numberOfEmployees') &&
                           !localStorage.getItem('amount-picked-output') &&
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 }
 
-    // Uses function that shows or hides the instruction box when the help icon is clicked
+    // Uses instructionBox function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
     instructionBox(ptHelpIconMobile, pickTargetInstructionBoxMobile, ptCloseInstructionButtonMobile);
@@ -89,15 +91,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
                         // Extracting Task Allocated Total Quantity and Task Picked Quantity
                         const lastRow = jsonData[jsonData.length - 1];
+                        console.log('Wave Check lastRow:', lastRow);
     
                         if (lastRow && lastRow.length >= 8) {
-                            const taskAllocatedTotalQuantity = formatNumberWithCommas(lastRow[25]);
+                            const rawPickTarget = lastRow[25];
+                            console.log('Raw Pick Target:', rawPickTarget);
+                            const pickTargetFormatted = formatNumberWithCommas(rawPickTarget);
+                            console.log('Pick Target formatted:', pickTargetFormatted);
                             const rawAmountPicked = lastRow[26];
-                            const taskPickedQuantity = formatNumberWithCommas(rawAmountPicked);
+                            console.log('Raw Amount Picked:', rawAmountPicked);
+                            const amountPickedFormatted = formatNumberWithCommas(rawAmountPicked);
+                            console.log('Amount Picked formatted:', amountPickedFormatted);
     
-                            if (/^\d+(,\d+)*$/.test(taskAllocatedTotalQuantity) && /^\d+(,\d+)*$/.test(taskPickedQuantity)) {
-                                localStorage.setItem('pickTarget', taskAllocatedTotalQuantity);
-                                localStorage.setItem('amount-picked-output', taskPickedQuantity);
+                            // Tests whether pick target and amount picked number match the regex patterns
+                            if (/^\d+(,\d+)*$/.test(pickTargetFormatted) && /^\d+(,\d+)*$/.test(amountPickedFormatted)) {
+
+                                // Store their values in local storage
+                                localStorage.setItem('pickTarget', pickTargetFormatted);
+                                localStorage.setItem('amount-picked-output', amountPickedFormatted);
                                 
                                 const now = new Date();
                                 const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;

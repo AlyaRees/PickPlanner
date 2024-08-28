@@ -191,20 +191,6 @@ h1 {
     z-index: 1000;
 }
 
-#close-instruction {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#close-instruction:hover {
-    background: #0056b3;
-}
-
 .instruction-box-btn {
     margin-top: 1.5rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
