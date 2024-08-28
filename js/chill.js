@@ -91,25 +91,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
                         // Extracting Task Allocated Total Quantity and Task Picked Quantity
                         const lastRow = jsonData[jsonData.length - 1];
-                        console.log('Wave Check lastRow:', lastRow);
+                        // console.log('Wave Check lastRow:', lastRow);
     
                         if (lastRow && lastRow.length >= 8) {
                             const rawPickTarget = lastRow[25];
-                            console.log('Raw Pick Target:', rawPickTarget);
+                            // console.log('Raw Pick Target:', rawPickTarget);
                             const pickTargetFormatted = formatNumberWithCommas(rawPickTarget);
-                            console.log('Pick Target formatted:', pickTargetFormatted);
+                            // console.log('Pick Target formatted:', pickTargetFormatted);
                             const rawAmountPicked = lastRow[26];
-                            console.log('Raw Amount Picked:', rawAmountPicked);
+                            // console.log('Raw Amount Picked:', rawAmountPicked);
                             const amountPickedFormatted = formatNumberWithCommas(rawAmountPicked);
-                            console.log('Amount Picked formatted:', amountPickedFormatted);
+                            // console.log('Amount Picked formatted:', amountPickedFormatted);
     
                             // Tests whether pick target and amount picked number match the regex patterns
                             if (/^\d+(,\d+)*$/.test(pickTargetFormatted) && /^\d+(,\d+)*$/.test(amountPickedFormatted)) {
 
-                                // Store their values in local storage
+                                // Store values in local storage for use in calculation
+                                localStorage.setItem('raw-pick-target', rawPickTarget);
+                                // console.log('Raw Pick Target:', rawPickTarget);
+                                localStorage.setItem('raw-amount-picked', rawAmountPicked);
+                                // Store values to be displayed on chill html in local storage
                                 localStorage.setItem('pickTarget', pickTargetFormatted);
                                 localStorage.setItem('amount-picked-output', amountPickedFormatted);
                                 
+                                // Functionality for last updated time
                                 const now = new Date();
                                 const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                                 localStorage.setItem('chillLastUpdated', formattedTime);
@@ -163,22 +168,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
                     const lastRow = jsonData[jsonData.length - 1];
+                    // console.log('Pick Perf lastRow;', lastRow);
 
                     if (lastRow && lastRow.length <= 11) {
 
                         // Extract the average number of cases picked per hour from the 9th column
                         const averageCasesPerHour = parseFloat(lastRow[8]);
+                        // console.log('Avg cases/hour:', averageCasesPerHour);
                             // Store the new average in local storage to be used in the calculation
                             localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
 
+                            // Go through each row in the excel file converted to JSON data
+                            // return the data from each cell that is a string and matches the regex pattern
                         const employeeRows = jsonData.filter(row => {
                             const firstCell = row[0];
                             return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
                         });
+                        // console.log('employeeRows:', employeeRows);
+                        // console.log('Avg cases/hour:', averageCasesPerHour);
+                        // console.log('Raw amountPicked:', amountPicked);
+                        // console.log('Raw Pick Target:', rawPickTarget);
 
                         const numberOfEmployees = employeeRows.length;
                         localStorage.setItem('numberOfEmployees', numberOfEmployees);
 
+                        // Functionality for getting last updated time
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                         localStorage.setItem('chillLastUpdated', formattedTime);
@@ -198,6 +212,17 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
+
+            const rawPickTarget = localStorage.getItem('raw-pick-target');
+            const rawAmountPicked = localStorage.getItem('raw-amount-picked');
+            if (isNaN(rawPickTarget)) {
+                console.log('Its a string!');
+            } else {
+                console.log('Raw Pick Target:', rawPickTarget);
+            }
+            console.log('numberOfEmployees:', numberOfEmployees);
+            console.log('Avg cases/hour:', averageCasesPerHour);
+            console.log('Raw Amount Picked:', rawAmountPicked);
 
             function estimateFinishTime(numberOfEmployees, averageCasesPerHour, amountPicked) {
 
