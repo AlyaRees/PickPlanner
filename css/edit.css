@@ -209,6 +209,10 @@ h1 {
     .inputForm2 {
         display: block;
     }
+
+    .pick-target-instruction-box {
+        padding: 1.7rem;
+    }
 }
 
 /* Desktop design */
