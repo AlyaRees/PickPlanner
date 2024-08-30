@@ -254,34 +254,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
+    const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
     
-    // if (editPageSubmitBtnMobile) {
-    //     editPageSubmitBtnMobile.addEventListener('submit', function(event) {
-    //         event.preventDefault();
-    //         const pickTargetMobile = localStorage.getItem('pick-target-ta').value.trim();
-    //         const amountPickedMobile = localStorage.getItem('amount-picked-ta').value.trim();
-    //         const pickPerfNumOfEmployeesMobile = localStorage.getItem('pp-num-employees').value.trim();
-    //         const pickPerfCasesPerHrMobile = localStorage.getItem('pp-cases-per-hr').value.trim();
+    if (editPageSubmitBtnMobile) {
+        editPageSubmitBtnMobile.addEventListener('click', function(event) {
+            event.preventDefault();
+            const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
+            const pickTargetMobileCalc = parseInt(pickTargetMobileData);
+            const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
 
-    //         // Store the input values in localStorage
-    //         if (pickTargetMobile) {
-    //             localStorage.setItem('pickTarget', pickTargetMobile);
-    //         }
-    //         if (amountPickedMobile) {
-    //             localStorage.setItem('amount-picked-output', amountPickedMobile);
-    //         }
-    //         if (pickPerfNumOfEmployeesMobile) {
-    //             localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-    //         }
-    //         if (pickPerfCasesPerHrMobile) {
-    //             localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
-    //         }
+            const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
+            const amountPickedMobileCalc = parseInt(amountPickedMobileData);
+            const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
+            const pickPerfNumOfEmployeesMobile = document.getElementById('pp-num-employees').value.trim();
+            const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
 
-    //         // Optionally redirect to chill.html or another page
-    //         window.location.href = 'chill.html';
-    //     });
-    // }
+            // Store the input values in localStorage
+            if (pickTargetMobile && /^\d+(,\d+)*$/.test(pickTargetMobile)) {
+                localStorage.setItem('pickTarget', pickTargetMobile);
+            } else {
+                alert('Please enter a valid number.');
+            }
+
+            if (amountPickedMobile) {
+                localStorage.setItem('amount-picked-output', amountPickedMobile);
+            }
+            if (pickPerfNumOfEmployeesMobile) {
+                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
+            }
+            if (pickPerfCasesPerHrMobile) {
+                localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
+            }
+
+            // Optionally redirect to chill.html or another page
+            window.location.href = 'chill.html';
+        });
+    }
 
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const amountPicked = localStorage.getItem('amount-picked-output');
