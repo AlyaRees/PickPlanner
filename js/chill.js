@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const avgCasesPerHourCalc = localStorage.getItem('avg-cases-ph-calc');
-            // console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
+            console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
             const rawPickTarget = localStorage.getItem('raw-pick-target');
             console.log('raw Pick Target:', rawPickTarget);
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
