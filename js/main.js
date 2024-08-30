@@ -46,3 +46,38 @@
         // "," the string to insert at the matched position 
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    export function estimateFinishTime(pickTargetNum, amountPickedNum, numOfEmployees, averageCasesPerHour) {
+
+        const remainingCases = pickTargetNum - amountPickedNum;
+        const totalCapacityPerHour = numOfEmployees * averageCasesPerHour;
+        const totalHoursRequired = remainingCases / totalCapacityPerHour + 0.5;
+        
+        console.log('Remaining Cases:', remainingCases);
+        console.log('Total Capacity Per Hour:', totalCapacityPerHour);
+        console.log('Total Hours Required:', totalHoursRequired);
+        console.log('Amount Picked:', amountPickedNum);
+        console.log('Pick Target Output:', pickTargetNum);
+        console.log('Number of Employees:', numOfEmployees);
+        console.log('Avg cases/hour:', averageCasesPerHour);
+        
+        const now = new Date();
+        console.log('Current Time:', now.toLocaleTimeString());
+    
+        const endOfDay = new Date(now);
+        console.log('endOfDay:', endOfDay);
+        endOfDay.setHours(22, 0, 0, 0);
+    
+        const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
+        console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
+    
+        const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
+        console.log('Picking Hours:', pickingHours);
+    
+        const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
+        console.log('Estimated Finish Time:', estimatedFinishTime.toLocaleTimeString());
+    
+        localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+        return estimatedFinishTime;
+    }

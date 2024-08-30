@@ -1,5 +1,5 @@
 // Imports functions from another file
-import { instructionBox, formatNumberWithCommas } from "./main.js";
+import { estimateFinishTime, instructionBox, formatNumberWithCommas } from "./main.js";
 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
@@ -234,41 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
             //     console.log('Its not a string!:', numOfEmployeesCalc);
             // }
             // console.log('Raw Amount Picked:', rawAmountPicked);
-
-            function estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHourCalc) {
-
-                const remainingCases = rawPickTarget - rawAmountPicked;
-                const totalCapacityPerHour = numOfEmployeesCalc * avgCasesPerHourCalc;
-                const totalHoursRequired = remainingCases / totalCapacityPerHour + 0.5;
-                
-                console.log('Remaining Cases:', remainingCases);
-                console.log('Total Capacity Per Hour:', totalCapacityPerHour);
-                console.log('Total Hours Required:', totalHoursRequired);
-                console.log('Amount Picked:', rawAmountPicked);
-                console.log('Pick Target Output:', rawPickTarget);
-                console.log('Number of Employees:', numOfEmployeesCalc);
-                console.log('Avg cases/hour:', avgCasesPerHourCalc);
-                
-                const now = new Date();
-                console.log('Current Time:', now.toLocaleTimeString());
             
-                const endOfDay = new Date(now);
-                console.log('endOfDay:', endOfDay);
-                endOfDay.setHours(22, 0, 0, 0);
-            
-                const timeRemainingUntilEndOfDay = (endOfDay - now) / (60 * 60 * 1000);
-                console.log('Time Remaining Until End of Day (hours):', timeRemainingUntilEndOfDay);
-            
-                const pickingHours = Math.min(totalHoursRequired, timeRemainingUntilEndOfDay);
-                console.log('Picking Hours:', pickingHours);
-            
-                const estimatedFinishTime = new Date(now.getTime() + pickingHours * 60 * 60 * 1000);
-                console.log('Estimated Finish Time:', estimatedFinishTime.toLocaleTimeString());
-            
-                localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-                return estimatedFinishTime;
-            }
+            estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHourCalc);
 
             if (rawPickTarget && rawAmountPicked && numOfEmployeesCalc && avgCasesPerHourCalc > 0) {
                 const estimatedFinishTime = estimateFinishTime(
