@@ -266,28 +266,41 @@ document.addEventListener('DOMContentLoaded', function() {
             const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
             const amountPickedMobileCalc = parseInt(amountPickedMobileData);
             const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
-            const pickPerfNumOfEmployeesMobile = document.getElementById('pp-num-employees').value.trim();
+
+            const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
+            const pickPerfNumOfEmployeesMobileCalc = parseFloat(pickPerfNumOfEmployeesMobileData);
+            const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
+
             const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
+            const pickPerfCasesPerHrMobileCalc = parseFloat(pickPerfCasesPerHrMobile);
 
             // Store the input values in localStorage
-            if (pickTargetMobile && /^\d+(,\d+)*$/.test(pickTargetMobile)) {
+            if (/^\d+(,\d+)*$/.test(pickTargetMobile)) {
                 localStorage.setItem('pickTarget', pickTargetMobile);
-            } else {
-                alert('Please enter a valid number.');
+                
+                window.location.href = 'chill.html';
+            
             }
 
-            if (amountPickedMobile) {
+            if (/^\d+(,\d+)*$/.test(amountPickedMobile)) {
                 localStorage.setItem('amount-picked-output', amountPickedMobile);
-            }
-            if (pickPerfNumOfEmployeesMobile) {
-                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-            }
-            if (pickPerfCasesPerHrMobile) {
-                localStorage.setItem('averageCasesPerHour', pickPerfCasesPerHrMobile);
+
+                window.location.href = 'chill.html';
             }
 
-            // Optionally redirect to chill.html or another page
+            if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployeesMobile)) {
+                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
+
+                window.location.href = 'chill.html';
+            }
+
+            if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
+                localStorage.setItem('avg-cases-ph-calc', pickPerfCasesPerHrMobileCalc);
+            }
+
             window.location.href = 'chill.html';
+
+            console.log('avg cases mobile:', pickPerfCasesPerHrMobileCalc);
         });
     }
 
