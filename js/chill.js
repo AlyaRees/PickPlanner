@@ -256,14 +256,17 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
             const pickTargetMobileCalc = parseInt(pickTargetMobileData);
+            console.log('pick target mobile:', pickTargetMobileCalc);
             const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
 
             const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
             const amountPickedMobileCalc = parseInt(amountPickedMobileData);
+            console.log('amount picked mobile:', amountPickedMobileCalc);
             const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
 
             const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfNumOfEmployeesMobileCalc = parseFloat(pickPerfNumOfEmployeesMobileData);
+            console.log('num of employees mobile:', pickPerfNumOfEmployeesMobileCalc);
             const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
 
             const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
@@ -292,10 +295,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
                 localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobileCalc);
             }
-
+            
+            const now = new Date();
+            const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+            localStorage.setItem('chillLastUpdated', formattedTime);
             window.location.href = 'chill.html';
 
-            console.log('avg cases mobile:', pickPerfCasesPerHrMobileCalc);
+            if (pickTargetMobileCalc && amountPickedMobileCalc && pickPerfNumOfEmployeesMobileCalc && pickPerfCasesPerHrMobileCalc) {
+                estimateFinishTime(pickTargetMobileCalc, amountPickedMobileCalc, pickPerfNumOfEmployeesMobileCalc, pickPerfCasesPerHrMobileCalc);
+            }
         });
     }
 
