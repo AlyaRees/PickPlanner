@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
                           !localStorage.getItem('numberOfEmployees') &&
                           !localStorage.getItem('amount-picked-output') &&
                           !localStorage.getItem('pickTarget') &&
-                          !localStorage.removeItem('estimated-finish-time');
+                          !localStorage.removeItem('estimated-finish-time') &&
+                          !localStorage.removeItem('avg-cases-ph-calc');
 
         if (isDataCleared) {
             alert('Data has already been cleared.');
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('amount-picked-output');
             localStorage.removeItem('pickTarget');
             localStorage.removeItem('estimated-finish-time');
+            localStorage.removeItem('avg-cases-ph-calc');
 
             alert('All data has been cleared successfully.');
             window.location.reload();
@@ -173,11 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (lastRow && lastRow.length <= 11) {
 
                         // Extract the average number of cases picked per hour from the 9th column
-                        const averageCasesPerHour = parseFloat(lastRow[8]);
-                        const avgCasesPHData = averageCasesPerHour;
-                        localStorage.setItem('avg-cases-ph-calc', avgCasesPHData);
+                        const avgCasesPerHour = parseFloat(lastRow[8]);
                         // console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
-                        // console.log('Avg cases/hour:', averageCasesPerHour);
+                        console.log('Avg cases/hour 1:', avgCasesPerHour);
+                        localStorage.setItem('avgCasesPerHourCalc', avgCasesPerHour);
+                        console.log('Avg cases/hour 2:', avgCasesPerHour);
 
                             // Go through each row in the excel file converted to JSON data
                             // return the data from each cell that is a string and matches the regex pattern
@@ -185,8 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             const firstCell = row[0];
                             return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
                         });
-                        // console.log('employeeRows:', employeeRows);
-                        // console.log('Avg cases/hour:', averageCasesPerHour);
+                        console.log('employeeRows:', employeeRows);
                         // console.log('Raw amountPicked:', amountPicked);
                         // console.log('Raw Pick Target:', rawPickTarget);
 
@@ -194,17 +195,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         const numOfEmployeesCalc = numberOfEmployees;
                         localStorage.setItem('num-of-employees-calc', numOfEmployeesCalc);
                         localStorage.setItem('numberOfEmployees', numberOfEmployees);
-                        // console.log('Avg cases/hour:', averageCasesPerHour);
-                        // console.log('numberOfEmployees:', numberOfEmployees);
-                        // console.log('num-of-employees-calc:', numOfEmployeesCalc);
 
                         // Functionality for getting last updated time
                         const now = new Date();
                         const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
                         localStorage.setItem('chillLastUpdated', formattedTime);
-                        localStorage.getItem('averageCasesPerHour', averageCasesPerHour);
-                        localStorage.setItem('averageCasesPerHour', averageCasesPerHour);
-                        // console.log('Avg cases/hour:', averageCasesPerHour);
 
                         alert(`File processed successfully!`);
 
@@ -222,27 +217,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
 
-            const avgCasesPerHourCalc = localStorage.getItem('avg-cases-ph-calc');
-            console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
             const rawPickTarget = localStorage.getItem('raw-pick-target');
-            console.log('raw Pick Target:', rawPickTarget);
+            // console.log('raw Pick Target:', rawPickTarget);
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
             const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
-            // if (isNaN(numOfEmployeesCalc)) {
-            //     console.log('Its a string!');
-            // } else {
-            //     console.log('Its not a string!:', numOfEmployeesCalc);
-            // }
+            const avgCasesPerHour = localStorage.getItem('avgCasesPerHourCalc');
+            console.log('Avg cases 3:', avgCasesPerHour);
+            if (isNaN(numOfEmployeesCalc)) {
+                console.log('Its a string!');
+            } else {
+                console.log('Its not a string!:', numOfEmployeesCalc);
+            }
             // console.log('Raw Amount Picked:', rawAmountPicked);
             
-            estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHourCalc);
+            estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHour);
 
-            if (rawPickTarget && rawAmountPicked && numOfEmployeesCalc && avgCasesPerHourCalc > 0) {
+            if (rawPickTarget && rawAmountPicked && numOfEmployeesCalc && avgCasesPerHour > 0) {
                 const estimatedFinishTime = estimateFinishTime(
                     rawPickTarget,
                     rawAmountPicked,
                     numOfEmployeesCalc,
-                    avgCasesPerHourCalc
+                    avgCasesPerHour
                 );
             
                 const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
@@ -295,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
-                localStorage.setItem('avg-cases-ph-calc', pickPerfCasesPerHrMobileCalc);
+                localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobileCalc);
             }
 
             window.location.href = 'chill.html';

@@ -53,16 +53,16 @@
         const totalCapacityPerHour = numOfEmployees * averageCasesPerHour;
         const totalHoursRequired = remainingCases / totalCapacityPerHour + 0.5; // 0.5 for breaks or transition time
         
-        console.log('Remaining Cases:', remainingCases);
-        console.log('Total Capacity Per Hour:', totalCapacityPerHour);
-        console.log('Total Hours Required:', totalHoursRequired);
-        console.log('Amount Picked:', amountPickedNum);
-        console.log('Pick Target Output:', pickTargetNum);
-        console.log('Number of Employees:', numOfEmployees);
-        console.log('Avg cases/hour:', averageCasesPerHour);
+        // console.log('Remaining Cases:', remainingCases);
+        // console.log('Total Capacity Per Hour:', totalCapacityPerHour);
+        // console.log('Total Hours Required:', totalHoursRequired);
+        // console.log('Amount Picked:', amountPickedNum);
+        // console.log('Pick Target Output:', pickTargetNum);
+        // console.log('Number of Employees:', numOfEmployees);
+        // console.log('Avg cases/hour:', averageCasesPerHour);
         
         const now = new Date();
-        console.log('Current Time:', now.toLocaleTimeString());
+        // console.log('Current Time:', now.toLocaleTimeString());
     
         // Calculate shift end time
         const shiftStartTime = new Date(now);
@@ -72,19 +72,19 @@
         shiftEndTime.setHours(22, 0, 0, 0); // End of the shift at 22:00
     
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
-        console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
+        // console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
     
         if (totalHoursRequired <= timeRemainingInShift) {
             // Finish within the shift
             const estimatedFinishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
-            console.log('Estimated Finish Time within Shift:', estimatedFinishTime.toLocaleTimeString());
+            // console.log('Estimated Finish Time within Shift:', estimatedFinishTime.toLocaleTimeString());
             localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             return estimatedFinishTime;
         } else {
             // Calculate the actual finish time beyond the shift
             const extraHoursNeeded = totalHoursRequired - timeRemainingInShift;
             const estimatedFinishTime = new Date(shiftEndTime.getTime() + extraHoursNeeded * 60 * 60 * 1000);
-            console.log('Estimated Finish Time beyond Shift:', estimatedFinishTime.toLocaleTimeString());
+            // console.log('Estimated Finish Time beyond Shift:', estimatedFinishTime.toLocaleTimeString());
             localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             return estimatedFinishTime;
         }
