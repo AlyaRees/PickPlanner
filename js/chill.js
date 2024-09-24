@@ -19,11 +19,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const ppCloseInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile-btn-close');
 
     // Assigns the clear data button to variable 'clearDataBtn' 
-    const clearDataBtn = document.getElementById('clear-data');
+    const chillClearDataBtn = document.getElementById('chill-clear-data');
+    const ambClearDataBtn = document.getElementById('amb-clear-data');
+    const frzClearDataBtn = document.getElementById('frz-clear-data');
     
     // Attach event listener to the clear data button that listens for a users 'click'
-    if (clearDataBtn) {
-        clearDataBtn.addEventListener('click', clearData);
+    if (chillClearDataBtn) {
+        chillClearDataBtn.addEventListener('click', clearData);
+    }
+
+    if (ambClearDataBtn) {
+        ambClearDataBtn.addEventListener('click', clearData);
+    }
+
+    if (frzClearDataBtn) {
+        frzClearDataBtn.addEventListener('click', clearData);
     }
 
     // Function to clear average cases per hour data from local storage
