@@ -264,51 +264,75 @@ document.addEventListener('DOMContentLoaded', function() {
     if (editPageSubmitBtnMobile) {
         editPageSubmitBtnMobile.addEventListener('click', function(event) {
             event.preventDefault();
-            const pickTargetMobileData = document.getElementById('pick-target-ta');
+            const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
+            const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
+            const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
+            const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
 
-            if (!isNaN (pickTargetMobileData)) {
-                pickTargetMobileData.value.trim();
+            let errorMessage = '';
+
+            if (pickTargetMobileData !== '') {
+                if (isNaN(pickTargetMobileData)) {
+                    errorMessage += 'Please enter valid input.';
+                } else {
+                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickTargetMobileData));
+                }
             }
 
-            else {
-                alert('Please enter valid input.');
+            if (amountPickedMobileData !== '') {
+                if (isNaN(amountPickedMobileData)) {
+                    errorMessage += 'Please enter valid input.';
+                } else {
+                    localStorage.setItem('pickTarget', formatNumberWithCommas(amountPickedMobileData));
+                }
+            }
+
+            if (pickPerfNumOfEmployeesMobileData !== '') {
+                if (isNaN(pickPerfNumOfEmployeesMobileData)) {
+                    errorMessage += 'Please enter valid input.';
+                } else {
+                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickPerfNumOfEmployeesMobileData));
+                }
+            }
+
+            if (pickPerfCasesPerHrMobile !== '') {
+                if (isNaN(pickPerfCasesPerHrMobile)) {
+                    errorMessage += 'Please enter valid input.';
+                } else {
+                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickPerfCasesPerHrMobile));
+                }
+            }
+
+            if (errorMessage) {
+                alert(errorMessage);  // Show the error message to the user
+                return;  // Exit the function to prevent submission and navigation
             }
 
             const pickTargetMobileCalc = parseInt(pickTargetMobileData);
             console.log('pick target mobile:', pickTargetMobileCalc);
             const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
 
-            const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
             const amountPickedMobileCalc = parseInt(amountPickedMobileData);
             console.log('amount picked mobile:', amountPickedMobileCalc);
             const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
 
-            const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfNumOfEmployeesMobileCalc = parseFloat(pickPerfNumOfEmployeesMobileData);
             console.log('num of employees mobile:', pickPerfNumOfEmployeesMobileCalc);
             const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
-
-            const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
+            
             const pickPerfCasesPerHrMobileCalc = parseFloat(pickPerfCasesPerHrMobile);
 
             // Store the input values in localStorage
             if (/^\d+(,\d+)*$/.test(pickTargetMobile)) {
                 localStorage.setItem('pickTarget', pickTargetMobile);
-                
-                window.location.href = 'chill.html';
-            
             }
 
             if (/^\d+(,\d+)*$/.test(amountPickedMobile)) {
                 localStorage.setItem('amount-picked-output', amountPickedMobile);
-
-                window.location.href = 'chill.html';
             }
 
             if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployeesMobile)) {
                 localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-
-                window.location.href = 'chill.html';
             }
 
             if (!isNaN(pickPerfCasesPerHrMobileCalc)) {

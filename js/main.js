@@ -91,4 +91,4 @@
             localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             return estimatedFinishTime;
         }
-    }      
+    }
