@@ -33,6 +33,9 @@
     
     export function formatNumberWithCommas(number) {
 
+        let numberStr = number.toString();
+
+        numberStr = numberStr.replace(/^0+(?=\d)/, '');
         // Convert the numeric value input in the functions parameters to a string
         // Replace searches the string and replaces parts of it according the following pattern
         // In the regex \B matches a position that marks the boundary of a word character inside a word, eg; in 'word'
@@ -44,7 +47,7 @@
         // g is the global flag that ensures the replacement is applied to all matches 
         // in the string, not just the first one
         // "," the string to insert at the matched position 
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     export function estimateFinishTime(pickTargetNum, amountPickedNum, numOfEmployees, averageCasesPerHour) {

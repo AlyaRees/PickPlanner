@@ -264,7 +264,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (editPageSubmitBtnMobile) {
         editPageSubmitBtnMobile.addEventListener('click', function(event) {
             event.preventDefault();
-            const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
+            const pickTargetMobileData = document.getElementById('pick-target-ta');
+
+            if (!isNaN (pickTargetMobileData)) {
+                pickTargetMobileData.value.trim();
+            }
+
+            else {
+                alert('Please enter valid input.');
+            }
+
             const pickTargetMobileCalc = parseInt(pickTargetMobileData);
             console.log('pick target mobile:', pickTargetMobileCalc);
             const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
