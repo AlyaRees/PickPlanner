@@ -264,47 +264,32 @@ document.addEventListener('DOMContentLoaded', function() {
     if (editPageSubmitBtnMobile) {
         editPageSubmitBtnMobile.addEventListener('click', function(event) {
             event.preventDefault();
+
             const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
             const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
             const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
 
-            let errorMessage = '';
+            let hasError = false; // Flag to track if there's any invalid input
 
-            if (pickTargetMobileData !== '') {
-                if (isNaN(pickTargetMobileData)) {
-                    errorMessage += 'Please enter valid input.';
-                } else {
-                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickTargetMobileData));
-                }
+            if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) {
+                    hasError = true;
             }
 
-            if (amountPickedMobileData !== '') {
-                if (isNaN(amountPickedMobileData)) {
-                    errorMessage += 'Please enter valid input.';
-                } else {
-                    localStorage.setItem('pickTarget', formatNumberWithCommas(amountPickedMobileData));
+            if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) {
+                    hasError = true;
                 }
+
+            if (pickPerfNumOfEmployeesMobileData !== '' && isNaN(pickPerfNumOfEmployeesMobileData)) {
+                    hasError = true;
             }
 
-            if (pickPerfNumOfEmployeesMobileData !== '') {
-                if (isNaN(pickPerfNumOfEmployeesMobileData)) {
-                    errorMessage += 'Please enter valid input.';
-                } else {
-                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickPerfNumOfEmployeesMobileData));
-                }
+            if (pickPerfCasesPerHrMobile !== '' && isNaN(pickPerfCasesPerHrMobile)) {
+                hasError = true;
             }
 
-            if (pickPerfCasesPerHrMobile !== '') {
-                if (isNaN(pickPerfCasesPerHrMobile)) {
-                    errorMessage += 'Please enter valid input.';
-                } else {
-                    localStorage.setItem('pickTarget', formatNumberWithCommas(pickPerfCasesPerHrMobile));
-                }
-            }
-
-            if (errorMessage) {
-                alert(errorMessage);  // Show the error message to the user
+            if (hasError) {
+                alert('Invalid input detected. Please ensure all fields contain valid numbers.');  // Show the error message to the user
                 return;  // Exit the function to prevent submission and navigation
             }
 
