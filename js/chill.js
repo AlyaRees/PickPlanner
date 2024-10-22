@@ -270,6 +270,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
 
+            if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
+                alert('All fields are empty. Please fill out at least one field.');
+                return; // Stop further execution
+            }
+
             let hasError = false; // Flag to track if there's any invalid input
 
             if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) {
@@ -327,6 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
             localStorage.setItem('chillLastUpdated', formattedTime);
+            
             window.location.href = 'chill.html';
 
             if (pickTargetMobileCalc && amountPickedMobileCalc && pickPerfNumOfEmployeesMobileCalc && pickPerfCasesPerHrMobileCalc) {
