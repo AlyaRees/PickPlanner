@@ -47,7 +47,7 @@
                     <textarea id="amount-picked-ta" placeholder="Amount picked"></textarea>
                 </div>
                 <div class="card">
-                    <p>Pick Performance Report Data:</p><span>
+                    <p>Pick Performance Report Data:<img src="./images/help_icon.svg" alt="Help" id="pp-help-icon-mobile"></p>
                         <textarea id="pp-num-employees" placeholder="Number of employees"></textarea>
                         <textarea id="pp-cases-per-hr" placeholder="Cases per hour"></textarea>
                     </div>
@@ -90,11 +90,25 @@
         <li>Pick target: 'Manhattan Active SCI Reports List' > 'Wave Check Report' > Facility : Biggleswade 
             <ul>From date : yesterday 23:59</ul>
             <ul>To date : today 23:59</ul>
-        <ul>Wave type : Chill Wave</ul>
+            <ul>Wave type : Chill Wave
+            <ul>Leave the rest as is and click 'Finish' at the bottom of the page.</ul>
+        </ul>
         <ul>Paste or type the number in column 'Task Alloc Qty', row 'Overall - Total'.</ul></li>
         <li>Amount picked: column 'Task Picked Qty', row 'Overall - Total'.</li>
     </ol>
     <button id="pt-instruction-box-mobile-btn-close" class="instruction-box-btn">Close</button>
+</div>
+<div id="pp-instruction-box-mobile" class="pick-perf-instruction-box">
+    <ol>
+        <li>Number of employees: 'Manhattan Active SCI Reports List' > (under 'Performance') 'Pick Performance' > Facility : Biggleswade 
+            <ul>From date : today 14:00</ul>
+            <ul>To date : today 22:00</ul>
+        <ul>Pick Zones : CHL - Chill Pick Determination Zone</ul>
+        <ul>Leave the rest as is and click 'Finish' at the bottom of the page.</ul>
+        <ul>Count the rows with employee numbers and type this into the relevant input field.</ul></li>
+        <li>Average cases per hour:</li>
+    </ol>
+    <button id="pp-instruction-box-mobile-btn-close" class="instruction-box-btn">Close</button>
 </div>
     </body>
 </html>
