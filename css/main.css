@@ -143,16 +143,14 @@ h1 {
     white-space: nowrap;
 }
 
+/* Card styling */
 .card {
-    background-color: white;
-    padding: 1rem 1rem 1rem 1rem;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    border-radius: 1rem;
-    text-align: center;
-    border: 2px solid black;
-    height: 500px;
-    width: 450px;
+  background-color: #f8f8f8;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  flex: 1 1 calc(100% - 2rem); /* Full width on small screens */
+  max-width: 400px; /* Optional: set a max width */
 }
 
 .table1 {
@@ -165,11 +163,12 @@ h1 {
 }
 
 .section2 {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     justify-content: space-between;
     margin-top: 1rem;
     font-size: 1rem;
+    gap: 1rem;
+     grid-template-columns: repeat(2, 1fr); /*Two cards per column */
 }
 
 .small-card {
