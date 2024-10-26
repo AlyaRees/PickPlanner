@@ -99,7 +99,7 @@ h1 {
     padding: 1.5rem 0rem 1.5rem 2rem;
     margin-bottom: 1rem;
     font-size: 2rem;
-    border-radius: 1rem;
+    border-radius: 5px;
     text-align: left;
     transition: transform 0.2s ease;
     width: 100%;
@@ -147,10 +147,13 @@ h1 {
 .card {
   background-color: #f8f8f8;
   border: 2px solid black;
-  border-radius: 5px;
+  border-radius: 1rem;
   padding: 1rem;
-  flex: 1 1 calc(100% - 2rem); /* Full width on small screens */
-  max-width: 400px; /* Optional: set a max width */
+  max-width: 400px;
+}
+
+.card p {
+    text-align: center;
 }
 
 .table1 {
