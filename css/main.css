@@ -171,11 +171,10 @@ h1 {
     margin-top: 1rem;
     font-size: 1rem;
     gap: 1rem;
-     grid-template-columns: repeat(2, 1fr); /*Two cards per column */
+    grid-template-columns: repeat(2, 1fr); /*Two cards per column */
 }
 
 .small-card {
-    flex: 0 0 calc(50% - 0.5rem);
     margin-bottom: 1rem;
     padding: 0.5rem;
     vertical-align: top;
