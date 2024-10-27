@@ -281,7 +281,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     hasError = true;
             }
 
+            if (pickTargetMobileData == 0) {
+                hasError = true;
+            }
+
             if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) {
+                    hasError = true;
+                }
+
+                if (amountPickedMobileData == 0) {
                     hasError = true;
                 }
 
@@ -289,7 +297,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     hasError = true;
             }
 
+            if (pickPerfNumOfEmployeesMobileData == 0) {
+                hasError = true;
+            }
+
             if (pickPerfCasesPerHrMobile !== '' && isNaN(pickPerfCasesPerHrMobile)) {
+                hasError = true;
+            }
+            
+            if (pickPerfCasesPerHrMobile == 0) {
                 hasError = true;
             }
 
