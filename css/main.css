@@ -31,6 +31,7 @@ html, body {
     height: 4rem;
     align-items: center;
     display: flex;
+    justify-content: space-between;
     box-shadow: 0 0.5px 6px black;
     width: 100%;
     position: relative;
@@ -47,7 +48,7 @@ html, body {
 .nav-bar button {
     background-color: black;
     border-style: none;
-    height: 4.5rem;
+    height: 4.2rem;
     width: 4.5rem;
 }
 
