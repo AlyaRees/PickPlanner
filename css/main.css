@@ -48,7 +48,7 @@ html, body {
 .nav-bar button {
     background-color: black;
     border-style: none;
-    height: 68px;
+    height: 64px;
     width: 4.5rem;
 }
 
@@ -107,6 +107,27 @@ h1 {
 .card img {
     margin: 0 0 0 1rem;
     width: 2rem;
+}
+
+.drop-down {
+    display: none;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.drop-down ul {
+    width: 9rem;
+    padding: 1rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    color: white;
+}
+
+.drop-down ul:hover {
+    background-color: var(--trans-black);
+    cursor: pointer;
 }
 
 /* Desktop design */
