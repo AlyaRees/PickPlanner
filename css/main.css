@@ -110,6 +110,7 @@ h1 {
 }
 
 .drop-down {
+    right: 0;
     position: fixed;
     display: flex;
     align-items: flex-end;
@@ -242,6 +243,23 @@ h1 {
 
 .section3 a {
     text-decoration: none;
+}
+
+#menu-bar-btn {
+    margin-right: 6.5rem;
+}
+
+#home-btn {
+    margin-left: 1rem;
+}
+
+.nav-bar button:hover {
+    background-color: black;
+}
+
+.drop-down ul {
+    width: 15rem;
+    margin-right: 1rem;
 }
 
 }
