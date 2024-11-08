@@ -110,19 +110,22 @@ h1 {
 }
 
 .drop-down {
-    display: none;
+    position: fixed;
+    display: flex;
     align-items: flex-end;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .drop-down ul {
     width: 9rem;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: black;
     color: white;
+    position: relative;
 }
 
 .drop-down ul:hover {

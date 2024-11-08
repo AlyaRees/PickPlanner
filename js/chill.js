@@ -4,6 +4,24 @@ import { estimateFinishTime, instructionBox, formatNumberWithCommas } from "./ma
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
+    const menuBarButton = document.getElementById('menu-bar-btn');
+
+        if (menuBarButton) {
+            menuBarButton.addEventListener('hover', showDropDown);
+        }
+        
+    const dropDownBox = document.getElementById('dd-box');
+
+    function showDropDown(dropDownBox) {
+        if (dropDownBox) {
+            if (dropDownBox.style.display == "flex") {
+                dropDownBox.style.display = "none";
+            } else {
+                dropDownBox.style.display = "flex";
+            }
+        }
+    }
+
     // Assigns all html element ids to a const variable to be used in the instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
