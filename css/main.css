@@ -119,15 +119,6 @@ h1 {
     justify-content: space-between;
 }
 
-/* Show dropdown when hovering over #menu-bar-btn */
-#menu-bar-btn:hover + .drop-down {
-    display: flex;
-}
-
-.drop-down:hover {
-    display: flex;
-}
-
 .drop-down ul {
     width: 9rem;
     padding: 1rem;
@@ -270,6 +261,14 @@ h1 {
 .drop-down ul {
     width: 15rem;
     margin-right: 1rem;
+}
+
+#menu-bar-btn:hover + .drop-down {
+    display: flex;
+}
+
+.drop-down:hover {
+    display: flex;
 }
 
 }
