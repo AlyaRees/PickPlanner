@@ -95,13 +95,18 @@
 
     export function showDropDown(menuButton, dropDownBox) {
 
-        if (menuButton) {
-            menuButton.addEventListener('click', function() {
-                if (dropDownBox.style.display == 'flex') {
-                    dropDownBox.style.display = 'none';
-                } else {
-                    dropDownBox.style.display = 'flex';
-                }
-            });
+        function toggleDropDown() {
+            dropDownBox.classList.toggle("show");
         }
+
+        menuButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            toggleDropDown();
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!dropDownBox.contains(event.target) && !menuButton.contains(event.target)) {
+                dropDownBox.classList.remove("show");
+            }
+        });
     }
