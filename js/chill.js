@@ -1,12 +1,11 @@
 // Imports functions from another file
-import { estimateFinishTime, instructionBox, formatNumberWithCommas } from "./main.js";
+import { estimateFinishTime, instructionBox, formatNumberWithCommas, showDropDown } from "./main.js";
 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
     const menuButton = document.getElementById('menu-bar-btn');
     const dropDownBox = document.getElementById('dd-box');
-    const desktopOnly = document.querySelector(".desktop-only");
 
     // Assigns all html element ids to a const variable to be used in the instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
@@ -72,20 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
     instructionBox(ptHelpIconMobile, pickTargetInstructionBoxMobile, ptCloseInstructionButtonMobile);
     instructionBox(ppHelpIconMobile, ppInstructionBoxMobile, ppCloseInstructionBoxMobile);
-
-    function showDropDown(menuButton, dropDownBox) {
-
-        if (menuButton) {
-            menuButton.addEventListener('click', function() {
-                if (dropDownBox.style.display == 'flex') {
-                    dropDownBox.style.display = 'none';
-                } else {
-                    dropDownBox.style.display = 'flex';
-                }
-            });
-        }
-    }
-    
 
     showDropDown(menuButton, dropDownBox);
 

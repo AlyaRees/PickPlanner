@@ -92,3 +92,16 @@
             return estimatedFinishTime;
         }
     }
+
+    export function showDropDown(menuButton, dropDownBox) {
+
+        if (menuButton) {
+            menuButton.addEventListener('click', function() {
+                if (dropDownBox.style.display == 'flex') {
+                    dropDownBox.style.display = 'none';
+                } else {
+                    dropDownBox.style.display = 'flex';
+                }
+            });
+        }
+    }
