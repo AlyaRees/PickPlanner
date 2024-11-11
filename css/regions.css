@@ -206,5 +206,22 @@ h1 {
     .section3 {
         margin-top: 1.5rem;
     }
+
+    #menu-bar-btn {
+        margin-right: 6.5rem;
+    }
+
+    .drop-down ul {
+        width: 15rem;
+        margin-right: 1rem;
+    }
+    
+    #menu-bar-btn:hover + .drop-down {
+        display: flex;
+    }
+    
+    .drop-down:hover {
+        display: flex;
+    }
     
 }
