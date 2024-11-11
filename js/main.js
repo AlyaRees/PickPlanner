@@ -96,16 +96,25 @@
     export function showDropDown(menuButton, dropDownBox) {
 
         function toggleDropDown() {
+
+            if (window.innerWidth < 1024) {
             dropDownBox.classList.toggle("show");
         }
+    }
 
         menuButton.addEventListener("click", (event) => {
-            event.stopPropagation();
+            event.stopPropagation(); // Prevent click from bubbling up
             toggleDropDown();
         });
 
         document.addEventListener("click", (event) => {
-            if (!dropDownBox.contains(event.target) && !menuButton.contains(event.target)) {
+            if (window.innerWidth < 1024 && !dropDownBox.contains(event.target) && !menuButton.contains(event.target)) {
+                dropDownBox.classList.remove("show");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth >= 1024) {
                 dropDownBox.classList.remove("show");
             }
         });
