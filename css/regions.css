@@ -84,8 +84,12 @@ h1 {
 .section2 {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 1rem;
+}
+
+.section2 p {
+    text-align: center;
 }
 
 .card {
@@ -209,6 +213,14 @@ h1 {
 
     #menu-bar-btn {
         margin-right: 6.5rem;
+    }
+
+    #home-btn {
+        margin-left: 1rem;
+    }
+
+    .nav-bar button:hover {
+        background-color: black;
     }
 
     .drop-down ul {
