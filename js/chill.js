@@ -274,10 +274,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let hasError = false; // Flag to track if there's any invalid input
             
-            // if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
-            //     alert('All fields are empty. Please fill out at least one field.');
-            //     return; // Stop further execution
-            // }
+            if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
+                alert('All fields are empty. Please fill out at least one field.');
+                return; // Stop further execution
+            }
 
             if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) hasError = true;
             if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) hasError = true;
