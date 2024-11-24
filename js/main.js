@@ -54,7 +54,7 @@
 
         const remainingCases = pickTargetNum - amountPickedNum;
         const totalCapacityPerHour = numOfEmployees * averageCasesPerHour;
-        const breakDurationHours = 0.6;
+        const breakDurationHours = 0.6; // 30 minute break plus 3 minutes walking time to the canteen and back
         const totalHoursRequired = remainingCases / totalCapacityPerHour + breakDurationHours;
         
         console.log('Remaining Cases:', remainingCases);
