@@ -232,16 +232,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const rawPickTarget = localStorage.getItem('raw-pick-target');
-            // console.log('raw Pick Target:', rawPickTarget);
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
             const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
             const avgCasesPerHour = localStorage.getItem('avgCasesPerHourCalc');
+            
             if (isNaN(numOfEmployeesCalc)) {
                 console.log('Its a string!');
             } else {
                 console.log('Its not a string!:', numOfEmployeesCalc);
             }
-            // console.log('Raw Amount Picked:', rawAmountPicked);
             
             estimateFinishTime(rawPickTarget, rawAmountPicked, numOfEmployeesCalc, avgCasesPerHour);
 
@@ -273,92 +272,74 @@ document.addEventListener('DOMContentLoaded', function() {
             const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
 
-            if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
-                alert('All fields are empty. Please fill out at least one field.');
-                return; // Stop further execution
-            }
-
             let hasError = false; // Flag to track if there's any invalid input
-
-            if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) {
-                    hasError = true;
-            }
-
-            if (pickTargetMobileData == 0) {
-                hasError = true;
-            }
-
-            if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) {
-                    hasError = true;
-                }
-
-                if (amountPickedMobileData == 0) {
-                    hasError = true;
-                }
-
-            if (pickPerfNumOfEmployeesMobileData !== '' && isNaN(pickPerfNumOfEmployeesMobileData)) {
-                    hasError = true;
-            }
-
-            if (pickPerfNumOfEmployeesMobileData == 0) {
-                hasError = true;
-            }
-
-            if (pickPerfCasesPerHrMobile !== '' && isNaN(pickPerfCasesPerHrMobile)) {
-                hasError = true;
-            }
             
-            if (pickPerfCasesPerHrMobile == 0) {
-                hasError = true;
-            }
+            // if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
+            //     alert('All fields are empty. Please fill out at least one field.');
+            //     return; // Stop further execution
+            // }
+
+            if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) hasError = true;
+            if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) hasError = true;
+            if (pickPerfNumOfEmployeesMobileData !== '' && isNaN(pickPerfNumOfEmployeesMobileData)) hasError = true;
+            if (pickPerfCasesPerHrMobile !== '' && isNaN(pickPerfCasesPerHrMobile)) hasError = true;
 
             if (hasError) {
                 alert('Invalid input detected. Please ensure all fields contain valid numbers.');  // Show the error message to the user
                 return;  // Exit the function to prevent submission and navigation
             }
 
-            const pickTargetMobileCalc = parseInt(pickTargetMobileData);
-            console.log('pick target mobile:', pickTargetMobileCalc);
-            const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
+            if (pickTargetMobileData !== '') localStorage.setItem('pickTarget', pickTargetMobileData);
+            if (amountPickedMobileData !== '') localStorage.setItem('amount-picked-output', amountPickedMobileData);
+            if (pickPerfNumOfEmployeesMobileData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobileData);
+            if (pickPerfCasesPerHrMobile !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobile);
 
-            const amountPickedMobileCalc = parseInt(amountPickedMobileData);
-            console.log('amount picked mobile:', amountPickedMobileCalc);
-            const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
-
-            const pickPerfNumOfEmployeesMobileCalc = parseFloat(pickPerfNumOfEmployeesMobileData);
-            console.log('num of employees mobile:', pickPerfNumOfEmployeesMobileCalc);
-            const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
-            
-            const pickPerfCasesPerHrMobileCalc = parseFloat(pickPerfCasesPerHrMobile);
-
-            // Store the input values in localStorage
-            if (/^\d+(,\d+)*$/.test(pickTargetMobile)) {
-                localStorage.setItem('pickTarget', pickTargetMobile);
-            }
-
-            if (/^\d+(,\d+)*$/.test(amountPickedMobile)) {
-                localStorage.setItem('amount-picked-output', amountPickedMobile);
-            }
-
-            if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployeesMobile)) {
-                localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
-            }
-
-            if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
-                localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobileCalc);
-            }
-            
             const now = new Date();
             const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
             localStorage.setItem('chillLastUpdated', formattedTime);
-            
+
+            calculateAndUpdate();
+
             window.location.href = 'chill.html';
 
-            if (pickTargetMobileCalc && amountPickedMobileCalc && pickPerfNumOfEmployeesMobileCalc && pickPerfCasesPerHrMobileCalc) {
-                estimateFinishTime(pickTargetMobileCalc, amountPickedMobileCalc, pickPerfNumOfEmployeesMobileCalc, pickPerfCasesPerHrMobileCalc);
-            }
         });
     }
+
+    function calculateAndUpdate() {
+
+        const pickTargetMobileCalc = parseInt(localStorage.getItem('pickTarget')) || 0;
+        const amountPickedMobileCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
+        const pickPerfNumOfEmployeesMobileCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
+        const pickPerfCasesPerHrMobileCalc = parseFloat(localStorage.getItem('avgCasesPerHourCalc')) || 0;
+    
+        if (pickTargetMobileCalc && amountPickedMobileCalc && pickPerfNumOfEmployeesMobileCalc && pickPerfCasesPerHrMobileCalc) {
+            estimateFinishTime(pickTargetMobileCalc, amountPickedMobileCalc, pickPerfNumOfEmployeesMobileCalc, pickPerfCasesPerHrMobileCalc);
+        } else {
+            alert('Insufficient data to calculate. Please provide more information.');
+        }
+
+    }
+    
+            // const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
+            // const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
+            // const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
+
+            // Store the input values in localStorage
+            // if (/^\d+(,\d+)*$/.test(pickTargetMobile)) {
+            //     localStorage.setItem('pickTarget', pickTargetMobile);
+            // }
+
+            // if (/^\d+(,\d+)*$/.test(amountPickedMobile)) {
+            //     localStorage.setItem('amount-picked-output', amountPickedMobile);
+            // }
+
+            // if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployeesMobile)) {
+            //     localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
+            // }
+
+            // if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
+            //     localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobileCalc);
+            // }
 
     const pickTargetOutput = localStorage.getItem('pickTarget');
     const amountPicked = localStorage.getItem('amount-picked-output');
