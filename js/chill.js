@@ -192,9 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Extract the average number of cases picked per hour from the 9th column
                         const avgCasesPerHour = parseFloat(lastRow[8]);
                         // console.log('Avg cases/hour calc:', avgCasesPerHourCalc);
-                        console.log('Avg cases/hour 1:', avgCasesPerHour);
+                        console.log('Avg cases/hour:', avgCasesPerHour);
                         localStorage.setItem('avgCasesPerHourCalc', avgCasesPerHour);
-                        console.log('Avg cases/hour 2:', avgCasesPerHour);
 
                             // Go through each row in the excel file converted to JSON data
                             // return the data from each cell that is a string and matches the regex pattern
@@ -237,7 +236,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
             const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
             const avgCasesPerHour = localStorage.getItem('avgCasesPerHourCalc');
-            console.log('Avg cases 3:', avgCasesPerHour);
             if (isNaN(numOfEmployeesCalc)) {
                 console.log('Its a string!');
             } else {

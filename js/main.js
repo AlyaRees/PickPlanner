@@ -54,7 +54,8 @@
 
         const remainingCases = pickTargetNum - amountPickedNum;
         const totalCapacityPerHour = numOfEmployees * averageCasesPerHour;
-        const totalHoursRequired = remainingCases / totalCapacityPerHour;
+        const breakDurationHours = 0.6;
+        const totalHoursRequired = remainingCases / totalCapacityPerHour + breakDurationHours;
         
         console.log('Remaining Cases:', remainingCases);
         console.log('Total Capacity Per Hour:', totalCapacityPerHour);
