@@ -8,7 +8,7 @@ An app I am currently developing to help warehouse managers deploy operatives to
 ## 🚀 **Features**  
 
 - **Desktop version:**  
-   With a drag-and-drop interface, pulls data from downloaded Excel and CSV data files.  
+   With a drag-and-drop interface, pulls data from downloaded Excel and Excel data files.  
 - **Mobile version:**  
    Allows the user to input data through text area interfaces and click **'Submit'**.  
 
@@ -54,13 +54,3 @@ An app I am currently developing to help warehouse managers deploy operatives to
 5. Click **'Submit'**.  
 6. You will now be redirected to the display page with the **estimated finish time** along with other relevant data!  
 7. *(Note: In a real-life scenario, if the number of employees or other data were to change, you can retype and submit the updated numbers. The calculation will update accordingly without needing to clear and re-add all the data.)*  
-
----
-
-## 📸 **Screenshots**  
-
-![PickPlanner Home](#)  
-*The user-friendly home screen that keeps you on track.*  
-
-![Planning Interface](#)  
-*The simple and efficient interface for all your planning needs.*  
