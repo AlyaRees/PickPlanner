@@ -30,18 +30,27 @@ The above file format is based on real data file format however the data itself 
 6. (Note: Upon your first time using the app you may have to drag and drop both files a second time for the estimated finish time to be displayed - this is a bug I am working to fix).
 7. You should be redirected onto the display page with the **estimated finish time** along with other relevant data!
 
+To place the example data numbers on their own new lines for better readability, you can format the section as follows:
+
+---
+
 ### Use the **Mobile** version **(No need to download anything)**
+
 1. Open **PickPlanner** on your desktop/laptop or mobile phone. ( https://alyarees.github.io/PickPlanner/ )
 2. Click **Chill** or if using your desktop/laptop, first reduce your window size until the page changes to display a column of 3 rectangular purple cards (Chill, Ambient and Frozen).
 3. Click **'Add'**
 4. Input the following example data (feel free to input any numbers of your own choice!):
-   • Pick target: **43000**
-   • Amount picked: **2000**
-   • Number of employees: **19**
-   • Cases per hour: **253.08**
-6. Click **'Submit'**
-7. You will now be redirected to the display page with the **estimated finish time** along with other relevant data!
-8. (Note: In a real life scenerio, if the number of employees or other data were to change, the user can always add, retype and submit the new number and the calculation will update accordingly without having to clear and readd all the data again at once.)
+
+   - **Pick target:** `43000`  
+   - **Amount picked:** `2000`  
+   - **Number of employees:** `19`  
+   - **Cases per hour:** `253.08`  
+
+5. Click **'Submit'**
+6. You will now be redirected to the display page with the **estimated finish time** along with other relevant data!
+7. *(Note: In a real-life scenario, if the number of employees or other data were to change, the user can always add, retype, and submit the new number and the calculation will update accordingly without having to clear and re-add all the data again at once.)*
+
+---
 
 ## 📸 **Screenshots**
 
