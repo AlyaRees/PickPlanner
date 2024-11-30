@@ -9,11 +9,8 @@ An app I am currently developing to help warehouse managers deploy operatives to
 
 - **Desktop version:**  
    With a drag-and-drop interface, pulls data from downloaded Excel and Excel data files.
-  <img width="1440" alt="Screenshot 2024-11-30 at 11 01 18" src="https://github.com/user-attachments/assets/ce2601e5-dac6-4dd1-![IMG_6035](https://github.com/user-attachments/assets/8d77f808-14da-4464-bad6-25bdd517fe88)
-8a8c-46ed73ec7ecb">
 - **Mobile version:**
    Allows the user to input data through text area interfaces and click **'Submit'**.  
-
 ---
 
 ## 🎯 **How to Use**  
