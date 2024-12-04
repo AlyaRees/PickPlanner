@@ -9,7 +9,7 @@ An app I am currently developing to help warehouse managers deploy operatives to
 
 - **Desktop version:** Drag-and-drop interface, pulls data from downloaded Excel and Excel data files.
 
-- **Mobile version:** Allows the user to input data through text area interfaces and click **'Submit'**.  
+- **Mobile responsive version:** Allows the user to input data through text area interfaces and click **'Submit'**.  
 ---
 
 ## 🎯 **How to Use**  
@@ -38,7 +38,7 @@ An app I am currently developing to help warehouse managers deploy operatives to
 
 ---
 
-### **Use the Mobile Version (No Downloads Needed)**  
+### **Use the Mobile Responsive Version (No Downloads Needed)**  
 
 1. Open **PickPlanner** on your desktop/laptop or mobile phone: [https://alyarees.github.io/PickPlanner/](https://alyarees.github.io/PickPlanner/).  
 2. Click **Chill**. (If on a desktop/laptop, first resize your browser window until the page switches to a column of three rectangular purple cards: Chill, Ambient, and Frozen.)  
