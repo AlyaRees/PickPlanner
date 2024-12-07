@@ -96,10 +96,10 @@ h1 {
     border: 2px solid black;
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .card input {
-    /* margin-top: 1.5rem; */
     padding: 1rem;
     border: 1px solid black;
     caret-color: black;
@@ -115,15 +115,8 @@ h1 {
 
 .card p {
     font-weight: 600;
+    white-space: no-wrap;
 }
-
-/* .section3 {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    text-align: center;
-    margin-left: 0.8rem;
-} */
 
 .sec3-btn {
     border-radius: 1rem;
@@ -216,10 +209,11 @@ h1 {
         border: 2px solid black;
         display: flex;
         flex-direction: column;
+        text-align: center;
     }
     
     .card input {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
     }
 
     .card p {
