@@ -82,7 +82,7 @@ h1 {
 }
 
 .section2 {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
     }
 
 .card {
@@ -120,12 +120,8 @@ h1 {
     background-color: var(--lighter-trans-purple);
 }
 
-.card:nth-child(3) {
-    background-color: var(--darker-trans-purple);
-}
-
 .drop-zone {
-    padding: 2.5rem;
+    padding: 3.5rem;
     border: 1px dashed grey;
     border-radius: 1rem;
     margin-top: 0.5rem;
@@ -158,21 +154,7 @@ h1 {
     margin: 1rem auto;
 }
 
-.pick-target-instruction-box {
-    display: none;
-    position: absolute;
-    top: 2.5rem;
-    left: calc(10%);
-    right: calc(10%);
-    padding: 2.5rem;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.pick-perf-instruction-box {
+.pick-target-instruction-box, .pick-perf-instruction-box {
     display: none;
     position: absolute;
     top: 2.5rem;
