@@ -1,6 +1,8 @@
 // Imports functions from another file
 import { estimateFinishTime, instructionBox, formatNumberWithCommas, showDropDown } from "./main.js";
 
+// Add functionality for data added in desktop version to be successfully updated via the mobile version
+
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -197,18 +199,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // Go through each row in the excel file converted to JSON data
                             // return the data from each cell that is a string and matches the regex pattern
-                        const employeeRows = jsonData.filter(row => {
-                            const firstCell = row[0];
-                            return typeof firstCell === 'string' && /^[0-9]{6}@coop\.co\.uk$/.test(firstCell);
-                        });
-                        console.log('employeeRows:', employeeRows);
+    
                         // console.log('Raw amountPicked:', amountPicked);
                         // console.log('Raw Pick Target:', rawPickTarget);
-
-                        const numberOfEmployees = employeeRows.length;
-                        const numOfEmployeesCalc = numberOfEmployees;
-                        localStorage.setItem('num-of-employees-calc', numOfEmployeesCalc);
-                        localStorage.setItem('numberOfEmployees', numberOfEmployees);
 
                         // Functionality for getting last updated time
                         const now = new Date();
@@ -230,10 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('Please drop a valid Excel (.xlsx) file.');
             }
-
+            
+            const numberOfPickers = document.getElementById('numberOfPickers').value.trim();
+            const numOfEmployeesCalc = parseInt(numberOfPickers);
             const rawPickTarget = localStorage.getItem('raw-pick-target');
             const rawAmountPicked = localStorage.getItem('raw-amount-picked');
-            const numOfEmployeesCalc = localStorage.getItem('num-of-employees-calc');
             const avgCasesPerHour = localStorage.getItem('avgCasesPerHourCalc');
             
             if (isNaN(numOfEmployeesCalc)) {

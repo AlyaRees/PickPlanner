@@ -83,6 +83,9 @@ h1 {
 
 .section2 {
         margin-top: 1rem;
+        border: 2px solid black;
+        border-radius: 1rem;
+        background-color: var(--darker-trans-purple);
     }
 
 .card {
@@ -97,12 +100,10 @@ h1 {
     font-weight: 600;
 }
 
-.card textarea {
-    margin-top: 0.5rem;
-    resize: none;
+.card input {
+    margin-top: 1rem;
     padding: 0.5rem;
     border: 1px solid black;
-    outline: none;
     caret-color: black;
 }
 
@@ -112,12 +113,8 @@ h1 {
     position: relative;
 }
 
-.card:nth-child(1) {
-    background-color: var(--darker-trans-purple);
-}
-
-.card:nth-child(2) {
-    background-color: var(--lighter-trans-purple);
+.card p {
+    margin-top: 2rem;
 }
 
 .drop-zone {

@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./css/edit.css">
-        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
         <script type="module" src="./js/main.js"></script>
         <script type="module" src="./js/chill.js"></script>
         <title>PickPlanner</title>
@@ -35,23 +34,13 @@
         </div>
             <div class="section2">
             <form class="inputForm" id="inputForm">
-                    <div class="card">
-                        <p>Wave Check Report Data:<img src="./images/help_icon.svg" alt="Help" id="pt-help-icon"></p>
-                        <div id="pt-drop-zone" class="drop-zone"><span>Drag and drop here</span></div></div>
-                    <div class="card">
-                        <p>Pick Performance Report Data:<img src="./images/help_icon.svg" alt="Help" id="pp-help-icon"></p>
-                            <div id="pp-drop-zone" class="drop-zone"><span>Drag and drop here</span></div></div>
-            </form>
-            <form class="inputForm2" id="inputForm2">
                 <div class="card">
                     <p>Wave Check Report Data:<img src="./images/help_icon.svg" alt="Help" id="pt-help-icon-mobile"></p>
-                    <textarea id="pick-target-ta" placeholder="Pick target"></textarea>
-                    <textarea id="amount-picked-ta" placeholder="Amount picked"></textarea>
-                </div>
-                <div class="card">
+                    <input type="text" id="pick-target-ta" placeholder="Pick target">
+                    <input type="text" id="amount-picked-ta" placeholder="Amount picked">
                     <p>Pick Performance Report Data:<img src="./images/help_icon.svg" alt="Help" id="pp-help-icon-mobile"></p>
-                        <textarea id="pp-num-employees" placeholder="Number of employees"></textarea>
-                        <textarea id="pp-cases-per-hr" placeholder="Cases per hour"></textarea>
+                        <input type="text" id="pp-num-employees" placeholder="Number of employees">
+                        <input type="text" id="pp-cases-per-hr" placeholder="Cases per hour">
                     </div>
                     <button type="submit" id="submit-data-mobile" class="sec3-btn">Submit</button>
         </form>
