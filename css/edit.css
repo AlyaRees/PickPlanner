@@ -115,7 +115,7 @@ h1 {
 
 .card p {
     font-weight: 600;
-    white-space: no-wrap;
+    white-space: nowrap;
 }
 
 .sec3-btn {
@@ -136,6 +136,7 @@ h1 {
 .pick-target-instruction-box, .pick-perf-instruction-box {
     display: none;
     position: absolute;
+    position: fixed;
     top: 2.5rem;
     left: calc(10%);
     right: calc(10%);
@@ -153,6 +154,11 @@ h1 {
     border-radius: 0.5rem;
     border-style: none;
     color: black;
+    cursor: pointer;
+}
+
+.instruction-box-btn:hover {
+    background-color: #ddd;
 }
 
 .drop-down {
@@ -194,7 +200,7 @@ h1 {
     }
 
     .card p {
-        margin-top: 1.5rem;
+        margin: 1.5rem 0rem 0rem 0rem;
     }
 }
 
