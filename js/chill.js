@@ -1,5 +1,5 @@
 // Imports functions from another file
-import { estimateFinishTime, instructionBox, formatNumberWithCommas, showDropDown } from "./main.js";
+import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas, showDropDown } from "./main.js";
 
 // Add functionality for data added in desktop version to be successfully updated via the mobile version
 
@@ -27,46 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const chillClearDataBtn = document.getElementById('chill-clear-data');
     const ambClearDataBtn = document.getElementById('amb-clear-data');
     const frzClearDataBtn = document.getElementById('frz-clear-data');
+
+    const keysToClear = [
+        'averageCasesPerHour',
+        'numberOfEmployees',
+        'amount-picked-output',
+        'pickTarget',
+        'estimated-finish-time',
+        'avg-cases-ph-calc'
+    ];
     
     // Attach event listener to the clear data button that listens for a users 'click'
     if (chillClearDataBtn) {
-        chillClearDataBtn.addEventListener('click', clearData);
+        chillClearDataBtn.addEventListener('click', () => clearData(keysToClear));
     }
 
     if (ambClearDataBtn) {
-        ambClearDataBtn.addEventListener('click', clearData);
+        ambClearDataBtn.addEventListener('click', () => clearData(keysToClear));
     }
 
     if (frzClearDataBtn) {
-        frzClearDataBtn.addEventListener('click', clearData);
+        frzClearDataBtn.addEventListener('click', () => clearData(keysToClear));
     }
-
-    // Function to clear average cases per hour data from local storage
-    function clearData() {
-
-        // isDataCleared checks if each elements local storage is empty
-        const isDataCleared = !localStorage.getItem('averageCasesPerHour') &&
-                          !localStorage.getItem('numberOfEmployees') &&
-                          !localStorage.getItem('amount-picked-output') &&
-                          !localStorage.getItem('pickTarget') &&
-                          !localStorage.removeItem('estimated-finish-time') &&
-                          !localStorage.removeItem('avg-cases-ph-calc');
-
-        if (isDataCleared) {
-            alert('Data has already been cleared.');
-        } else { // Remove the relevant items from local storage
-            localStorage.removeItem('averageCasesPerHour');
-            localStorage.removeItem('frozenFinishTime');
-            localStorage.removeItem('numberOfEmployees');
-            localStorage.removeItem('amount-picked-output');
-            localStorage.removeItem('pickTarget');
-            localStorage.removeItem('estimated-finish-time');
-            localStorage.removeItem('avg-cases-ph-calc');
-
-            alert('All data has been cleared successfully.');
-            window.location.reload();
-        }
-}
 
     // Uses instructionBox function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);

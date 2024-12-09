@@ -120,3 +120,34 @@
             }
         });
     }
+
+// Function to clear specific data from local storage
+// Takes an empty initialized array called keys
+export function clearData(keys = []) {
+    // If keys is not an array, using the array attribute (Array.isArray()) or its length is === 0, exit the function
+    if (!Array.isArray(keys) || keys.length === 0) {
+        console.warn('No keys provided to clearData function.');
+        return;
+    }
+
+    // clearedKeys is a new array that uses filter and a callback function (key => { ... })  to filter through each value (key) inside the array (keys)
+    // If the key exists, its local storage item is removed and it evaluates to true, otherwise (if it doesn't exist) it evaluates to false and the key is excluded from clearedKeys.
+    const clearedKeys = keys.filter(key => {
+        if (localStorage.getItem(key)) {
+            localStorage.removeItem(key);
+            return true;
+        }
+        return false;
+    });
+    // If the function returns true, it is included in the rest of the function.
+    // If it returns false, it is excluded.
+
+    // If clearedKeys is already empty (all values false), that means that the .filter() method has returned an empty array
+    // And there is no data to be cleared
+    if (clearedKeys.length === 0) {
+        alert('Data has already been cleared.');
+    } else {
+        alert(`Data cleared successfully!`);
+        window.location.reload(); // Reload the page
+    }
+}
