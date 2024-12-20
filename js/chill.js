@@ -6,6 +6,7 @@ import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas, 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Assigns menu bar and drop down box buttons to following variables
     const menuButton = document.getElementById('menu-bar-btn');
     const dropDownBox = document.getElementById('dd-box');
 
@@ -23,11 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const ppInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile');
     const ppCloseInstructionBoxMobile = document.getElementById('pp-instruction-box-mobile-btn-close');
 
-    // Assigns the clear data button to variable 'clearDataBtn' 
+    // Assigns the clear data button to variable '...clearDataBtn' 
     const chillClearDataBtn = document.getElementById('chill-clear-data');
     const ambClearDataBtn = document.getElementById('amb-clear-data');
     const frzClearDataBtn = document.getElementById('frz-clear-data');
 
+    // Initializes an array containing the ids for the local storage of the data input by the user
     const keysToClear = [
         'averageCasesPerHour',
         'numberOfEmployees',
@@ -58,38 +60,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     showDropDown(menuButton, dropDownBox);
 
-    const editPageSubmitBtnMobile = document.getElementById('submit-data-mobile');
+    const editPageSubmitBtn = document.getElementById('submit-data-mobile');
     
-    if (editPageSubmitBtnMobile) {
-        editPageSubmitBtnMobile.addEventListener('click', function(event) {
+    if (editPageSubmitBtn) {
+        editPageSubmitBtn.addEventListener('click', function(event) {
             event.preventDefault();
 
-            const pickTargetMobileData = document.getElementById('pick-target-ta').value.trim();
-            const amountPickedMobileData = document.getElementById('amount-picked-ta').value.trim();
-            const pickPerfNumOfEmployeesMobileData = document.getElementById('pp-num-employees').value.trim();
-            const pickPerfCasesPerHrMobile = document.getElementById('pp-cases-per-hr').value.trim();
+            const pickTargetData = document.getElementById('pick-target-ta').value.trim();
+            const amountPickedData = document.getElementById('amount-picked-ta').value.trim();
+            const pickPerfNumOfEmployeesData = document.getElementById('pp-num-employees').value.trim();
+            const pickPerfCasesPerHr = document.getElementById('pp-cases-per-hr').value.trim();
 
             let hasError = false; // Flag to track if there's any invalid input
             
-            if (pickTargetMobileData === '' && amountPickedMobileData === '' && pickPerfNumOfEmployeesMobileData === '' && pickPerfCasesPerHrMobile === '') {
+            if (pickTargetData === '' && amountPickedData === '' && pickPerfNumOfEmployeesData === '' && pickPerfCasesPerHr === '') {
                 alert('All fields are empty. Please fill out at least one field.');
                 return; // Stop further execution
             }
 
-            if (pickTargetMobileData !== '' && isNaN(pickTargetMobileData)) hasError = true;
-            if (amountPickedMobileData !== '' && isNaN(amountPickedMobileData)) hasError = true;
-            if (pickPerfNumOfEmployeesMobileData !== '' && isNaN(pickPerfNumOfEmployeesMobileData)) hasError = true;
-            if (pickPerfCasesPerHrMobile !== '' && isNaN(pickPerfCasesPerHrMobile)) hasError = true;
+            if (pickTargetData !== '' && isNaN(pickTargetData)) hasError = true;
+            if (amountPickedData !== '' && isNaN(amountPickedData)) hasError = true;
+            if (pickPerfNumOfEmployeesData !== '' && isNaN(pickPerfNumOfEmployeesData)) hasError = true;
+            if (pickPerfCasesPerHr !== '' && isNaN(pickPerfCasesPerHr)) hasError = true;
 
             if (hasError) {
                 alert('Invalid input detected. Please ensure all fields contain valid numbers.');  // Show the error message to the user
                 return;  // Exit the function to prevent submission and navigation
             }
 
-            if (pickTargetMobileData !== '') localStorage.setItem('pickTarget', pickTargetMobileData);
-            if (amountPickedMobileData !== '') localStorage.setItem('amount-picked-output', amountPickedMobileData);
-            if (pickPerfNumOfEmployeesMobileData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobileData);
-            if (pickPerfCasesPerHrMobile !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobile);
+            if (pickTargetData !== '') localStorage.setItem('pickTarget', pickTargetData);
+            if (amountPickedData !== '') localStorage.setItem('amount-picked-output', amountPickedData);
+            if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
+            if (pickPerfCasesPerHr !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHr);
 
             const now = new Date();
             const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
@@ -104,38 +106,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function calculateAndUpdate() {
 
-        const pickTargetMobileCalc = parseInt(localStorage.getItem('pickTarget')) || 0;
-        const amountPickedMobileCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
-        const pickPerfNumOfEmployeesMobileCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
-        const pickPerfCasesPerHrMobileCalc = parseFloat(localStorage.getItem('avgCasesPerHourCalc')) || 0;
+        const pickTargetCalc = parseInt(localStorage.getItem('pickTarget')) || 0;
+        const amountPickedCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
+        const pickPerfNumOfEmployeesCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
+        const pickPerfCasesPerHrCalc = parseFloat(localStorage.getItem('avgCasesPerHourCalc')) || 0;
     
-        if (pickTargetMobileCalc && amountPickedMobileCalc && pickPerfNumOfEmployeesMobileCalc && pickPerfCasesPerHrMobileCalc) {
-            estimateFinishTime(pickTargetMobileCalc, amountPickedMobileCalc, pickPerfNumOfEmployeesMobileCalc, pickPerfCasesPerHrMobileCalc);
+        if (pickTargetCalc && amountPickedCalc && pickPerfNumOfEmployeesCalc && pickPerfCasesPerHrCalc) {
+            estimateFinishTime(pickTargetCalc, amountPickedCalc, pickPerfNumOfEmployeesCalc, pickPerfCasesPerHrCalc);
         } else {
             alert('Insufficient data to calculate. Please provide more information.');
         }
 
     }
     
-            // const pickTargetMobile = formatNumberWithCommas(pickTargetMobileData);
-            // const amountPickedMobile = formatNumberWithCommas(amountPickedMobileData);
-            // const pickPerfNumOfEmployeesMobile = formatNumberWithCommas(pickPerfNumOfEmployeesMobileData);
+            // const pickTarget = formatNumberWithCommas(pickTargetData);
+            // const amountPicked = formatNumberWithCommas(amountPickedData);
+            // const pickPerfNumOfEmployees = formatNumberWithCommas(pickPerfNumOfEmployeesData);
 
             // Store the input values in localStorage
-            // if (/^\d+(,\d+)*$/.test(pickTargetMobile)) {
-            //     localStorage.setItem('pickTarget', pickTargetMobile);
+            // if (/^\d+(,\d+)*$/.test(pickTarget)) {
+            //     localStorage.setItem('pickTarget', pickTarget);
             // }
 
-            // if (/^\d+(,\d+)*$/.test(amountPickedMobile)) {
-            //     localStorage.setItem('amount-picked-output', amountPickedMobile);
+            // if (/^\d+(,\d+)*$/.test(amountPicked)) {
+            //     localStorage.setItem('amount-picked-output', amountPicked);
             // }
 
-            // if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployeesMobile)) {
-            //     localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesMobile);
+            // if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployees)) {
+            //     localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployees);
             // }
 
-            // if (!isNaN(pickPerfCasesPerHrMobileCalc)) {
-            //     localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrMobileCalc);
+            // if (!isNaN(pickPerfCasesPerHrCalc)) {
+            //     localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrCalc);
             // }
 
     const pickTargetOutput = localStorage.getItem('pickTarget');
