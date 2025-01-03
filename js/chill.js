@@ -36,7 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'amount-picked-output',
         'pickTarget',
         'estimated-finish-time',
-        'avg-cases-ph-calc'
+        'avg-cases-ph-calc',
+        'pickTargetFormatted',
+        'amountPickedFormatted'
     ];
     
     // Attach event listener to the clear data button that listens for a users 'click'
@@ -92,7 +94,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('pickTarget', pickTargetData);
                 localStorage.setItem('pickTargetFormatted', formatNumberWithCommas(pickTargetData));
             };
-            if (amountPickedData !== '') localStorage.setItem('amount-picked-output', amountPickedData);
+            if (amountPickedData !== '') {
+                localStorage.setItem('amount-picked-output', amountPickedData);
+                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(amountPickedData));
+            };
             if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
             if (pickPerfCasesPerHr !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHr);
 
@@ -121,30 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
     }
-    
-            // const pickTarget = formatNumberWithCommas(pickTargetData);
-            // const amountPicked = formatNumberWithCommas(amountPickedData);
-            // const pickPerfNumOfEmployees = formatNumberWithCommas(pickPerfNumOfEmployeesData);
-
-            // Store the input values in localStorage
-            // if (/^\d+(,\d+)*$/.test(pickTarget)) {
-            //     localStorage.setItem('pickTarget', pickTarget);
-            // }
-
-            // if (/^\d+(,\d+)*$/.test(amountPicked)) {
-            //     localStorage.setItem('amount-picked-output', amountPicked);
-            // }
-
-            // if (/^\d+(,\d+)*$/.test(pickPerfNumOfEmployees)) {
-            //     localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployees);
-            // }
-
-            // if (!isNaN(pickPerfCasesPerHrCalc)) {
-            //     localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrCalc);
-            // }
 
     const pickTargetOutput = localStorage.getItem('pickTargetFormatted');
-    const amountPicked = localStorage.getItem('amount-picked-output');
+    const amountPicked = localStorage.getItem('amountPickedFormatted');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
