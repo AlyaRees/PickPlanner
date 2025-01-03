@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return; // Stop further execution
             }
 
-            if (pickTargetData !== '' && isNaN(pickTargetData)) hasError = true;
-            if (amountPickedData !== '' && isNaN(amountPickedData)) hasError = true;
+            if (pickTargetData !== '' && !/^\d+(,\d+)*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
+            if (amountPickedData !== '' && !/^\d+(,\d+)*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
             if (pickPerfNumOfEmployeesData !== '' && isNaN(pickPerfNumOfEmployeesData)) hasError = true;
             if (pickPerfCasesPerHr !== '' && isNaN(pickPerfCasesPerHr)) hasError = true;
 
