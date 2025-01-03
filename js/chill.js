@@ -91,11 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (pickTargetData !== '') {
-                localStorage.setItem('pickTarget', pickTargetData);
+                localStorage.setItem('pickTarget', parseInt(pickTargetData.replace(/,/g, '')));
                 localStorage.setItem('pickTargetFormatted', formatNumberWithCommas(pickTargetData));
             };
             if (amountPickedData !== '') {
-                localStorage.setItem('amount-picked-output', amountPickedData);
+                localStorage.setItem('amount-picked-output', parseInt(amountPickedData.replace(/,/g, '')));
                 localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(amountPickedData));
             };
             if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
