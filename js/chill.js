@@ -88,7 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;  // Exit the function to prevent submission and navigation
             }
 
-            if (pickTargetData !== '') localStorage.setItem('pickTarget', pickTargetData);
+            if (pickTargetData !== '') {
+                localStorage.setItem('pickTarget', pickTargetData);
+                localStorage.setItem('pickTargetFormatted', formatNumberWithCommas(pickTargetData));
+            };
             if (amountPickedData !== '') localStorage.setItem('amount-picked-output', amountPickedData);
             if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
             if (pickPerfCasesPerHr !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHr);
@@ -140,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //     localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHrCalc);
             // }
 
-    const pickTargetOutput = localStorage.getItem('pickTarget');
+    const pickTargetOutput = localStorage.getItem('pickTargetFormatted');
     const amountPicked = localStorage.getItem('amount-picked-output');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
