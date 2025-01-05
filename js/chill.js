@@ -6,10 +6,6 @@ import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas, 
 // Waits for the entire HTML document to be loaded and parsed before running
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Assigns menu bar and drop down box buttons to following variables
-    const menuButton = document.getElementById('menu-bar-btn');
-    const dropDownBox = document.getElementById('dd-box');
-
     // Assigns all html element ids to a const variable to be used in the instructionBox function
     const pickTargetHelpIcon = document.getElementById('pt-help-icon');
     const pickPerfHelpIcon = document.getElementById('pp-help-icon');
@@ -26,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Assigns the clear data button to variable '...clearDataBtn' 
     const chillClearDataBtn = document.getElementById('chill-clear-data');
-    const ambClearDataBtn = document.getElementById('amb-clear-data');
-    const frzClearDataBtn = document.getElementById('frz-clear-data');
 
     // Initializes an array containing the ids for the local storage of the data input by the user
     const keysToClear = [
@@ -46,21 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
         chillClearDataBtn.addEventListener('click', () => clearData(keysToClear));
     }
 
-    if (ambClearDataBtn) {
-        ambClearDataBtn.addEventListener('click', () => clearData(keysToClear));
-    }
-
-    if (frzClearDataBtn) {
-        frzClearDataBtn.addEventListener('click', () => clearData(keysToClear));
-    }
-
     // Uses instructionBox function that shows or hides the instruction box when the help icon is clicked
     instructionBox(pickTargetHelpIcon, pickTargetInstructionBox, pickTargetCloseInstructionButton);
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
     instructionBox(ptHelpIconMobile, pickTargetInstructionBoxMobile, ptCloseInstructionButtonMobile);
     instructionBox(ppHelpIconMobile, ppInstructionBoxMobile, ppCloseInstructionBoxMobile);
-
-    showDropDown(menuButton, dropDownBox);
 
     const editPageSubmitBtn = document.getElementById('submit-data-mobile');
     
@@ -107,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             calculateAndUpdate();
 
-            window.location.href = 'chill.html';
+            window.location.href = 'index.html';
 
         });
     }

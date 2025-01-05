@@ -33,9 +33,11 @@ body {
 }
 
 .heading {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
     color: white;
-    text-align: center;
-    margin: 0 auto;
 }
 
 .nav-bar button {
