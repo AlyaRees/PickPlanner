@@ -111,18 +111,18 @@ h1 {
 .section2 {
     display: grid;
     justify-content: space-between;
-    margin-top: 1rem;
+    margin: 1rem;
     font-size: 1rem;
     gap: 1rem;
     grid-template-columns: repeat(2, 1fr); /*Two cards per column */
 }
 
 .small-card {
-    margin-bottom: 1rem;
     padding: 0.5rem;
     vertical-align: top;
     text-align: center;
     border-radius: 1rem;
+    width: 100%;
 }
 
 .small-card span {
@@ -175,36 +175,6 @@ h1 {
     width: 2rem;
 }
 
-.drop-down {
-    display: none;
-    top: 4rem;
-    right: 0;
-    position: fixed;
-    align-items: flex-end;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.drop-down.show {
-    display: flex;
-}
-
-.drop-down ul {
-    width: 9rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: black;
-    color: white;
-    position: relative;
-}
-
-.drop-down ul:hover {
-    background-color: var(--trans-black);
-    cursor: pointer;
-}
-
 /* Desktop design */
 
 @media screen and (min-width: 1024px) {
@@ -240,6 +210,11 @@ h1 {
     margin-top: 0;
   }
 
+  .section2 {
+    margin-bottom: 2.5rem;
+    gap: 1.5rem;
+  }
+
 #menu-bar-btn {
     margin-right: 6.5rem;
 }
@@ -250,19 +225,6 @@ h1 {
 
 .nav-bar button:hover {
     background-color: black;
-}
-
-.drop-down ul {
-    width: 15rem;
-    margin-right: 1rem;
-}
-
-#menu-bar-btn:hover + .drop-down {
-    display: flex;
-}
-
-.drop-down:hover {
-    display: flex;
 }
 
 }
