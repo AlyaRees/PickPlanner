@@ -13,9 +13,6 @@
             <div class="nav-bar">
                 <a id="home-btn" href="./index.html"><button><img src="./images/home_icon.svg" width="50px" height="50px"></button></a>
                 <div class="heading"><p>PickPlanner</p></div>
-                <!-- <button id="menu-bar-btn"><img src="./images/menu_icon.svg" width="50px" height="50px"></button>
-                <div id="dd-box" class="drop-down">
-                    <ul>Coming soon...</ul> -->
                 </div>
             </div>
             <div class="main-card">
@@ -35,13 +32,14 @@
             <div class="section2">
             <form class="inputForm" id="inputForm">
                 <div class="card">
-                    <p>Wave Check Report Data:<img src="./images/help_icon.svg" alt="Help" id="pt-help-icon-mobile"></p>
+                    <p>Wave Check Report Data:<img src="./images/help_icon.svg" alt="Help" id="pt-help-icon"></p>
                     <input type="text" id="pick-target-ta" placeholder="Pick target">
                     <input type="text" id="amount-picked-ta" placeholder="Amount picked">
-                    <p>Pick Performance Report Data:<img src="./images/help_icon.svg" alt="Help" id="pp-help-icon-mobile"></p>
+                    <p>Pick Performance Report Data:<img src="./images/help_icon.svg" alt="Help" id="pp-help-icon"></p>
                         <input type="text" id="pp-num-employees" placeholder="Number of employees">
                         <input type="text" id="pp-cases-per-hr" placeholder="Cases per hour">
-                    
+                        <p>Avg % drop in cases per hour:<img src="./images/help_icon.svg" alt="Help" id="avg-cph-help-icon"></p>
+                        <input type="text" id="avg-cases-percentage" placeholder="Currently 15.20%">
                     <button type="submit" id="submit-data-mobile" class="sec3-btn">Submit</button>
                 </div>
                 </form>
@@ -50,34 +48,31 @@
     </main>
 
     <div id="pick-target-instruction-box" class="pick-target-instruction-box">
-            <ol>
-                <li>Navigate to 'Manhattan Active SCI Reports List'</li>
-                <li>Click 'Wave Check Report'</li>
-                <li>Select 'Biggleswade' as the Facility, 'Date From' yesterdays date and time as 23:59, 'Date To' todays date and time 23:59 and finally for 'Wave Type' select 'Chill Wave'.</li>
-                <li>Leave the rest as is and click 'Finish' at the bottom of the page.</li>
-                <li>Click the play button in the top left corner and select 'Excel Data'.</li>
-                <li>Once it has been downloaded click the folder icon (Windows) or magnifying glass symbol (Mac) to open the file in explorer/finder.</li>
-                <li>Once in explorer/finder, click and drag the file into the correct 'Drag and drop' interface.</li>
-                <li>You should now see a message indicating whether or not the file was successfully processed.</li>
-                <li>If successful, click 'Close' and proceed to add the 'Pick Performance' data. If unsuccessful, repeat the process following each step carefully.</li>
-            </ol>
+        <ol>
+            <li>Pick target: 'Manhattan Active SCI Reports List' > 'Wave Check Report' > Facility : Biggleswade 
+                <ul>From date : yesterday 23:59</ul>
+                <ul>To date : today 23:59</ul>
+                <ul>Wave type : Chill Wave
+                <ul>Leave the rest as is and click 'Finish' at the bottom of the page.</ul>
+            </ul>
+            <ul>Paste or type the number in column 'Task Alloc Qty', row 'Overall - Total'.</ul></li>
+            <li>Amount picked: column 'Task Picked Qty', row 'Overall - Total'.</li>
+        </ol>
             <button id="pt-close-instruction-box" class="instruction-box-btn">Close</button>
     </div>
     <div id="pick-perf-instruction-box" class="pick-perf-instruction-box">
         <ol>
-            <li>Navigate to 'Manhattan Active SCI Reports List'</li>
-            <li>Under 'Performance' click 'Pick Performance"</li>
-            <li>For 'Facility' select 'Biggleswade', 'From Date' the current date and 14:00, 'To Date' the current date and 22:00 and for 'Pick Zone' select 'CHL - Chill Pick Determination Zone'</li>
-            <li>Leave the rest as is and click 'Finish' at the bottom of the page.</li>
-            <li>Click the play button in the top left corner and then click 'Excel' in the drop down box.</li>
-            <li>Once it has been downloaded click the folder icon (Windows) or magnifying glass symbol (Mac) to open the file in explorer/finder.</li>
-            <li>Once in explorer/finder, click and drag the file into the correct 'Drag and drop' interface.</li>
-            <li>You should now see a message indicating whether or not the file was successfully processed.</li>
-            <li>If successful, click 'Close'. If unsuccessful, repeat the process following each step carefully.</li>
+            <li>Number of employees: 'Manhattan Active SCI Reports List' > (under 'Performance') 'Pick Performance' > Facility : Biggleswade 
+                <ul>From date : today 14:00</ul>
+                <ul>To date : today 22:00</ul>
+            <ul>Pick Zones : CHL - Chill Pick Determination Zone</ul>
+            <ul>Leave the rest as is and click 'Finish' at the bottom of the page.</ul>
+            <ul>Count the rows with employee numbers and type this into the relevant input field.</ul></li>
+            <li>Average cases per hour:</li>
         </ol>
         <button id="pp-close-instruction-box" class="instruction-box-btn">Close</button>
 </div>
-<div id="pt-instruction-box-mobile" class="pick-target-instruction-box">
+<div id="pick-target-instruction-box" class="pick-target-instruction-box">
     <ol>
         <li>Pick target: 'Manhattan Active SCI Reports List' > 'Wave Check Report' > Facility : Biggleswade 
             <ul>From date : yesterday 23:59</ul>
@@ -101,6 +96,12 @@
         <li>Average cases per hour:</li>
     </ol>
     <button id="pp-instruction-box-mobile-btn-close" class="instruction-box-btn">Close</button>
+</div>
+<div id="avg-cph-instruction-box" class="avg-cases-instruction-box">
+    <ol>
+            <ul>This is the average drop in percentage of the average rate of cases picked per hour from the start to the end of shift.</ul>
+    </ol>
+        <button id="avg-cph-instruction-box-close" class="instruction-box-btn">Close</button>
 </div>
     </body>
 </html>

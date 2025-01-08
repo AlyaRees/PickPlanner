@@ -135,7 +135,7 @@ h1 {
     background-color: var(--lighter-solid-purple);
 }
 
-.pick-target-instruction-box, .pick-perf-instruction-box {
+.pick-target-instruction-box, .pick-perf-instruction-box, .avg-cases-instruction-box {
     display: none;
     position: absolute;
     position: fixed;

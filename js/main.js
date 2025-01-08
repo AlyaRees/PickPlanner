@@ -50,13 +50,20 @@
         return numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    export function estimateFinishTime(pickTargetNum, amountPickedNum, numOfEmployees, averageCasesPerHour) {
+    export function estimateFinishTime(pickTargetNum, amountPickedNum, numOfEmployees, averageCasesPerHour, averageCasesPercentage) {
+
+        // Try to add default average % drop if user does not input one
+
+        // if (averageCasesPercentage == 0) {
+        //     averageCasesPercentage = 15.2;
+        // } 
 
         const remainingCases = pickTargetNum - amountPickedNum;
-        const totalCapacityPerHour = numOfEmployees * averageCasesPerHour;
+        const totalAvgCasesPerHr = averageCasesPerHour + averageCasesPercentage * averageCasesPerHour;
+        const totalCapacityPerHour = numOfEmployees * totalAvgCasesPerHr;
         const breakDurationHours = 0.6; // 30 minute break plus 3 minutes walking time to the canteen and back
         const totalHoursRequired = remainingCases / totalCapacityPerHour + breakDurationHours;
-        
+
         console.log('Remaining Cases:', remainingCases);
         console.log('Total Capacity Per Hour:', totalCapacityPerHour);
         console.log('Total Hours Required:', totalHoursRequired);
