@@ -19,7 +19,7 @@ body {
 }
 
 .main-card {
-    margin: 1rem;
+    margin: 0.5rem;
 }
 
 .nav-bar {
@@ -69,7 +69,6 @@ img:hover {
 h1 {
     font-size: 2.5rem;
     white-space: nowrap;
-    margin-bottom: 0.5rem;
 }
 
 .section1 {
@@ -85,12 +84,11 @@ h1 {
 .section2 {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
     }
 
 .card {
-    margin: 1rem auto;
-    padding: 0.5rem 3rem 0rem 3rem;
+    margin: 0.5rem auto;
+    padding: 0rem 3rem 0rem 3rem;
     background-color: var(--darker-trans-purple);
     border-radius: 1rem;
     max-width: 100%;
@@ -102,7 +100,7 @@ h1 {
 }
 
 .card input {
-    padding: 1rem;
+    padding: 0.6rem;
     border: 1px solid black;
     caret-color: black;
     font-size: 1rem;
