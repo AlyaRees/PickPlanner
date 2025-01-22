@@ -51,34 +51,19 @@
     }
 
     export function estimateFinishTime(
-        pickTargetNum,
+        totalPickCapacity,
         amountPickedNum,
         numOfEmployees,
-        averageCasesPerHour,
-        averageCasesPercentage
+        averageCasesPerHour
         ) {
 
-        // If user does not submit any value for Avg % drop then it defaults to 15.2%
+        const remainingCases = totalPickCapacity - amountPickedNum; // Eg: 31,000 to pick today - 1,000 already picked so 30,000 remaining to pick
+        const avgHoursToWorkWith = 7.4 * numOfEmployees; // Eg: 7hr 24min * 20 pickers = 148hr
+        const totalCasesPerPicker = averageCasesPerHour * 7.4; // Eg: 200cph * 7hr 24min (per picker) = 1,480 cases per picker across the shift duration
+        const totalCasesEstimate = totalCasesPerPicker * numOfEmployees; // Eg: 1,480 cases per picker * 20 pickers = avg of 29,600 cases predicted to be picked by end of shift
+        const volumeLeft = remainingCases - totalCasesEstimate; // Eg: 30,000 to pick, 29,600 picked by end of shift so 400 cases left
+        const extraTimeNeeded = (volumeLeft / averageCasesPerHour) / numOfEmployees; // Eg: 400 cases left / 200 cases per hr = 2hr / 20 pickers = 0.1hr or 6min
 
-        if (averageCasesPercentage == 0 || averageCasesPercentage === '') {
-            averageCasesPercentage = 0.152 * averageCasesPerHour;
-        } else {
-            averageCasesPercentage = parseFloat(averageCasesPercentage);
-        }
-
-        const remainingCases = pickTargetNum - amountPickedNum;
-        const totalCapacityPerHour = numOfEmployees * (averageCasesPerHour + averageCasesPercentage);
-        const breakDurationHours = 0.6; // 30 minute break plus 3 minutes walking time to the canteen and back
-        const totalHoursRequired = remainingCases / totalCapacityPerHour + breakDurationHours;
-
-        console.log('Remaining Cases:', remainingCases);
-        console.log('Total Capacity Per Hour:', totalCapacityPerHour);
-        console.log('Total Hours Required:', totalHoursRequired);
-        console.log('Amount Picked:', amountPickedNum);
-        console.log('Pick Target Output:', pickTargetNum);
-        console.log('Number of Employees:', numOfEmployees);
-        console.log('Avg cases/hour:', averageCasesPerHour);
-        
         const now = new Date();
         console.log('Current Time:', now.toLocaleTimeString());
     
@@ -92,16 +77,15 @@
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
     
-        if (totalHoursRequired <= timeRemainingInShift) {
+        if (totalCasesEstimate <= remainingCases) {
             // Finish within the shift
-            const estimatedFinishTime = new Date(now.getTime() + totalHoursRequired * 60 * 60 * 1000);
+            const estimatedFinishTime = new Date(now.getTime() + timeRemainingInShift * 60 * 60 * 1000);
             console.log('Estimated Finish Time within Shift:', estimatedFinishTime.toLocaleTimeString());
             localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             return estimatedFinishTime;
         } else {
             // Calculate the actual finish time beyond the shift
-            const extraHoursNeeded = totalHoursRequired - timeRemainingInShift;
-            const estimatedFinishTime = new Date(shiftEndTime.getTime() + extraHoursNeeded * 60 * 60 * 1000);
+            const estimatedFinishTime = new Date(shiftEndTime.getTime() + extraTimeNeeded * 60 * 60 * 1000);
             console.log('Estimated Finish Time beyond Shift:', estimatedFinishTime.toLocaleTimeString());
             localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             return estimatedFinishTime;
