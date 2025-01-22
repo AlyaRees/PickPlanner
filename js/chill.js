@@ -50,22 +50,21 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
 
             const pickTargetData = document.getElementById('pick-target-ta').value.trim();
-            const amountPickedData = document.getElementById('amount-picked-ta').value.trim();
+            const casesPerHourData = document.getElementById('cases-ph').value.trim();
             const pickPerfNumOfEmployeesData = document.getElementById('pp-num-employees').value.trim();
             const pickPerfCasesPerHr = document.getElementById('pp-cases-per-hr').value.trim();
             const avgCasesPercentage = document.getElementById('avg-cases-percentage').value.trim();
 
             let hasError = false; // Flag to track if there's any invalid input
             
-            if (pickTargetData === '' && amountPickedData === '' && pickPerfNumOfEmployeesData === '' && pickPerfCasesPerHr === '' && avgCasesPercentage === '') {
+            if (pickTargetData === '' && casesPerHourData === '' && pickPerfNumOfEmployeesData === '' && pickPerfCasesPerHr === '' && avgCasesPercentage === '') {
                 alert('All fields are empty. Please fill out at least one field.');
                 return; // Stop further execution
             }
 
             if (pickTargetData !== '' && !/^\d+(,\d+)*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
-            if (amountPickedData !== '' && !/^\d+(,\d+)*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
+            if (casesPerHourData !== '' && isNaN(casesPerHourData)) hasError = true;
             if (pickPerfNumOfEmployeesData !== '' && isNaN(pickPerfNumOfEmployeesData)) hasError = true; // Adjust to not allow floats
-            if (pickPerfCasesPerHr !== '' && isNaN(pickPerfCasesPerHr)) hasError = true;
             if (avgCasesPercentage !== '' && !/^\d+%$/ && isNaN(avgCasesPercentage)) hasError = true;
 
             if (hasError) {
@@ -77,12 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('pickTarget', parseInt(pickTargetData.replace(/,/g, '')));
                 localStorage.setItem('pickTargetFormatted', formatNumberWithCommas(pickTargetData));
             };
-            if (amountPickedData !== '') {
-                localStorage.setItem('amount-picked-output', parseInt(amountPickedData.replace(/,/g, '')));
-                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(amountPickedData));
+            if (casesPerHourData !== '') {
+                localStorage.setItem('cases-ph-output', parseInt(casesPerHourData.replace(/,/g, '')));
+                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(casesPerHourData));
             };
             if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
-            if (pickPerfCasesPerHr !== '') localStorage.setItem('avgCasesPerHourCalc', pickPerfCasesPerHr);
             if (avgCasesPercentage !== '') localStorage.setItem('avg-cases-percentage-calc', avgCasesPercentage);
 
             const now = new Date();
@@ -99,13 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateAndUpdate() {
 
         const pickTargetCalc = parseInt(localStorage.getItem('pickTarget')) || 0;
-        const amountPickedCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
+        const casesPerHourCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
         const pickPerfNumOfEmployeesCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
         const pickPerfCasesPerHrCalc = parseFloat(localStorage.getItem('avgCasesPerHourCalc')) || 0;
         const avgCasesPercentageCalc = parseFloat(localStorage.getItem('avg-cases-percentage-calc')) || 0;
     
-        if (pickTargetCalc && amountPickedCalc && pickPerfNumOfEmployeesCalc && pickPerfCasesPerHrCalc && avgCasesPercentageCalc) {
-            estimateFinishTime(pickTargetCalc, amountPickedCalc, pickPerfNumOfEmployeesCalc, pickPerfCasesPerHrCalc, avgCasesPercentageCalc);
+        if (pickTargetCalc && casesPerHourCalc && pickPerfNumOfEmployeesCalc && pickPerfCasesPerHrCalc && avgCasesPercentageCalc) {
+            estimateFinishTime(pickTargetCalc, casesPerHourCalc, pickPerfNumOfEmployeesCalc, pickPerfCasesPerHrCalc, avgCasesPercentageCalc);
         } else {
             alert('Insufficient data to calculate. Please provide more information.');
         }
@@ -113,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const pickTargetOutput = localStorage.getItem('pickTargetFormatted');
-    const amountPicked = localStorage.getItem('amountPickedFormatted');
+    const casesPerHour = localStorage.getItem('amountPickedFormatted');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
@@ -132,10 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (amountPicked) {
-        const amountPickedElement = document.getElementById('total-cases-output');
-        if (amountPickedElement) {
-            amountPickedElement.textContent = amountPicked;
+    if (casesPerHour) {
+        const casesPerHourElement = document.getElementById('cases-per-hour');
+        if (casesPerHourElement) {
+            casesPerHourElement.textContent = casesPerHour;
         }
     }
 
