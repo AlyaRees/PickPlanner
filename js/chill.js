@@ -1,5 +1,5 @@
 // Imports functions from another file
-import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas, showDropDown } from "./main.js";
+import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas } from "./main.js";
 
 // Add functionality for data added in desktop version to be successfully updated via the mobile version
 
@@ -22,15 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initializes an array containing the ids for the local storage of the data input by the user
     const keysToClear = [
-        'averageCasesPerHour',
         'numberOfEmployees',
-        'amount-picked-output',
+        'volume-left',
         'pickTarget',
         'estimated-finish-time',
-        'avg-cases-ph-calc',
-        'pickTargetFormatted',
         'amountPickedFormatted',
-        'avg-cases-percentage-calc'
+        'cases-ph',
+        'amountPicked',
+        'cases-per-hour'
     ];
     
     // Attach event listener to the clear data button that listens for a users 'click'
@@ -43,29 +42,28 @@ document.addEventListener('DOMContentLoaded', function() {
     instructionBox(pickPerfHelpIcon, pickPerfInstructionBox, pickPerfCloseInstructionButton);
     instructionBox(avgCasesPHHelpIcon, avgCasesInstructionBox, avgCasesCloseInstructionBox);
 
-    const editPageSubmitBtn = document.getElementById('submit-data-mobile');
+    const editPageSubmitBtn = document.getElementById('submit-data-btn');
     
     if (editPageSubmitBtn) {
         editPageSubmitBtn.addEventListener('click', function(event) {
             event.preventDefault();
 
-            const pickTargetData = document.getElementById('pick-target-ta').value.trim();
-            const casesPerHourData = document.getElementById('cases-ph').value.trim();
-            const pickPerfNumOfEmployeesData = document.getElementById('pp-num-employees').value.trim();
-            const pickPerfCasesPerHr = document.getElementById('pp-cases-per-hr').value.trim();
-            const avgCasesPercentage = document.getElementById('avg-cases-percentage').value.trim();
+            const pickTargetData = document.getElementById('pick-target-input').value.trim();
+            const amountPickedData = document.getElementById('amount-picked-input').value.trim();
+            const casesPerHourData = document.getElementById('kpi-input').value.trim();
+            const numOfEmployeesData = document.getElementById('num-employees-input').value.trim();
 
             let hasError = false; // Flag to track if there's any invalid input
             
-            if (pickTargetData === '' && casesPerHourData === '' && pickPerfNumOfEmployeesData === '' && pickPerfCasesPerHr === '' && avgCasesPercentage === '') {
+            if (pickTargetData === '' && casesPerHourData === '' && numOfEmployeesData === '' && amountPickedData === '') {
                 alert('All fields are empty. Please fill out at least one field.');
                 return; // Stop further execution
             }
 
             if (pickTargetData !== '' && !/^\d+(,\d+)*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
             if (casesPerHourData !== '' && isNaN(casesPerHourData)) hasError = true;
-            if (pickPerfNumOfEmployeesData !== '' && isNaN(pickPerfNumOfEmployeesData)) hasError = true; // Adjust to not allow floats
-            if (avgCasesPercentage !== '' && !/^\d+%$/ && isNaN(avgCasesPercentage)) hasError = true;
+            if (numOfEmployeesData !== '' && isNaN(numOfEmployeesData)) hasError = true; // Adjust to not allow floats
+            if (amountPickedData !== '' && !/^\d+(,\d+)*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
 
             if (hasError) {
                 alert('Invalid input detected. Please ensure all fields contain valid numbers.');  // Show the error message to the user
@@ -74,14 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (pickTargetData !== '') {
                 localStorage.setItem('pickTarget', parseInt(pickTargetData.replace(/,/g, '')));
-                localStorage.setItem('pickTargetFormatted', formatNumberWithCommas(pickTargetData));
             };
+
+            if (amountPickedData !== '') {
+                localStorage.setItem('amountPicked', parseInt(amountPickedData.replace(/,/g, '')));
+                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(amountPickedData));
+            };
+
             if (casesPerHourData !== '') {
-                localStorage.setItem('cases-ph-output', parseInt(casesPerHourData.replace(/,/g, '')));
-                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(casesPerHourData));
+                localStorage.setItem('cases-ph', parseInt(casesPerHourData.replace(/,/g, '')));
             };
-            if (pickPerfNumOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', pickPerfNumOfEmployeesData);
-            if (avgCasesPercentage !== '') localStorage.setItem('avg-cases-percentage-calc', avgCasesPercentage);
+
+            if (numOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', numOfEmployeesData);
 
             const now = new Date();
             const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
@@ -97,21 +99,21 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateAndUpdate() {
 
         const pickTargetCalc = parseInt(localStorage.getItem('pickTarget')) || 0;
-        const casesPerHourCalc = parseInt(localStorage.getItem('amount-picked-output')) || 0;
-        const pickPerfNumOfEmployeesCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
-        const pickPerfCasesPerHrCalc = parseFloat(localStorage.getItem('avgCasesPerHourCalc')) || 0;
-        const avgCasesPercentageCalc = parseFloat(localStorage.getItem('avg-cases-percentage-calc')) || 0;
+        const amountPickedCalc = parseInt(localStorage.getItem('amountPicked')) || 0;
+        const casesPerHourCalc = parseInt(localStorage.getItem('cases-ph')) || 0;
+        const numOfEmployeesCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
     
-        if (pickTargetCalc && casesPerHourCalc && pickPerfNumOfEmployeesCalc && pickPerfCasesPerHrCalc && avgCasesPercentageCalc) {
-            estimateFinishTime(pickTargetCalc, casesPerHourCalc, pickPerfNumOfEmployeesCalc, pickPerfCasesPerHrCalc, avgCasesPercentageCalc);
+        if (pickTargetCalc && amountPickedCalc && casesPerHourCalc && numOfEmployeesCalc) {
+            estimateFinishTime(pickTargetCalc, amountPickedCalc, casesPerHourCalc, numOfEmployeesCalc);
         } else {
             alert('Insufficient data to calculate. Please provide more information.');
         }
 
     }
 
-    const pickTargetOutput = localStorage.getItem('pickTargetFormatted');
-    const casesPerHour = localStorage.getItem('amountPickedFormatted');
+    const amountPickedOutput = localStorage.getItem('amountPicked');
+    const volumeLeft = pickTargetCalc - amountPickedOutput;
+    const casesPerHour = localStorage.getItem('cases-ph');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
@@ -123,10 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (pickTargetOutput) {
-        const pickTargetElement = document.getElementById('pick-target');
-        if (pickTargetElement) {
-            pickTargetElement.textContent = pickTargetOutput;
+    if (volumeLeft) {
+        const volumeLeftElement = document.getElementById('volume-left');
+        if (volumeLeftElement) {
+            volumeLeftElement.textContent = volumeLeft;
         }
     }
 
