@@ -55,69 +55,45 @@
         amountPickedNum,
         numOfEmployees,
         averageCasesPerHour
-        ) {
-
-        const remainingCases = totalPickCapacity - amountPickedNum; // Eg: 31,000 to pick today - 1,000 already picked so 30,000 remaining to pick
-        const avgHoursToWorkWith = 7.4 * numOfEmployees; // Eg: 7hr 24min * 20 pickers = 148hr
-        const totalCasesPerPicker = averageCasesPerHour * 7.4; // Eg: 200cph * 7hr 24min (per picker) = 1,480 cases per picker across the shift duration
-        const totalCasesEstimate = totalCasesPerPicker * numOfEmployees; // Eg: 1,480 cases per picker * 20 pickers = avg of 29,600 cases predicted to be picked by end of shift
-        const volumeLeft = remainingCases - totalCasesEstimate; // Eg: 30,000 to pick, 29,600 picked by end of shift so 400 cases left
-        const extraTimeNeeded = (volumeLeft / averageCasesPerHour) / numOfEmployees; // Eg: 400 cases left / 200 cases per hr = 2hr / 20 pickers = 0.1hr or 6min
-
+    ) {
+        const remainingCases = totalPickCapacity - amountPickedNum;
+        const totalCasesPerPicker = averageCasesPerHour * 7.4;
+        const totalCasesEstimate = totalCasesPerPicker * numOfEmployees;
+        const volumeLeft = remainingCases - totalCasesEstimate;
+        const extraTimeNeeded = (volumeLeft / averageCasesPerHour) / numOfEmployees;
+    
         const now = new Date();
         console.log('Current Time:', now.toLocaleTimeString());
     
-        // Calculate shift end time
+        // Shift time settings
         const shiftStartTime = new Date(now);
-        shiftStartTime.setHours(14, 0, 0, 0); // Start of the shift at 14:00
+        shiftStartTime.setHours(14, 0, 0, 0);
     
         const shiftEndTime = new Date(shiftStartTime);
-        shiftEndTime.setHours(22, 0, 0, 0); // End of the shift at 22:00
+        shiftEndTime.setHours(22, 0, 0, 0);
     
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
     
-        if (totalCasesEstimate <= remainingCases) {
+        localStorage.setItem('volume-left', remainingCases);
+    
+        let estimatedFinishTime;
+        
+        if (totalCasesEstimate >= remainingCases) {
             // Finish within the shift
-            const estimatedFinishTime = new Date(now.getTime() + timeRemainingInShift * 60 * 60 * 1000);
+            const timeNeeded = remainingCases / (numOfEmployees * averageCasesPerHour); // Total hours required
+            estimatedFinishTime = new Date(now.getTime() + timeNeeded * 60 * 60 * 1000);
             console.log('Estimated Finish Time within Shift:', estimatedFinishTime.toLocaleTimeString());
-            localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-            return estimatedFinishTime;
         } else {
-            // Calculate the actual finish time beyond the shift
-            const estimatedFinishTime = new Date(shiftEndTime.getTime() + extraTimeNeeded * 60 * 60 * 1000);
+            // Finish beyond the shift
+            estimatedFinishTime = new Date(shiftEndTime.getTime() + extraTimeNeeded * 60 * 60 * 1000);
             console.log('Estimated Finish Time beyond Shift:', estimatedFinishTime.toLocaleTimeString());
-            localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-            return estimatedFinishTime;
         }
-    }
-
-    export function showDropDown(menuButton, dropDownBox) {
-
-        function toggleDropDown() {
-
-            if (window.innerWidth < 1024) {
-            dropDownBox.classList.toggle("show");
-        }
-    }
-
-        menuButton.addEventListener("click", (event) => {
-            event.stopPropagation(); // Prevent click from bubbling up
-            toggleDropDown();
-        });
-
-        document.addEventListener("click", (event) => {
-            if (window.innerWidth < 1024 && !dropDownBox.contains(event.target) && !menuButton.contains(event.target)) {
-                dropDownBox.classList.remove("show");
-            }
-        });
-
-        window.addEventListener("resize", () => {
-            if (window.innerWidth >= 1024) {
-                dropDownBox.classList.remove("show");
-            }
-        });
-    }
+    
+        localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        
+        return estimatedFinishTime;
+    }    
 
 // Function to clear specific data from local storage
 // Takes an empty initialized array called keys

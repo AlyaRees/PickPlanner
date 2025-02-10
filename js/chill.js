@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             if (casesPerHourData !== '') {
-                localStorage.setItem('cases-ph', parseInt(casesPerHourData.replace(/,/g, '')));
+                localStorage.setItem('cases-ph', parseInt(casesPerHourData.replace(/%/g, '')));
             };
 
             if (numOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', numOfEmployeesData);
@@ -103,32 +103,31 @@ document.addEventListener('DOMContentLoaded', function() {
         const casesPerHourCalc = parseInt(localStorage.getItem('cases-ph')) || 0;
         const numOfEmployeesCalc = parseFloat(localStorage.getItem('numberOfEmployees')) || 0;
     
-        if (pickTargetCalc && amountPickedCalc && casesPerHourCalc && numOfEmployeesCalc) {
-            estimateFinishTime(pickTargetCalc, amountPickedCalc, casesPerHourCalc, numOfEmployeesCalc);
+        if (pickTargetCalc && amountPickedCalc && numOfEmployeesCalc && casesPerHourCalc) {
+            estimateFinishTime(pickTargetCalc, amountPickedCalc, numOfEmployeesCalc, casesPerHourCalc);
         } else {
             alert('Insufficient data to calculate. Please provide more information.');
         }
 
     }
 
-    const amountPickedOutput = localStorage.getItem('amountPicked');
-    const volumeLeft = pickTargetCalc - amountPickedOutput;
+    const remainingCasesData = localStorage.getItem('volume-left');
     const casesPerHour = localStorage.getItem('cases-ph');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
-    const estimatedFinishTime = localStorage.getItem('estimated-finish-time');
+    const theEstimatedFinishTime = localStorage.getItem('estimated-finish-time');
 
-    if (estimatedFinishTime) {
+    if (theEstimatedFinishTime) {
         const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
         if (estimatedFinishTimeElement) {
-            estimatedFinishTimeElement.textContent = estimatedFinishTime;
+            estimatedFinishTimeElement.textContent = theEstimatedFinishTime;
         }
     }
 
-    if (volumeLeft) {
+    if (remainingCasesData) {
         const volumeLeftElement = document.getElementById('volume-left');
         if (volumeLeftElement) {
-            volumeLeftElement.textContent = volumeLeft;
+            volumeLeftElement.textContent = remainingCasesData;
         }
     }
 
