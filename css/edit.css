@@ -19,7 +19,7 @@ body {
 }
 
 .main-card {
-    margin: 0.5rem;
+    margin: 1rem;
 }
 
 .nav-bar {
@@ -161,36 +161,6 @@ h1 {
     background-color: #ddd;
 }
 
-.drop-down {
-    display: none;
-    top: 4rem;
-    right: 0;
-    position: fixed;
-    align-items: flex-end;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.drop-down.show {
-    display: flex;
-}
-
-.drop-down ul {
-    width: 9rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: black;
-    color: white;
-    position: relative;
-}
-
-.drop-down ul:hover {
-    background-color: var(--trans-black);
-    cursor: pointer;
-}
-
 /* Mobile design */
 
 @media screen and (max-width: 1023px) {
@@ -217,6 +187,21 @@ h1 {
         flex-direction: column;
         text-align: center;
     }
+
+    .section1 {
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        justify-content: center; /* Center vertically */
+        white-space: nowrap;
+    }
+
+    .table1 {
+        font-size: 1.5rem;
+    }
+
+    h1 {
+        font-size: 4.5rem;
+    }
     
     .card input {
         margin-top: 1rem;
@@ -232,22 +217,5 @@ h1 {
     
     .nav-bar button:hover {
         background-color: black;
-    }
-
-    .drop-down ul {
-        width: 15rem;
-        margin-right: 1rem;
-    }
-    
-    #menu-bar-btn:hover + .drop-down {
-        display: flex;
-    }
-    
-    .drop-down:hover {
-        display: flex;
-    }
-
-    #menu-bar-btn {
-        margin-right: 6.5rem;
     }
 }
