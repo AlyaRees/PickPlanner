@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             if (casesPerHourData !== '') {
-                localStorage.setItem('cases-ph', parseInt(casesPerHourData.replace(/%/g, '')));
+                localStorage.setItem('cases-ph', parseInt(casesPerHourData));
             };
 
             if (numOfEmployeesData !== '') localStorage.setItem('numberOfEmployees', numOfEmployeesData);
