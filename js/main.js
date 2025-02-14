@@ -75,7 +75,7 @@
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
     
-        localStorage.setItem('volume-left', remainingCases);
+        // localStorage.setItem('volume-left', remainingCases);
     
         let estimatedFinishTime;
         

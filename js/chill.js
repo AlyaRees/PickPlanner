@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pickTargetData !== '' && !/^\d{1,3}(,\d{3})*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
             if (casesPerHourData !== '' && isNaN(casesPerHourData)) hasError = true;
             if (numOfEmployeesData !== '' && isNaN(numOfEmployeesData)) hasError = true; // Adjust to not allow floats
-            if (amountPickedData !== '' && !/^\d+(,\d+)*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
+            if (amountPickedData !== '' && !/^\d{1,3}(,\d{3})*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
 
             if (hasError) {
                 alert('Invalid input detected. Please ensure all fields contain valid numbers.');  // Show the error message to the user
@@ -111,7 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
-    const remainingCasesData = localStorage.getItem('volume-left');
+   const pickTargetCalc = localStorage.getItem('pickTarget');
+   const amountPickedCalc = localStorage.getItem('amountPicked');
+   const remainingCasesData = pickTargetCalc - amountPickedCalc;
+   localStorage.setItem('volume-left', remainingCasesData);
+
     const casesPerHour = localStorage.getItem('cases-ph');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
