@@ -23,13 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initializes an array containing the ids for the local storage of the data input by the user
     const keysToClear = [
         'numberOfEmployees',
-        'volume-left',
         'pickTarget',
         'estimated-finish-time',
         'amountPickedFormatted',
         'cases-ph',
-        'amountPicked',
-        'cases-per-hour'
+        'amountPicked'
     ];
     
     // Attach event listener to the clear data button that listens for a users 'click'
@@ -76,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (amountPickedData !== '') {
                 localStorage.setItem('amountPicked', parseInt(amountPickedData.replace(/,/g, '')));
-                localStorage.setItem('amountPickedFormatted', formatNumberWithCommas(amountPickedData));
             };
 
             if (casesPerHourData !== '') {
@@ -114,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
    const pickTargetCalc = localStorage.getItem('pickTarget');
    const amountPickedCalc = localStorage.getItem('amountPicked');
    const remainingCasesData = pickTargetCalc - amountPickedCalc;
-   localStorage.setItem('volume-left', remainingCasesData);
+   const volLeftFormatted = formatNumberWithCommas(remainingCasesData);
+   localStorage.setItem('volume-left', volLeftFormatted);
 
     const casesPerHour = localStorage.getItem('cases-ph');
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
@@ -128,10 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (remainingCasesData) {
+    if (volLeftFormatted) {
         const volumeLeftElement = document.getElementById('volume-left');
         if (volumeLeftElement) {
-            volumeLeftElement.textContent = remainingCasesData;
+            volumeLeftElement.textContent = volLeftFormatted;
         }
     }
 
