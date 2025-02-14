@@ -70,7 +70,7 @@
         shiftStartTime.setHours(14, 0, 0, 0);
     
         const shiftEndTime = new Date(shiftStartTime);
-        shiftEndTime.setHours(22, 0, 0, 0);
+        shiftEndTime.setHours(21, 55, 0, 0);
     
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);

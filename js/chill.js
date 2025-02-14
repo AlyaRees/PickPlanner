@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return; // Stop further execution
             }
 
-            if (pickTargetData !== '' && !/^\d+(,\d+)*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
+            if (pickTargetData !== '' && !/^\d{1,3}(,\d{3})*$/.test(pickTargetData) && isNaN(pickTargetData)) hasError = true;
             if (casesPerHourData !== '' && isNaN(casesPerHourData)) hasError = true;
             if (numOfEmployeesData !== '' && isNaN(numOfEmployeesData)) hasError = true; // Adjust to not allow floats
             if (amountPickedData !== '' && !/^\d+(,\d+)*$/.test(amountPickedData) && isNaN(amountPickedData)) hasError = true;
