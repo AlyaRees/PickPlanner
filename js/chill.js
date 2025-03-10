@@ -153,4 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
+
+    // Finish this function that will turn the ETF card on index page green or red depending on the time displayed
+
+    // function semanticColours(eftVar) {
+    //     if ()
+    // };
+
+    console.log('EFT', theEstimatedFinishTime);
 });

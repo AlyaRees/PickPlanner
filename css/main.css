@@ -6,6 +6,8 @@
     --darker-trans-purple: hsla(274, 100%, 77%, 0.307);
     --lighter-trans-purple: hsla(274, 100%, 77%, 0.145);
     --trans-black: hsla(0, 0%, 23%, 0.666);
+    --semantic-green: rgba(56, 240, 157, 0.633);
+    --semantic-red: rgba(255, 19, 19, 0.869);
 }
 
 * {
@@ -129,7 +131,10 @@ h1 {
     font-size: 1.5rem;
 }
 
-.small-card:nth-child(1),
+.small-card:nth-child(1) {
+    background-color: var(--darker-trans-purple);
+}
+
 .small-card:nth-child(3) {
     background-color: var(--darker-trans-purple);
 }
