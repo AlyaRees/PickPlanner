@@ -156,9 +156,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Finish this function that will turn the ETF card on index page green or red depending on the time displayed
 
-    // function semanticColours(eftVar) {
-    //     if ()
-    // };
+    // For the placeholder parameters for this function in main.js, use the following: eftSmallCard -> eftCard and theEstimatedFinishTime -> eftVar
 
-    console.log('EFT', theEstimatedFinishTime);
+    // Fix the uncaught error for when 'theEstimatedFinishTime' is null
+
+    // Fix this: 'if (convertedETF <= cutoffTime)...', eg, it's showing 00:24 as green (because 00 is less than 21), should be red as its later than 21:55.
+
+        function strToTime(theEstimatedFinishTime) {
+            let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
+            return hours * 60 + minutes;
+        }
+
+        let convertedETF = strToTime(theEstimatedFinishTime);
+        const cutoffTime = 21 * 60 + 55;
+
+        let eftSmallCard = document.querySelector('.small-card:nth-child(3)');
+
+        if (convertedETF <= cutoffTime) {
+            eftSmallCard.style.backgroundColor = 'var(--semantic-green)';
+        } else {
+            eftSmallCard.style.backgroundColor = 'var(--semantic-red)';
+        }
+
+    console.log('EFT', typeof theEstimatedFinishTime);
 });
