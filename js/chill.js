@@ -162,9 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fix the uncaught error for when 'theEstimatedFinishTime' is null
 
-    // Fix this: 'if (convertedETF <= cutoffTime)...', eg, it's showing 00:24 as green (because 00 is less than 21), should be red as its later than 21:55.
+    // You need to move this function into main.js
 
-    // Base the semantic colours on how much time is remaining in the shift!
+    // DRY - refine the function, remove anything repetitive and change the variable names to make it more readable. 
 
     function strToTime(theEstimatedFinishTime) {
         let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
