@@ -118,6 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const numberOfEmployees = localStorage.getItem('numberOfEmployees');
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const theEstimatedFinishTime = localStorage.getItem('estimated-finish-time');
+    const extraTime = localStorage.getItem('extra-time');
+    const theTimeNeeded = localStorage.getItem('the-time-needed');
 
     if (theEstimatedFinishTime) {
         const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
@@ -162,21 +164,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fix this: 'if (convertedETF <= cutoffTime)...', eg, it's showing 00:24 as green (because 00 is less than 21), should be red as its later than 21:55.
 
-        function strToTime(theEstimatedFinishTime) {
-            let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
-            return hours * 60 + minutes;
-        }
+    // Base the semantic colours on how much time is remaining in the shift!
 
-        let convertedETF = strToTime(theEstimatedFinishTime);
-        const cutoffTime = 21 * 60 + 55;
+    function strToTime(theEstimatedFinishTime) {
+        let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
+        return [hours, minutes];
+    }
 
-        let eftSmallCard = document.querySelector('.small-card:nth-child(3)');
+    function eftInMins(theEstimatedFinishTime) {
+        let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
+        return hours * 60 + minutes;
+    }
 
-        if (convertedETF <= cutoffTime) {
-            eftSmallCard.style.backgroundColor = 'var(--semantic-green)';
-        } else {
-            eftSmallCard.style.backgroundColor = 'var(--semantic-red)';
-        }
+    let theEtfInMins = eftInMins(theEstimatedFinishTime);
+    let convertedETF = strToTime(theEstimatedFinishTime);
+    const cutoffTime = 21 * 60 + 55;
+
+    console.log('theEstimatedFinishTime', theEstimatedFinishTime);
+    console.log('convertedETF', convertedETF);
+    console.log('theEtfInMins', theEtfInMins);
+
+    let eftSmallCard = document.querySelector('.small-card:nth-child(3)');
+
+    if (theEtfInMins >= cutoffTime || convertedETF[0] < 21) {
+        eftSmallCard.style.backgroundColor = 'var(--semantic-red)';
+    } else {
+        eftSmallCard.style.backgroundColor = 'var(--semantic-green)';
+    }
 
     console.log('EFT', typeof theEstimatedFinishTime);
 });

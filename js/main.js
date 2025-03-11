@@ -75,8 +75,6 @@
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
     
-        // localStorage.setItem('volume-left', remainingCases);
-    
         let estimatedFinishTime;
         
         if (totalCasesEstimate >= remainingCases) {
@@ -93,7 +91,7 @@
         localStorage.setItem('estimated-finish-time', estimatedFinishTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
         
         return estimatedFinishTime;
-    }    
+    }
 
 // Function to clear specific data from local storage
 // Takes an empty initialized array called keys
