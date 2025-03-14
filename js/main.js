@@ -61,6 +61,8 @@
         const totalCasesEstimate = totalCasesPerPicker * numOfEmployees;
         const volumeLeft = remainingCases - totalCasesEstimate;
         const extraTimeNeeded = (volumeLeft / averageCasesPerHour) / numOfEmployees;
+
+        localStorage.setItem('extra-time', extraTimeNeeded);
     
         const now = new Date();
         console.log('Current Time:', now.toLocaleTimeString());
@@ -74,6 +76,8 @@
     
         const timeRemainingInShift = (shiftEndTime - now) / (60 * 60 * 1000);
         console.log('Time Remaining in Shift (hours):', timeRemainingInShift);
+        localStorage.setItem('time-remaining', timeRemainingInShift);
+    
     
         let estimatedFinishTime;
         
@@ -122,4 +126,20 @@ export function clearData(keys = []) {
         alert(`Data cleared successfully!`);
         window.location.reload(); // Reload the page
     }
+}
+
+// To do:
+// Card needs to return to its default translucent purple colour when all data has been cleared or not yet entered.
+
+// Changes the card colour of the estimated finish time based on how much is time required to pick all cases
+// Eg, if the extra time needed to finish before 21:55 is greater than the duration left before the end of shift (21:55), then the card will be red
+export function updateCardColour(cardSelector, timeRemaining, extraTime) {
+    const colours = {
+        red: getComputedStyle(document.documentElement).getPropertyValue('--semantic-red').trim(),
+        green: getComputedStyle(document.documentElement).getPropertyValue('--semantic-green').trim()
+    };
+
+    const card = document.querySelector(cardSelector);
+
+    if (card) card.style.backgroundColor = timeRemaining < extraTime ? colours.red : colours.green;
 }

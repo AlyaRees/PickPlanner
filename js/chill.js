@@ -1,5 +1,5 @@
 // Imports functions from another file
-import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas } from "./main.js";
+import { estimateFinishTime, instructionBox, clearData, formatNumberWithCommas, updateCardColour } from "./main.js";
 
 // Add functionality for data added in desktop version to be successfully updated via the mobile version
 
@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const lastUpdated = localStorage.getItem('chillLastUpdated');
     const theEstimatedFinishTime = localStorage.getItem('estimated-finish-time');
     const extraTime = localStorage.getItem('extra-time');
-    const theTimeNeeded = localStorage.getItem('the-time-needed');
+    const timeRemaining = localStorage.getItem('time-remaining');
+    // const theTimeNeeded = localStorage.getItem('the-time-needed');
 
     if (theEstimatedFinishTime) {
         const estimatedFinishTimeElement = document.getElementById('estimated-finish-time');
@@ -156,41 +157,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Finish this function that will turn the ETF card on index page green or red depending on the time displayed
-
-    // For the placeholder parameters for this function in main.js, use the following: eftSmallCard -> eftCard and theEstimatedFinishTime -> eftVar
-
+    // To do list:
     // Fix the uncaught error for when 'theEstimatedFinishTime' is null
 
-    // You need to move this function into main.js
+    // Changes the card colour of the estimated finish time
+    // Eg: If EFT is predicted to be later than 21:55, the card will be RED
+    // If the EFT is predicted to be earlier than 21:55, the card will be GREEN
+    updateCardColour('.small-card:nth-child(3)', timeRemaining, extraTime);
+    
 
-    // DRY - refine the function, remove anything repetitive and change the variable names to make it more readable. 
-
-    function strToTime(theEstimatedFinishTime) {
-        let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
-        return [hours, minutes];
-    }
-
-    function eftInMins(theEstimatedFinishTime) {
-        let [hours, minutes] = theEstimatedFinishTime.split(":").map(Number);
-        return hours * 60 + minutes;
-    }
-
-    let theEtfInMins = eftInMins(theEstimatedFinishTime);
-    let convertedETF = strToTime(theEstimatedFinishTime);
-    const cutoffTime = 21 * 60 + 55;
-
-    console.log('theEstimatedFinishTime', theEstimatedFinishTime);
-    console.log('convertedETF', convertedETF);
-    console.log('theEtfInMins', theEtfInMins);
-
-    let eftSmallCard = document.querySelector('.small-card:nth-child(3)');
-
-    if (theEtfInMins >= cutoffTime || convertedETF[0] < 21) {
-        eftSmallCard.style.backgroundColor = 'var(--semantic-red)';
-    } else {
-        eftSmallCard.style.backgroundColor = 'var(--semantic-green)';
-    }
-
+    console.log('Time Remaining in shift', timeRemaining);
+    console.log('Extra Time Needed', extraTime);
     console.log('EFT', typeof theEstimatedFinishTime);
+
 });

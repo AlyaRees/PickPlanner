@@ -131,10 +131,7 @@ h1 {
     font-size: 1.5rem;
 }
 
-.small-card:nth-child(1) {
-    background-color: var(--darker-trans-purple);
-}
-
+.small-card:nth-child(1),
 .small-card:nth-child(3) {
     background-color: var(--darker-trans-purple);
 }
