@@ -128,18 +128,19 @@ export function clearData(keys = []) {
     }
 }
 
-// To do:
-// Card needs to return to its default translucent purple colour when all data has been cleared or not yet entered.
-
 // Changes the card colour of the estimated finish time based on how much is time required to pick all cases
-// Eg, if the extra time needed to finish before 21:55 is greater than the duration left before the end of shift (21:55), then the card will be red
+// Eg; if the extra time needed to finish before 21:55 is greater than the duration left before the end of shift (21:55), then the card will be red
 export function updateCardColour(cardSelector, timeRemaining, extraTime) {
     const colours = {
         red: getComputedStyle(document.documentElement).getPropertyValue('--semantic-red').trim(),
-        green: getComputedStyle(document.documentElement).getPropertyValue('--semantic-green').trim()
+        green: getComputedStyle(document.documentElement).getPropertyValue('--semantic-green').trim(),
+        default_colour: getComputedStyle(document.documentElement).getPropertyValue('--darker-trans-purple').trim()
     };
 
     const card = document.querySelector(cardSelector);
 
     if (card) card.style.backgroundColor = timeRemaining < extraTime ? colours.red : colours.green;
+
+    if (timeRemaining === null && extraTime === null) card.style.backgroundColor = colours.default_colour;
+
 }

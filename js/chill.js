@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'estimated-finish-time',
         'amountPickedFormatted',
         'cases-ph',
-        'amountPicked'
+        'amountPicked',
+        'time-remaining',
+        'extra-time'
     ];
     
     // Attach event listener to the clear data button that listens for a users 'click'
@@ -156,9 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
             lastUpdatedElement.textContent = lastUpdated;
         }
     }
-
-    // To do list:
-    // Fix the uncaught error for when 'theEstimatedFinishTime' is null
 
     // Changes the card colour of the estimated finish time
     // Eg: If EFT is predicted to be later than 21:55, the card will be RED
